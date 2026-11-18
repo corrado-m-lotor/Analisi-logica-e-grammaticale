@@ -2,10 +2,12 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Analisi Logica e Grammaticale</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Literata:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/opendyslexic@5.1.1/400.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/opendyslexic@5.1.1/700.css" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg1:#0f172a;--bg2:#1e1b4b;--card:#1e293b;--card2:#334155;--text:#e2e8f0;--text2:#94a3b8;--accent:#818cf8;--accent2:#6366f1;--green:#34d399;--red:#f87171;--orange:#fbbf24;--radius:14px;--font:'DM Sans',sans-serif;--serif:'Literata',serif;--mono:'Space Mono',monospace}
@@ -142,9 +144,104 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
   .part-chip{padding:6px 10px;font-size:.85rem}
   .cat-btn{padding:5px 8px;font-size:.68rem}
 }
+
+/* ========== DSA / ACCESSIBILITÀ ========== */
+/* Pulsante accessibilità (fisso in alto a destra) */
+.a11y-toggle{position:fixed;top:12px;right:12px;z-index:200;width:44px;height:44px;border-radius:50%;border:2px solid var(--card2);background:var(--card);color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.a11y-toggle:hover,.a11y-toggle.open{border-color:var(--accent);background:rgba(129,140,248,.15)}
+.a11y-toggle:active{transform:scale(.92)}
+
+/* Pannello accessibilità */
+.a11y-panel{position:fixed;top:62px;right:12px;z-index:200;background:var(--card);border:2px solid var(--card2);border-radius:var(--radius);padding:16px;width:260px;box-shadow:0 8px 32px rgba(0,0,0,.4);display:none;max-height:calc(100vh - 80px);overflow-y:auto}
+.a11y-panel.open{display:block}
+.a11y-panel h3{font-size:.85rem;font-weight:600;color:var(--accent);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.a11y-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--card2)}
+.a11y-row:last-child{border-bottom:none}
+.a11y-label{font-size:.82rem;color:var(--text);line-height:1.3}
+.a11y-label small{display:block;font-size:.7rem;color:var(--text2);margin-top:2px}
+.a11y-btns{display:flex;gap:4px}
+.a11y-btn{padding:5px 10px;border-radius:6px;border:1.5px solid var(--card2);background:transparent;color:var(--text2);font-family:var(--font);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .15s;min-width:36px;text-align:center}
+.a11y-btn:active{transform:scale(.92)}
+.a11y-btn.active{border-color:var(--accent);background:rgba(129,140,248,.15);color:var(--accent)}
+/* Switch toggle */
+.a11y-switch{position:relative;width:44px;height:24px;border-radius:12px;background:var(--card2);cursor:pointer;transition:background .2s;border:none;padding:0;flex-shrink:0}
+.a11y-switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--text2);transition:all .2s}
+.a11y-switch.active{background:var(--accent)}
+.a11y-switch.active::after{left:22px;background:#fff}
+
+/* DSA font override */
+body.dsa-font{--font:'Open Dyslexic','OpenDyslexic','DM Sans',sans-serif;--serif:'Open Dyslexic','OpenDyslexic','Literata',serif}
+body.dsa-font .cat-btn,body.dsa-font .topic-btn,body.dsa-font .btn,body.dsa-font .part-chip,body.dsa-font .a11y-btn{letter-spacing:.02em}
+body.dsa-font .sentence-text{letter-spacing:.03em;word-spacing:.12em}
+/* Spaziatura aumentata */
+body.dsa-spacing .sentence-text{letter-spacing:.06em;word-spacing:.18em;line-height:2.2}
+body.dsa-spacing .part-chip{letter-spacing:.02em}
+body.dsa-spacing .cat-btn,body.dsa-spacing .topic-btn{letter-spacing:.02em}
+body.dsa-spacing .review-detail,body.dsa-spacing .review-sentence{line-height:1.9;letter-spacing:.03em}
+/* Dimensione testo — Medio */
+body.dsa-size-m .sentence-text{font-size:1.4rem}
+body.dsa-size-m .part-chip{font-size:1.1rem;padding:12px 18px}
+body.dsa-size-m .part-chip .label{font-size:.72rem}
+body.dsa-size-m .cat-btn{font-size:.88rem;padding:9px 14px}
+body.dsa-size-m .cat-legend{font-size:.8rem}
+body.dsa-size-m .cat-tip,body.dsa-size-m .review-tip{font-size:.85rem}
+body.dsa-size-m .review-detail{font-size:.95rem}
+body.dsa-size-m .topic-btn{font-size:.88rem}
+body.dsa-size-m .step-group-label{font-size:.85rem}
+/* Dimensione testo — Grande */
+body.dsa-size-l .sentence-text{font-size:1.6rem}
+body.dsa-size-l .part-chip{font-size:1.2rem;padding:14px 20px}
+body.dsa-size-l .part-chip .label{font-size:.8rem}
+body.dsa-size-l .cat-btn{font-size:1rem;padding:10px 16px}
+body.dsa-size-l .cat-legend{font-size:.88rem}
+body.dsa-size-l .cat-tip,body.dsa-size-l .review-tip{font-size:.92rem}
+body.dsa-size-l .review-detail{font-size:1.05rem}
+body.dsa-size-l .topic-btn{font-size:1rem}
+body.dsa-size-l .step-group-label{font-size:.92rem}
+body.dsa-size-l h1{font-size:1.8rem}
+/* Contrasto alto — testo secondario più visibile */
+body.dsa-contrast{--text2:#cbd5e1}
+body.dsa-contrast .cat-tip,body.dsa-contrast .review-tip{color:#a5b4fc}
+@media(max-width:600px){
+  .a11y-panel{right:8px;width:calc(100vw - 24px);max-width:300px}
+  .a11y-toggle{top:8px;right:8px;width:40px;height:40px;font-size:1rem}
+}
 </style>
 </head>
 <body>
+<!-- Pulsante e pannello accessibilità -->
+<button class="a11y-toggle" id="a11yToggle" onclick="toggleA11yPanel()" title="Accessibilità / DSA">⚙</button>
+<div class="a11y-panel" id="a11yPanel">
+  <h3>♿ Accessibilità</h3>
+  <div class="a11y-row">
+    <div class="a11y-label">Font OpenDyslexic<small>Font pensato per la dislessia</small></div>
+    <button class="a11y-switch" id="swFont" onclick="toggleDSA('font')"></button>
+  </div>
+  <div class="a11y-row">
+    <div class="a11y-label">Spaziatura extra<small>Più spazio tra lettere e parole</small></div>
+    <button class="a11y-switch" id="swSpacing" onclick="toggleDSA('spacing')"></button>
+  </div>
+  <div class="a11y-row">
+    <div class="a11y-label">Contrasto alto<small>Testo più leggibile</small></div>
+    <button class="a11y-switch" id="swContrast" onclick="toggleDSA('contrast')"></button>
+  </div>
+  <div class="a11y-row">
+    <div class="a11y-label">Dimensione testo</div>
+    <div class="a11y-btns">
+      <button class="a11y-btn active" onclick="setDSASize('n')" id="szN">A</button>
+      <button class="a11y-btn" onclick="setDSASize('m')" id="szM">A+</button>
+      <button class="a11y-btn" onclick="setDSASize('l')" id="szL">A++</button>
+    </div>
+  </div>
+  <div class="a11y-row">
+    <div class="a11y-label">Tempo lettura errori<small>Più tempo per leggere le correzioni</small></div>
+    <div class="a11y-btns">
+      <button class="a11y-btn active" onclick="setErrTime('normal')" id="etNorm">3.5s</button>
+      <button class="a11y-btn" onclick="setErrTime('slow')" id="etSlow">6s</button>
+      <button class="a11y-btn" onclick="setErrTime('manual')" id="etMan">∞</button>
+    </div>
+  </div>
+</div>
 <div class="container">
 
 <!-- ========== MAIN MENU ========== -->
@@ -274,6 +371,51 @@ function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()
 function show(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
 function showFeedback(icon,msg){var fb=document.getElementById('fb');document.getElementById('fbIcon').textContent=icon;document.getElementById('fbMsg').textContent=msg;fb.classList.add('show');setTimeout(function(){fb.classList.remove('show')},1000)}
 function goMainMenu(){show('scrMenu')}
+
+// ============================================================
+//  ACCESSIBILITÀ / DSA
+// ============================================================
+var DSA={font:false,spacing:false,contrast:false,size:'n',errTime:'normal'};
+// Carica preferenze salvate
+try{var saved=JSON.parse(localStorage.getItem('dsaPrefs'));if(saved){DSA.font=!!saved.font;DSA.spacing=!!saved.spacing;DSA.contrast=!!saved.contrast;DSA.size=saved.size||'n';DSA.errTime=saved.errTime||'normal'}}catch(e){}
+
+function saveDSA(){try{localStorage.setItem('dsaPrefs',JSON.stringify(DSA))}catch(e){}}
+function applyDSA(){
+  var b=document.body;
+  b.classList.toggle('dsa-font',DSA.font);
+  b.classList.toggle('dsa-spacing',DSA.spacing);
+  b.classList.toggle('dsa-contrast',DSA.contrast);
+  b.classList.remove('dsa-size-m','dsa-size-l');
+  if(DSA.size==='m')b.classList.add('dsa-size-m');
+  if(DSA.size==='l')b.classList.add('dsa-size-l');
+  // Aggiorna switch
+  var sf=document.getElementById('swFont');if(sf)sf.classList.toggle('active',DSA.font);
+  var ss=document.getElementById('swSpacing');if(ss)ss.classList.toggle('active',DSA.spacing);
+  var sc=document.getElementById('swContrast');if(sc)sc.classList.toggle('active',DSA.contrast);
+  // Aggiorna bottoni dimensione
+  ['n','m','l'].forEach(function(s){var el=document.getElementById('sz'+s.toUpperCase());if(el)el.classList.toggle('active',DSA.size===s)});
+  // Aggiorna bottoni tempo
+  ['normal','slow','manual'].forEach(function(t){
+    var ids={normal:'etNorm',slow:'etSlow',manual:'etMan'};
+    var el=document.getElementById(ids[t]);if(el)el.classList.toggle('active',DSA.errTime===t)
+  });
+}
+function toggleDSA(prop){DSA[prop]=!DSA[prop];applyDSA();saveDSA()}
+function setDSASize(s){DSA.size=s;applyDSA();saveDSA()}
+function setErrTime(t){DSA.errTime=t;applyDSA();saveDSA()}
+function getErrDelay(){if(DSA.errTime==='slow')return 6000;if(DSA.errTime==='manual')return 0;return 3500}
+function getGrammErrDelay(){if(DSA.errTime==='slow')return 5000;if(DSA.errTime==='manual')return 0;return 2500}
+function toggleA11yPanel(){
+  var p=document.getElementById('a11yPanel');var t=document.getElementById('a11yToggle');
+  p.classList.toggle('open');t.classList.toggle('open');
+}
+// Chiudi pannello cliccando fuori
+document.addEventListener('click',function(e){
+  var p=document.getElementById('a11yPanel');var t=document.getElementById('a11yToggle');
+  if(p&&p.classList.contains('open')&&!p.contains(e.target)&&e.target!==t){p.classList.remove('open');t.classList.remove('open')}
+});
+// Applica impostazioni salvate al caricamento
+applyDSA();
 
 // ============================================================
 //  FLAG SYSTEM — Segnala errore
@@ -1246,7 +1388,15 @@ function logCheckAnswer(){
   chips.forEach(function(c){c.onclick=null;c.style.cursor='default'});
   document.querySelectorAll('#logCatGrid .cat-btn').forEach(function(b){b.disabled=true});
   document.getElementById('btnLogCheck').disabled=true;
-  setTimeout(function(){LS.qi++;if(LS.qi<LS.questions.length)logRenderQ();else logShowResults()},allCorrect?1200:3500);
+  var delay=allCorrect?1200:getErrDelay();
+  if(delay===0&&!allCorrect){
+    // Modalità manuale: mostra pulsante "Avanti"
+    var nb=document.createElement('button');nb.className='btn btn-primary';nb.textContent='Avanti →';nb.style.marginTop='12px';
+    nb.onclick=function(){nb.remove();LS.qi++;if(LS.qi<LS.questions.length)logRenderQ();else logShowResults()};
+    document.getElementById('logCatGrid').parentNode.appendChild(nb);
+  } else {
+    setTimeout(function(){LS.qi++;if(LS.qi<LS.questions.length)logRenderQ();else logShowResults()},delay);
+  }
 }
 function logShowResults(){
   show('scrLogResults');
@@ -1446,7 +1596,14 @@ function grammCheckAnswer(){
   document.querySelectorAll('#grammSteps .cat-btn').forEach(function(b){b.onclick=null;b.style.cursor='default'});
   document.getElementById('btnGrammCheck').disabled=true;
 
-  setTimeout(function(){GS.qi++;if(GS.qi<GS.questions.length)grammRenderQ();else grammShowResults()},allCorrect?1200:2500);
+  var delay=allCorrect?1200:getGrammErrDelay();
+  if(delay===0&&!allCorrect){
+    var nb=document.createElement('button');nb.className='btn btn-primary';nb.textContent='Avanti →';nb.style.marginTop='12px';
+    nb.onclick=function(){nb.remove();GS.qi++;if(GS.qi<GS.questions.length)grammRenderQ();else grammShowResults()};
+    document.getElementById('grammSteps').parentNode.appendChild(nb);
+  } else {
+    setTimeout(function(){GS.qi++;if(GS.qi<GS.questions.length)grammRenderQ();else grammShowResults()},delay);
+  }
 }
 
 function grammShowResults(){
