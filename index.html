@@ -268,7 +268,7 @@ body.dsa-contrast .cat-tip,body.dsa-contrast .review-tip{color:#a5b4fc}
       <div class="mc-icon">🔍</div>
       <div class="mc-title">Analisi Logica</div>
       <div class="mc-desc">Soggetto, predicato e complementi — identifica la funzione di ogni sintagma nella frase</div>
-      <div class="mc-badge">388 frasi · 36 categorie</div>
+      <div class="mc-badge">386 frasi · 36 categorie</div>
     </div>
     <div class="menu-card" onclick="openGramm()">
       <div class="mc-icon">📖</div>
@@ -767,11 +767,11 @@ var LOG_SENT=[
 {text:"Ho letto un articolo sull'inquinamento.",parts:[["(Io)","sogg"],["Ho letto","pv"],["un articolo","ogg"],["sull'inquinamento","arg"]],tags:["ogg","arg"]},
 {text:"I ragazzi chiacchierano delle vacanze.",parts:[["I ragazzi","sogg"],["chiacchierano","pv"],["delle vacanze","arg"]],tags:["arg"]},
 // MATERIA
-{text:"Il tavolo è di legno.",parts:[["Il tavolo","sogg"],["è","pn"],["di legno","mat"]],tags:["mat"]},
-{text:"La collana è d'oro.",parts:[["La collana","sogg"],["è","pn"],["d'oro","mat"]],tags:["mat"]},
-{text:"La statua è di marmo.",parts:[["La statua","sogg"],["è","pn"],["di marmo","mat"]],tags:["mat"]},
-{text:"Le sbarre sono di ferro.",parts:[["Le sbarre","sogg"],["sono","pn"],["di ferro","mat"]],tags:["mat"]},
-{text:"Il ponte è di pietra.",parts:[["Il ponte","sogg"],["è","pn"],["di pietra","mat"]],tags:["mat"]},
+{text:"Il tavolo è di legno.",parts:[["Il tavolo","sogg"],["è","pv"],["di legno","mat"]],tags:["mat"]},
+{text:"La collana è d'oro.",parts:[["La collana","sogg"],["è","pv"],["d'oro","mat"]],tags:["mat"]},
+{text:"La statua è di marmo.",parts:[["La statua","sogg"],["è","pv"],["di marmo","mat"]],tags:["mat"]},
+{text:"Le sbarre sono di ferro.",parts:[["Le sbarre","sogg"],["sono","pv"],["di ferro","mat"]],tags:["mat"]},
+{text:"Il ponte è di pietra.",parts:[["Il ponte","sogg"],["è","pv"],["di pietra","mat"]],tags:["mat"]},
 // QUALITÀ
 {text:"Lucia è una ragazza di grande intelligenza.",parts:[["Lucia","sogg"],["è una ragazza","pn"],["di grande intelligenza","qual"]],tags:["qual"]},
 {text:"Marco è un ragazzo di bell'aspetto.",parts:[["Marco","sogg"],["è un ragazzo","pn"],["di bell'aspetto","qual"]],tags:["qual"]},
@@ -818,7 +818,7 @@ var LOG_SENT=[
 {text:"Lavoro per la mia famiglia.",parts:[["(Io)","sogg"],["Lavoro","pv"],["per la mia famiglia","van"]],tags:["van"]},
 {text:"Il fumo è dannoso per la salute.",parts:[["Il fumo","sogg"],["è dannoso","pn"],["per la salute","van"]],tags:["van"]},
 {text:"Ho fatto un sacrificio per te.",parts:[["(Io)","sogg"],["Ho fatto","pv"],["un sacrificio","ogg"],["per te","van"]],tags:["ogg","van"]},
-{text:"La raccolta è a beneficio dei bisognosi.",parts:[["La raccolta","sogg"],["è","pn"],["a beneficio dei bisognosi","van"]],tags:["van"]},
+{text:"La raccolta è a beneficio dei bisognosi.",parts:[["La raccolta","sogg"],["è","pv"],["a beneficio dei bisognosi","van"]],tags:["van"]},
 // PARAGONE
 {text:"Marco è più alto di Luca.",parts:[["Marco","sogg"],["è più alto","pn"],["di Luca","par2"]],tags:["par2"]},
 {text:"L'estate è più calda dell'inverno.",parts:[["L'estate","sogg"],["è più calda","pn"],["dell'inverno","par2"]],tags:["par2"]},
@@ -904,9 +904,9 @@ var LOG_SENT=[
 {text:"La conferenza tratta di cambiamenti climatici.",parts:[["La conferenza","sogg"],["tratta","pv"],["di cambiamenti climatici","arg"]],tags:["arg"]},
 {text:"Il professore spiega un capitolo sulla Rivoluzione francese.",parts:[["Il professore","sogg"],["spiega","pv"],["un capitolo","ogg"],["sulla Rivoluzione francese","arg"]],tags:["ogg","arg"]},
 // EXTRA MATERIA
-{text:"La finestra è di vetro.",parts:[["La finestra","sogg"],["è","pn"],["di vetro","mat"]],tags:["mat"]},
-{text:"L'anello è d'argento.",parts:[["L'anello","sogg"],["è","pn"],["d'argento","mat"]],tags:["mat"]},
-{text:"Le mura del castello sono di pietra.",parts:[["Le mura","sogg"],["del castello","spec"],["sono","pn"],["di pietra","mat"]],tags:["mat","spec"]},
+{text:"La finestra è di vetro.",parts:[["La finestra","sogg"],["è","pv"],["di vetro","mat"]],tags:["mat"]},
+{text:"L'anello è d'argento.",parts:[["L'anello","sogg"],["è","pv"],["d'argento","mat"]],tags:["mat"]},
+{text:"Le mura del castello sono di pietra.",parts:[["Le mura","sogg"],["del castello","spec"],["sono","pv"],["di pietra","mat"]],tags:["mat","spec"]},
 // EXTRA QUALITÀ
 {text:"Il ragazzo dai capelli rossi è mio cugino.",parts:[["Il ragazzo","sogg"],["dai capelli rossi","qual"],["è mio cugino","pn"]],tags:["qual"]},
 {text:"Ho incontrato una donna di grande eleganza.",parts:[["(Io)","sogg"],["Ho incontrato","pv"],["una donna","ogg"],["di grande eleganza","qual"]],tags:["qual","ogg"]},
@@ -966,13 +966,12 @@ var LOG_SENT=[
 {text:"Il golfo di Napoli è famoso nel mondo.",parts:[["Il golfo","sogg"],["di Napoli","den"],["è famoso","pn"],["nel mondo","sta"]],tags:["den","sta"]},
 {text:"Il comune di Monza confina con Milano.",parts:[["Il comune","sogg"],["di Monza","den"],["confina","pv"],["con Milano","sta"]],tags:["den","sta"]},
 // ETÀ (nuove)
-{text:"A vent'anni si è piena di energia.",parts:[["A vent'anni","eta"],["si è piena","pn"],["di energia","abb"]],tags:["eta","abb"]},
+{text:"A vent'anni si è pieni di energia.",parts:[["A vent'anni","eta"],["si è pieni","pn"],["di energia","abb"]],tags:["eta","abb"]},
 {text:"Un gattino di due mesi ha bisogno di cure.",parts:[["Un gattino","sogg"],["di due mesi","eta"],["ha bisogno","pv"],["di cure","arg"]],tags:["eta","arg"]},
 {text:"La nonna di novant'anni è ancora attiva.",parts:[["La nonna","sogg"],["di novant'anni","eta"],["è ancora attiva","pn"]],tags:["eta"]},
 {text:"All'età di dieci anni Marco ha iniziato a suonare.",parts:[["All'età di dieci anni","eta"],["Marco","sogg"],["ha iniziato a suonare","pv"]],tags:["eta"]},
 // PARAGONE (nuove)
 {text:"Roma è più grande di Milano.",parts:[["Roma","sogg"],["è più grande","pn"],["di Milano","par2"]],tags:["par2"]},
-{text:"Il treno è più veloce dell'autobus.",parts:[["Il treno","sogg"],["è più veloce","pn"],["dell'autobus","par2"]],tags:["par2"]},
 {text:"La pizza è migliore del panino.",parts:[["La pizza","sogg"],["è migliore","pn"],["del panino","par2"]],tags:["par2"]},
 {text:"Marco è più alto del fratello.",parts:[["Marco","sogg"],["è più alto","pn"],["del fratello","par2"]],tags:["par2"]},
 // PRIVAZIONE (nuove)
@@ -1003,7 +1002,7 @@ var LOG_SENT=[
 {text:"In fatto di cucina la nonna è imbattibile.",parts:[["In fatto di cucina","lim"],["la nonna","sogg"],["è imbattibile","pn"]],tags:["lim"]},
 // VANTAGGIO (nuove)
 {text:"Il professore lavora per il bene degli studenti.",parts:[["Il professore","sogg"],["lavora","pv"],["per il bene degli studenti","van"]],tags:["van"]},
-{text:"La raccolta fondi è a favore dei terremotati.",parts:[["La raccolta fondi","sogg"],["è","pn"],["a favore dei terremotati","van"]],tags:["van"]},
+{text:"La raccolta fondi è a favore dei terremotati.",parts:[["La raccolta fondi","sogg"],["è","pv"],["a favore dei terremotati","van"]],tags:["van"]},
 {text:"Ho fatto un sacrificio per la squadra.",parts:[["(Io)","sogg"],["Ho fatto","pv"],["un sacrificio","ogg"],["per la squadra","van"]],tags:["ogg","van"]},
 // CONCESSIVO (nuove)
 {text:"Nonostante il freddo i bambini giocano nel cortile.",parts:[["Nonostante il freddo","con"],["i bambini","sogg"],["giocano","pv"],["nel cortile","sta"]],tags:["con","sta"]},
@@ -1024,11 +1023,10 @@ var LOG_SENT=[
 {text:"Marco si è separato dagli amici.",parts:[["Marco","sogg"],["si è separato","pv"],["dagli amici","all"]],tags:["all"]},
 {text:"Il profumo si allontana dalla stanza.",parts:[["Il profumo","sogg"],["si allontana","pv"],["dalla stanza","all"]],tags:["all"]},
 // MATERIA (nuove)
-{text:"La scultura è di bronzo.",parts:[["La scultura","sogg"],["è","pn"],["di bronzo","mat"]],tags:["mat"]},
-{text:"I piatti sono di ceramica.",parts:[["I piatti","sogg"],["sono","pn"],["di ceramica","mat"]],tags:["mat"]},
+{text:"La scultura è di bronzo.",parts:[["La scultura","sogg"],["è","pv"],["di bronzo","mat"]],tags:["mat"]},
+{text:"I piatti sono di ceramica.",parts:[["I piatti","sogg"],["sono","pv"],["di ceramica","mat"]],tags:["mat"]},
 // CAUSA (nuove)
 {text:"Gli alberi si piegano per il vento forte.",parts:[["Gli alberi","sogg"],["si piegano","pv"],["per il vento forte","cau"]],tags:["cau"]},
-{text:"Il bambino piange per la fame.",parts:[["Il bambino","sogg"],["piange","pv"],["per la fame","cau"]],tags:["cau"]},
 // FRASI MISTE COMPLESSE
 {text:"Nella piazza del paese i bambini giocano a pallone ogni pomeriggio.",parts:[["Nella piazza del paese","sta"],["i bambini","sogg"],["giocano","pv"],["a pallone","ogg"],["ogni pomeriggio","tem_det"]],tags:["sta","ogg","tem_det"]},
 {text:"Il professore di storia spiega la lezione con chiarezza agli studenti.",parts:[["Il professore di storia","sogg"],["spiega","pv"],["la lezione","ogg"],["con chiarezza","mod"],["agli studenti","ter"]],tags:["ogg","mod","ter"]},
