@@ -69,6 +69,12 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
 .cat-btn.cat-selected{border-color:var(--green);background:rgba(52,211,153,.15);color:var(--green)}
 .cat-btn.cat-wrong{border-color:var(--red);color:var(--red)}
 .cat-btn.cat-correct{border-color:var(--green);color:var(--green)}
+.cat-legend{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;font-size:.7rem}
+.leg{opacity:.8}.leg-base{color:#6ee7b7}.leg-dir{color:#93bbfd}.leg-ind{color:#fcd34d}.leg-avz{color:#d8b4fe}
+.cat-btn.cat-base{border-color:#34d399;background:rgba(52,211,153,.12);color:#6ee7b7}
+.cat-btn.cat-diretti{border-color:#60a5fa;background:rgba(96,165,250,.12);color:#93bbfd}
+.cat-btn.cat-indiretti{border-color:#fbbf24;background:rgba(251,191,36,.1);color:#fcd34d}
+.cat-btn.cat-avanzati{border-color:#c084fc;background:rgba(192,132,252,.12);color:#d8b4fe}
 
 /* Verb analysis - step groups */
 .step-group{background:var(--card);border-radius:var(--radius);padding:14px;margin:10px 0}
@@ -150,7 +156,7 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
       <div class="mc-icon">🔍</div>
       <div class="mc-title">Analisi Logica</div>
       <div class="mc-desc">Soggetto, predicato e complementi — identifica la funzione di ogni sintagma nella frase</div>
-      <div class="mc-badge">327 frasi · 36 categorie</div>
+      <div class="mc-badge">388 frasi · 36 categorie</div>
     </div>
     <div class="menu-card" onclick="openGramm()">
       <div class="mc-icon">📖</div>
@@ -178,6 +184,7 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
 
 <!-- ========== ANALISI LOGICA: Game ========== -->
 <div class="screen" id="scrLogGame">
+  <button class="back-btn" onclick="if(confirm('Vuoi abbandonare la sessione?'))goMainMenu()">← Menu</button>
   <div class="progress-text" id="logProgText">1 / 10</div>
   <div class="progress-bar"><div class="progress-fill" id="logProgFill"></div></div>
   <div class="sentence-box">
@@ -185,6 +192,7 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
   </div>
   <p style="text-align:center;color:var(--text2);font-size:.8rem;margin-bottom:6px">Tocca un sintagma, poi assegna la funzione:</p>
   <div class="parts-row" id="logPartsRow"></div>
+  <div class="cat-legend"><span class="leg leg-base">■ Fondamentali</span><span class="leg leg-dir">■ Diretti</span><span class="leg leg-ind">■ Indiretti</span><span class="leg leg-avz">■ Avanzati</span></div>
   <div class="cat-grid" id="logCatGrid"></div>
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="logResetCurrent()">↺ Resetta</button>
@@ -195,6 +203,7 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
 
 <!-- ========== ANALISI LOGICA: Results ========== -->
 <div class="screen" id="scrLogResults">
+  <button class="back-btn" onclick="goMainMenu()">← Menu</button>
   <h1>Risultati — Analisi Logica</h1>
   <div class="score-card">
     <div class="score-big" id="logScoreBig"></div>
@@ -223,6 +232,7 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
 
 <!-- ========== ANALISI GRAMMATICALE: Game ========== -->
 <div class="screen" id="scrGrammGame">
+  <button class="back-btn" onclick="if(confirm('Vuoi abbandonare la sessione?'))goMainMenu()">← Menu</button>
   <div class="progress-text" id="grammProgText">1 / 10</div>
   <div class="progress-bar"><div class="progress-fill" id="grammProgFill"></div></div>
   <div class="sentence-box">
@@ -238,6 +248,7 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
 
 <!-- ========== ANALISI GRAMMATICALE: Results ========== -->
 <div class="screen" id="scrGrammResults">
+  <button class="back-btn" onclick="goMainMenu()">← Menu</button>
   <h1>Risultati — Analisi Grammaticale</h1>
   <div class="score-card">
     <div class="score-big" id="grammScoreBig"></div>
@@ -792,6 +803,85 @@ var LOG_SENT=[
 {text:"Il compito è facile.",parts:[["Il compito","sogg"],["è facile","pn"]],tags:[]},
 {text:"La giornata è stata lunga.",parts:[["La giornata","sogg"],["è stata lunga","pn"]],tags:[]},
 {text:"Marco è un bravo ragazzo.",parts:[["Marco","sogg"],["è un bravo ragazzo","pn"]],tags:[]},
+// DENOMINAZIONE (nuove)
+{text:"La regione di Lombardia è molto popolata.",parts:[["La regione","sogg"],["di Lombardia","den"],["è molto popolata","pn"]],tags:["den"]},
+{text:"Il giorno di Pasqua è sempre festivo.",parts:[["Il giorno","sogg"],["di Pasqua","den"],["è sempre festivo","pn"]],tags:["den"]},
+{text:"La festa di Carnevale dura una settimana.",parts:[["La festa","sogg"],["di Carnevale","den"],["dura","pv"],["una settimana","tem_con"]],tags:["den","tem_con"]},
+{text:"Il golfo di Napoli è famoso nel mondo.",parts:[["Il golfo","sogg"],["di Napoli","den"],["è famoso","pn"],["nel mondo","sta"]],tags:["den","sta"]},
+{text:"Il comune di Monza confina con Milano.",parts:[["Il comune","sogg"],["di Monza","den"],["confina","pv"],["con Milano","sta"]],tags:["den","sta"]},
+// ETÀ (nuove)
+{text:"A vent'anni si è piena di energia.",parts:[["A vent'anni","eta"],["si è piena","pn"],["di energia","abb"]],tags:["eta","abb"]},
+{text:"Un gattino di due mesi ha bisogno di cure.",parts:[["Un gattino","sogg"],["di due mesi","eta"],["ha bisogno","pv"],["di cure","arg"]],tags:["eta","arg"]},
+{text:"La nonna di novant'anni è ancora attiva.",parts:[["La nonna","sogg"],["di novant'anni","eta"],["è ancora attiva","pn"]],tags:["eta"]},
+{text:"All'età di dieci anni Marco ha iniziato a suonare.",parts:[["All'età di dieci anni","eta"],["Marco","sogg"],["ha iniziato a suonare","pv"]],tags:["eta"]},
+// PARAGONE (nuove)
+{text:"Roma è più grande di Milano.",parts:[["Roma","sogg"],["è più grande","pn"],["di Milano","par2"]],tags:["par2"]},
+{text:"Il treno è più veloce dell'autobus.",parts:[["Il treno","sogg"],["è più veloce","pn"],["dell'autobus","par2"]],tags:["par2"]},
+{text:"La pizza è migliore del panino.",parts:[["La pizza","sogg"],["è migliore","pn"],["del panino","par2"]],tags:["par2"]},
+{text:"Marco è più alto del fratello.",parts:[["Marco","sogg"],["è più alto","pn"],["del fratello","par2"]],tags:["par2"]},
+// PRIVAZIONE (nuove)
+{text:"Il deserto è privo di vegetazione.",parts:[["Il deserto","sogg"],["è privo","pn"],["di vegetazione","pri"]],tags:["pri"]},
+{text:"La stanza è priva di mobili.",parts:[["La stanza","sogg"],["è priva","pn"],["di mobili","pri"]],tags:["pri"]},
+{text:"L'esame è privo di difficoltà.",parts:[["L'esame","sogg"],["è privo","pn"],["di difficoltà","pri"]],tags:["pri"]},
+{text:"Il lago è privo di pesci.",parts:[["Il lago","sogg"],["è privo","pn"],["di pesci","pri"]],tags:["pri"]},
+// MOTO PER LUOGO (nuove)
+{text:"Il serpente striscia attraverso l'erba.",parts:[["Il serpente","sogg"],["striscia","pv"],["attraverso l'erba","moto_per"]],tags:["moto_per"]},
+{text:"La luce entra attraverso le tende.",parts:[["La luce","sogg"],["entra","pv"],["attraverso le tende","moto_per"]],tags:["moto_per"]},
+{text:"I bambini corrono per i corridoi della scuola.",parts:[["I bambini","sogg"],["corrono","pv"],["per i corridoi della scuola","moto_per"]],tags:["moto_per"]},
+{text:"Il profumo si diffonde per tutta la casa.",parts:[["Il profumo","sogg"],["si diffonde","pv"],["per tutta la casa","moto_per"]],tags:["moto_per"]},
+// QUALITÀ (nuove)
+{text:"Un uomo di alta statura è entrato nel negozio.",parts:[["Un uomo","sogg"],["di alta statura","qual"],["è entrato","pv"],["nel negozio","moto_a"]],tags:["qual","moto_a"]},
+{text:"La professoressa di grande cultura spiega la lezione.",parts:[["La professoressa","sogg"],["di grande cultura","qual"],["spiega","pv"],["la lezione","ogg"]],tags:["qual","ogg"]},
+{text:"È un quadro di rara bellezza.",parts:[["(Esso)","sogg"],["È un quadro","pn"],["di rara bellezza","qual"]],tags:["qual"]},
+// PARTITIVO (nuove)
+{text:"Pochi degli alunni hanno superato l'esame.",parts:[["Pochi","sogg"],["degli alunni","par"],["hanno superato","pv"],["l'esame","ogg"]],tags:["par","ogg"]},
+{text:"Ciascuno dei partecipanti ha ricevuto un attestato.",parts:[["Ciascuno","sogg"],["dei partecipanti","par"],["ha ricevuto","pv"],["un attestato","ogg"]],tags:["par","ogg"]},
+{text:"La metà degli studenti preferisce il mare.",parts:[["La metà","sogg"],["degli studenti","par"],["preferisce","pv"],["il mare","ogg"]],tags:["par","ogg"]},
+// ORIGINE (nuove)
+{text:"Questa usanza deriva dagli antichi Romani.",parts:[["Questa usanza","sogg"],["deriva","pv"],["dagli antichi Romani","ori"]],tags:["ori"]},
+{text:"La parola nasce dal latino.",parts:[["La parola","sogg"],["nasce","pv"],["dal latino","ori"]],tags:["ori"]},
+{text:"Marco discende da una famiglia nobile.",parts:[["Marco","sogg"],["discende","pv"],["da una famiglia nobile","ori"]],tags:["ori"]},
+// LIMITAZIONE (nuove)
+{text:"In matematica Marco è il migliore della classe.",parts:[["In matematica","lim"],["Marco","sogg"],["è il migliore","pn"],["della classe","par2"]],tags:["lim","par2"]},
+{text:"Dal punto di vista economico la situazione è stabile.",parts:[["Dal punto di vista economico","lim"],["la situazione","sogg"],["è stabile","pn"]],tags:["lim"]},
+{text:"In fatto di cucina la nonna è imbattibile.",parts:[["In fatto di cucina","lim"],["la nonna","sogg"],["è imbattibile","pn"]],tags:["lim"]},
+// VANTAGGIO (nuove)
+{text:"Il professore lavora per il bene degli studenti.",parts:[["Il professore","sogg"],["lavora","pv"],["per il bene degli studenti","van"]],tags:["van"]},
+{text:"La raccolta fondi è a favore dei terremotati.",parts:[["La raccolta fondi","sogg"],["è","pn"],["a favore dei terremotati","van"]],tags:["van"]},
+{text:"Ho fatto un sacrificio per la squadra.",parts:[["(Io)","sogg"],["Ho fatto","pv"],["un sacrificio","ogg"],["per la squadra","van"]],tags:["ogg","van"]},
+// CONCESSIVO (nuove)
+{text:"Nonostante il freddo i bambini giocano nel cortile.",parts:[["Nonostante il freddo","con"],["i bambini","sogg"],["giocano","pv"],["nel cortile","sta"]],tags:["con","sta"]},
+{text:"Malgrado la stanchezza ha finito i compiti.",parts:[["Malgrado la stanchezza","con"],["(egli)","sogg"],["ha finito","pv"],["i compiti","ogg"]],tags:["con","ogg"]},
+{text:"Nonostante il divieto i ragazzi entrano nel parco.",parts:[["Nonostante il divieto","con"],["i ragazzi","sogg"],["entrano","pv"],["nel parco","moto_a"]],tags:["con","moto_a"]},
+// ABBONDANZA (nuove)
+{text:"Il giardino è ricco di fiori.",parts:[["Il giardino","sogg"],["è ricco","pn"],["di fiori","abb"]],tags:["abb"]},
+{text:"La biblioteca è fornita di libri rari.",parts:[["La biblioteca","sogg"],["è fornita","pn"],["di libri rari","abb"]],tags:["abb"]},
+{text:"Il mercato è pieno di colori e profumi.",parts:[["Il mercato","sogg"],["è pieno","pn"],["di colori e profumi","abb"]],tags:["abb"]},
+// UNIONE (nuove)
+{text:"Marco arriva con il suo zaino nuovo.",parts:[["Marco","sogg"],["arriva","pv"],["con il suo zaino nuovo","uni"]],tags:["uni"]},
+{text:"La signora passeggia con il bastone.",parts:[["La signora","sogg"],["passeggia","pv"],["con il bastone","uni"]],tags:["uni"]},
+// MOTO A LUOGO (nuove)
+{text:"I turisti si dirigono verso il Colosseo.",parts:[["I turisti","sogg"],["si dirigono","pv"],["verso il Colosseo","moto_a"]],tags:["moto_a"]},
+{text:"Il pallone vola verso la porta.",parts:[["Il pallone","sogg"],["vola","pv"],["verso la porta","moto_a"]],tags:["moto_a"]},
+{text:"La famiglia si trasferisce a Roma.",parts:[["La famiglia","sogg"],["si trasferisce","pv"],["a Roma","moto_a"]],tags:["moto_a"]},
+// ALLONTANAMENTO (nuove)
+{text:"Marco si è separato dagli amici.",parts:[["Marco","sogg"],["si è separato","pv"],["dagli amici","all"]],tags:["all"]},
+{text:"Il profumo si allontana dalla stanza.",parts:[["Il profumo","sogg"],["si allontana","pv"],["dalla stanza","all"]],tags:["all"]},
+// MATERIA (nuove)
+{text:"La scultura è di bronzo.",parts:[["La scultura","sogg"],["è","pn"],["di bronzo","mat"]],tags:["mat"]},
+{text:"I piatti sono di ceramica.",parts:[["I piatti","sogg"],["sono","pn"],["di ceramica","mat"]],tags:["mat"]},
+// CAUSA (nuove)
+{text:"Gli alberi si piegano per il vento forte.",parts:[["Gli alberi","sogg"],["si piegano","pv"],["per il vento forte","cau"]],tags:["cau"]},
+{text:"Il bambino piange per la fame.",parts:[["Il bambino","sogg"],["piange","pv"],["per la fame","cau"]],tags:["cau"]},
+// FRASI MISTE COMPLESSE
+{text:"Nella piazza del paese i bambini giocano a pallone ogni pomeriggio.",parts:[["Nella piazza del paese","sta"],["i bambini","sogg"],["giocano","pv"],["a pallone","ogg"],["ogni pomeriggio","tem_det"]],tags:["sta","ogg","tem_det"]},
+{text:"Il professore di storia spiega la lezione con chiarezza agli studenti.",parts:[["Il professore di storia","sogg"],["spiega","pv"],["la lezione","ogg"],["con chiarezza","mod"],["agli studenti","ter"]],tags:["ogg","mod","ter"]},
+{text:"La lettera è stata spedita dalla segreteria per posta.",parts:[["La lettera","sogg"],["è stata spedita","pv"],["dalla segreteria","age"],["per posta","mez"]],tags:["age","mez"]},
+{text:"Per il compleanno del figlio la mamma ha preparato una torta di cioccolato.",parts:[["Per il compleanno","cau"],["del figlio","spec"],["la mamma","sogg"],["ha preparato","pv"],["una torta","ogg"],["di cioccolato","mat"]],tags:["cau","spec","ogg","mat"]},
+{text:"Malgrado la pioggia gli operai lavorano nel cantiere da stamattina.",parts:[["Malgrado la pioggia","con"],["gli operai","sogg"],["lavorano","pv"],["nel cantiere","sta"],["da stamattina","tem_det"]],tags:["con","sta","tem_det"]},
+{text:"Il regalo per la maestra è stato comprato dai genitori con entusiasmo.",parts:[["Il regalo","sogg"],["per la maestra","van"],["è stato comprato","pv"],["dai genitori","age"],["con entusiasmo","mod"]],tags:["van","age","mod"]},
+{text:"Dal balcone di casa mia si vedono le montagne.",parts:[["Dal balcone","moto_da"],["di casa mia","spec"],["si vedono","pv"],["le montagne","ogg"]],tags:["moto_da","spec","ogg"]},
+{text:"Secondo il regolamento gli studenti devono arrivare a scuola alle otto.",parts:[["Secondo il regolamento","lim"],["gli studenti","sogg"],["devono arrivare","pv"],["a scuola","moto_a"],["alle otto","tem_det"]],tags:["lim","moto_a","tem_det"]},
 // MOTO DA LUOGO (nuove)
 {text:"Il treno proviene da Napoli.",parts:[["Il treno","sogg"],["proviene","pv"],["da Napoli","moto_da"]],tags:["moto_da"]},
 {text:"I ragazzi escono dalla scuola.",parts:[["I ragazzi","sogg"],["escono","pv"],["dalla scuola","moto_da"]],tags:["moto_da"]},
@@ -1104,7 +1194,7 @@ function logRenderQ(){
   });
   var cg=document.getElementById('logCatGrid');cg.innerHTML='';
   LS.activeCats.forEach(function(c){
-    var b=document.createElement('button');b.className='cat-btn';b.textContent=c.name;b.dataset.id=c.id;
+    var b=document.createElement('button');b.className='cat-btn cat-'+c.group;b.textContent=c.name;b.dataset.id=c.id;
     b.onclick=function(){logAssignCat(c.id,c.name)};cg.appendChild(b);
   });
   document.getElementById('btnLogCheck').disabled=true;
