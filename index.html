@@ -71,11 +71,26 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
 .cat-btn.cat-selected{border-color:var(--green);background:rgba(52,211,153,.15);color:var(--green)}
 .cat-btn.cat-wrong{border-color:var(--red);color:var(--red)}
 .cat-btn.cat-correct{border-color:var(--green);color:var(--green)}
-.cat-legend{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;font-size:.7rem}
-.leg{opacity:.8}.leg-base{color:#6ee7b7}.leg-dir{color:#93bbfd}.leg-ind{color:#fcd34d}.leg-avz{color:#d8b4fe}
-.cat-btn.cat-base{border-color:#34d399;background:rgba(52,211,153,.12);color:#6ee7b7}
+/* Sezioni raggruppate complementi */
+.cat-sections{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.cat-section{border-radius:10px;padding:8px 10px;border:1.5px solid transparent}
+.cat-section-header{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;padding-left:2px;display:flex;align-items:center;gap:5px}
+.cat-section .cat-grid{margin:0}
+/* Colori sezione: base → bianco/argento */
+.cat-section.sec-base{border-color:rgba(203,213,225,.25);background:rgba(203,213,225,.06)}
+.cat-section.sec-base .cat-section-header{color:#cbd5e1}
+.cat-btn.cat-base{border-color:#94a3b8;background:rgba(148,163,184,.12);color:#cbd5e1}
+/* Diretti → blu */
+.cat-section.sec-diretti{border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.06)}
+.cat-section.sec-diretti .cat-section-header{color:#93bbfd}
 .cat-btn.cat-diretti{border-color:#60a5fa;background:rgba(96,165,250,.12);color:#93bbfd}
+/* Indiretti → ambra */
+.cat-section.sec-indiretti{border-color:rgba(251,191,36,.2);background:rgba(251,191,36,.05)}
+.cat-section.sec-indiretti .cat-section-header{color:#fcd34d}
 .cat-btn.cat-indiretti{border-color:#fbbf24;background:rgba(251,191,36,.1);color:#fcd34d}
+/* Avanzati → viola */
+.cat-section.sec-avanzati{border-color:rgba(192,132,252,.25);background:rgba(192,132,252,.06)}
+.cat-section.sec-avanzati .cat-section-header{color:#d8b4fe}
 .cat-btn.cat-avanzati{border-color:#c084fc;background:rgba(192,132,252,.12);color:#d8b4fe}
 
 /* Verb analysis - step groups */
@@ -183,7 +198,7 @@ body.dsa-size-m .sentence-text{font-size:1.4rem}
 body.dsa-size-m .part-chip{font-size:1.1rem;padding:12px 18px}
 body.dsa-size-m .part-chip .label{font-size:.72rem}
 body.dsa-size-m .cat-btn{font-size:.88rem;padding:9px 14px}
-body.dsa-size-m .cat-legend{font-size:.8rem}
+body.dsa-size-m .cat-section-header{font-size:.8rem}
 body.dsa-size-m .cat-tip,body.dsa-size-m .review-tip{font-size:.85rem}
 body.dsa-size-m .review-detail{font-size:.95rem}
 body.dsa-size-m .topic-btn{font-size:.88rem}
@@ -193,7 +208,7 @@ body.dsa-size-l .sentence-text{font-size:1.6rem}
 body.dsa-size-l .part-chip{font-size:1.2rem;padding:14px 20px}
 body.dsa-size-l .part-chip .label{font-size:.8rem}
 body.dsa-size-l .cat-btn{font-size:1rem;padding:10px 16px}
-body.dsa-size-l .cat-legend{font-size:.88rem}
+body.dsa-size-l .cat-section-header{font-size:.88rem}
 body.dsa-size-l .cat-tip,body.dsa-size-l .review-tip{font-size:.92rem}
 body.dsa-size-l .review-detail{font-size:1.05rem}
 body.dsa-size-l .topic-btn{font-size:1rem}
@@ -289,8 +304,7 @@ body.dsa-contrast .cat-tip,body.dsa-contrast .review-tip{color:#a5b4fc}
   </div>
   <p style="text-align:center;color:var(--text2);font-size:.8rem;margin-bottom:6px">Tocca un sintagma, poi assegna la funzione:</p>
   <div class="parts-row" id="logPartsRow"></div>
-  <div class="cat-legend"><span class="leg leg-base">■ Fondamentali</span><span class="leg leg-dir">■ Diretti</span><span class="leg leg-ind">■ Indiretti</span><span class="leg leg-avz">■ Avanzati</span></div>
-  <div class="cat-grid" id="logCatGrid"></div>
+  <div class="cat-sections" id="logCatGrid"></div>
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="logResetCurrent()">↺ Resetta</button>
     <button class="btn btn-flag" id="btnLogFlag" onclick="flagLogSentence()">🚩</button>
@@ -1335,9 +1349,21 @@ function logRenderQ(){
     ch.onclick=function(){logSelectPart(i)};pr.appendChild(ch);
   });
   var cg=document.getElementById('logCatGrid');cg.innerHTML='';
-  LS.activeCats.forEach(function(c){
-    var b=document.createElement('button');b.className='cat-btn cat-'+c.group;b.textContent=c.name;b.dataset.id=c.id;
-    b.onclick=function(){logAssignCat(c.id,c.name)};cg.appendChild(b);
+  var SEC_META={base:{emoji:'🏛',label:'Fondamentali'},diretti:{emoji:'🎯',label:'Diretti e predicativi'},indiretti:{emoji:'🔗',label:'Indiretti base'},avanzati:{emoji:'⭐',label:'Avanzati'}};
+  var groups={};var groupOrder=['base','diretti','indiretti','avanzati'];
+  LS.activeCats.forEach(function(c){if(!groups[c.group])groups[c.group]=[];groups[c.group].push(c)});
+  groupOrder.forEach(function(gid){
+    if(!groups[gid]||groups[gid].length===0)return;
+    var sec=document.createElement('div');sec.className='cat-section sec-'+gid;
+    var hdr=document.createElement('div');hdr.className='cat-section-header';
+    var meta=SEC_META[gid]||{emoji:'',label:gid};
+    hdr.textContent=meta.emoji+' '+meta.label;sec.appendChild(hdr);
+    var grid=document.createElement('div');grid.className='cat-grid';
+    groups[gid].forEach(function(c){
+      var b=document.createElement('button');b.className='cat-btn cat-'+c.group;b.textContent=c.name;b.dataset.id=c.id;
+      b.onclick=function(){logAssignCat(c.id,c.name)};grid.appendChild(b);
+    });
+    sec.appendChild(grid);cg.appendChild(sec);
   });
   document.getElementById('btnLogCheck').disabled=true;
   // Reset flag button state for this question
