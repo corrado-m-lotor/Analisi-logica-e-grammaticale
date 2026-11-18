@@ -90,6 +90,8 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
 .review-detail{font-size:.85rem;color:var(--text2);line-height:1.6}
 .review-detail span.right{color:var(--green)}
 .review-detail span.wrong-text{color:var(--red);text-decoration:line-through}
+.cat-tip{font-size:.7rem;color:var(--accent);margin-top:2px;font-style:italic;line-height:1.3}
+.review-tip{font-size:.78rem;color:var(--accent);font-style:italic;margin:2px 0 6px 0;padding-left:8px;border-left:2px solid var(--accent);line-height:1.3}
 
 /* Flag button */
 .btn-flag{padding:10px 14px;border-radius:10px;border:2px solid var(--card2);background:var(--card);color:var(--text);font-size:1.1rem;cursor:pointer;transition:all .15s;user-select:none;-webkit-user-select:none;line-height:1}
@@ -148,7 +150,7 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
       <div class="mc-icon">🔍</div>
       <div class="mc-title">Analisi Logica</div>
       <div class="mc-desc">Soggetto, predicato e complementi — identifica la funzione di ogni sintagma nella frase</div>
-      <div class="mc-badge">286 frasi · 31 categorie</div>
+      <div class="mc-badge">327 frasi · 36 categorie</div>
     </div>
     <div class="menu-card" onclick="openGramm()">
       <div class="mc-icon">📖</div>
@@ -412,13 +414,18 @@ var LOG_CATS=[
 {id:"pred_ogg",name:"Predicativo dell'oggetto",always:false,group:"diretti"},
 {id:"ter",name:"Compl. di termine",always:false,group:"indiretti"},
 {id:"spec",name:"Compl. di specificazione",always:false,group:"indiretti"},
-{id:"luo",name:"Compl. di luogo",always:false,group:"indiretti"},
-{id:"tem",name:"Compl. di tempo",always:false,group:"indiretti"},
+{id:"sta",name:"Stato in luogo",always:false,group:"indiretti"},
+{id:"moto_a",name:"Moto a luogo",always:false,group:"indiretti"},
+{id:"moto_da",name:"Moto da luogo",always:false,group:"indiretti"},
+{id:"moto_per",name:"Moto per luogo",always:false,group:"indiretti"},
+{id:"tem_det",name:"Compl. di tempo determinato",always:false,group:"indiretti"},
+{id:"tem_con",name:"Compl. di tempo continuato",always:false,group:"indiretti"},
 {id:"cau",name:"Compl. di causa",always:false,group:"indiretti"},
 {id:"fin",name:"Compl. di fine",always:false,group:"indiretti"},
 {id:"mod",name:"Compl. di modo",always:false,group:"indiretti"},
 {id:"mez",name:"Compl. di mezzo",always:false,group:"indiretti"},
 {id:"age",name:"Compl. d'agente",always:false,group:"avanzati"},
+{id:"cau_eff",name:"Compl. di causa efficiente",always:false,group:"avanzati"},
 {id:"comp",name:"Compl. di compagnia",always:false,group:"avanzati"},
 {id:"uni",name:"Compl. di unione",always:false,group:"avanzati"},
 {id:"arg",name:"Compl. di argomento",always:false,group:"avanzati"},
@@ -496,28 +503,28 @@ var LOG_SENT=[
 {text:"Il tetto della casa è nuovo.",parts:[["Il tetto","sogg"],["della casa","spec"],["è nuovo","pn"]],tags:["spec"]},
 {text:"Le zampe del gatto sono morbide.",parts:[["Le zampe","sogg"],["del gatto","spec"],["sono morbide","pn"]],tags:["spec"]},
 // LUOGO
-{text:"Il gatto dorme sul divano.",parts:[["Il gatto","sogg"],["dorme","pv"],["sul divano","luo"]],tags:["luo"]},
-{text:"I bambini giocano nel parco.",parts:[["I bambini","sogg"],["giocano","pv"],["nel parco","luo"]],tags:["luo"]},
-{text:"Andiamo al cinema.",parts:[["(Noi)","sogg"],["Andiamo","pv"],["al cinema","luo"]],tags:["luo"]},
-{text:"Lucia abita a Milano.",parts:[["Lucia","sogg"],["abita","pv"],["a Milano","luo"]],tags:["luo"]},
-{text:"Il treno arriva alla stazione.",parts:[["Il treno","sogg"],["arriva","pv"],["alla stazione","luo"]],tags:["luo"]},
-{text:"Marco studia in biblioteca.",parts:[["Marco","sogg"],["studia","pv"],["in biblioteca","luo"]],tags:["luo"]},
-{text:"Il cane corre nel giardino.",parts:[["Il cane","sogg"],["corre","pv"],["nel giardino","luo"]],tags:["luo"]},
-{text:"La nonna vive in campagna.",parts:[["La nonna","sogg"],["vive","pv"],["in campagna","luo"]],tags:["luo"]},
-{text:"I pesci nuotano nel lago.",parts:[["I pesci","sogg"],["nuotano","pv"],["nel lago","luo"]],tags:["luo"]},
-{text:"Gli uccelli volano nel cielo.",parts:[["Gli uccelli","sogg"],["volano","pv"],["nel cielo","luo"]],tags:["luo"]},
-{text:"La maestra entra in aula.",parts:[["La maestra","sogg"],["entra","pv"],["in aula","luo"]],tags:["luo"]},
+{text:"Il gatto dorme sul divano.",parts:[["Il gatto","sogg"],["dorme","pv"],["sul divano","sta"]],tags:["sta"]},
+{text:"I bambini giocano nel parco.",parts:[["I bambini","sogg"],["giocano","pv"],["nel parco","sta"]],tags:["sta"]},
+{text:"Andiamo al cinema.",parts:[["(Noi)","sogg"],["Andiamo","pv"],["al cinema","moto_a"]],tags:["moto_a"]},
+{text:"Lucia abita a Milano.",parts:[["Lucia","sogg"],["abita","pv"],["a Milano","sta"]],tags:["sta"]},
+{text:"Il treno arriva alla stazione.",parts:[["Il treno","sogg"],["arriva","pv"],["alla stazione","moto_a"]],tags:["moto_a"]},
+{text:"Marco studia in biblioteca.",parts:[["Marco","sogg"],["studia","pv"],["in biblioteca","sta"]],tags:["sta"]},
+{text:"Il cane corre nel giardino.",parts:[["Il cane","sogg"],["corre","pv"],["nel giardino","sta"]],tags:["sta"]},
+{text:"La nonna vive in campagna.",parts:[["La nonna","sogg"],["vive","pv"],["in campagna","sta"]],tags:["sta"]},
+{text:"I pesci nuotano nel lago.",parts:[["I pesci","sogg"],["nuotano","pv"],["nel lago","sta"]],tags:["sta"]},
+{text:"Gli uccelli volano nel cielo.",parts:[["Gli uccelli","sogg"],["volano","pv"],["nel cielo","sta"]],tags:["sta"]},
+{text:"La maestra entra in aula.",parts:[["La maestra","sogg"],["entra","pv"],["in aula","moto_a"]],tags:["moto_a"]},
 // TEMPO
-{text:"La scuola inizia a settembre.",parts:[["La scuola","sogg"],["inizia","pv"],["a settembre","tem"]],tags:["tem"]},
-{text:"Ieri ho incontrato un amico.",parts:[["(Io)","sogg"],["Ieri","tem"],["ho incontrato","pv"],["un amico","ogg"]],tags:["tem","ogg"]},
-{text:"Il concerto dura tre ore.",parts:[["Il concerto","sogg"],["dura","pv"],["tre ore","tem"]],tags:["tem"]},
-{text:"In estate andiamo al mare.",parts:[["In estate","tem"],["(noi)","sogg"],["andiamo","pv"],["al mare","luo"]],tags:["tem","luo"]},
-{text:"Di notte le strade sono silenziose.",parts:[["Di notte","tem"],["le strade","sogg"],["sono silenziose","pn"]],tags:["tem"]},
-{text:"Il negozio chiude alle otto.",parts:[["Il negozio","sogg"],["chiude","pv"],["alle otto","tem"]],tags:["tem"]},
-{text:"D'inverno la neve copre le montagne.",parts:[["D'inverno","tem"],["la neve","sogg"],["copre","pv"],["le montagne","ogg"]],tags:["tem","ogg"]},
-{text:"A Natale la famiglia si riunisce.",parts:[["A Natale","tem"],["la famiglia","sogg"],["si riunisce","pv"]],tags:["tem"]},
-{text:"Marco si sveglia alle sei.",parts:[["Marco","sogg"],["si sveglia","pv"],["alle sei","tem"]],tags:["tem"]},
-{text:"In autunno cadono le foglie.",parts:[["In autunno","tem"],["cadono","pv"],["le foglie","sogg"]],tags:["tem"]},
+{text:"La scuola inizia a settembre.",parts:[["La scuola","sogg"],["inizia","pv"],["a settembre","tem_det"]],tags:["tem_det"]},
+{text:"Ieri ho incontrato un amico.",parts:[["(Io)","sogg"],["Ieri","tem_det"],["ho incontrato","pv"],["un amico","ogg"]],tags:["tem_det","ogg"]},
+{text:"Il concerto dura tre ore.",parts:[["Il concerto","sogg"],["dura","pv"],["tre ore","tem_con"]],tags:["tem_con"]},
+{text:"In estate andiamo al mare.",parts:[["In estate","tem_det"],["(noi)","sogg"],["andiamo","pv"],["al mare","moto_a"]],tags:["tem_det","moto_a"]},
+{text:"Di notte le strade sono silenziose.",parts:[["Di notte","tem_det"],["le strade","sogg"],["sono silenziose","pn"]],tags:["tem_det"]},
+{text:"Il negozio chiude alle otto.",parts:[["Il negozio","sogg"],["chiude","pv"],["alle otto","tem_det"]],tags:["tem_det"]},
+{text:"D'inverno la neve copre le montagne.",parts:[["D'inverno","tem_det"],["la neve","sogg"],["copre","pv"],["le montagne","ogg"]],tags:["tem_det","ogg"]},
+{text:"A Natale la famiglia si riunisce.",parts:[["A Natale","tem_det"],["la famiglia","sogg"],["si riunisce","pv"]],tags:["tem_det"]},
+{text:"Marco si sveglia alle sei.",parts:[["Marco","sogg"],["si sveglia","pv"],["alle sei","tem_det"]],tags:["tem_det"]},
+{text:"In autunno cadono le foglie.",parts:[["In autunno","tem_det"],["cadono","pv"],["le foglie","sogg"]],tags:["tem_det"]},
 // CAUSA
 {text:"Tremo dal freddo.",parts:[["(Io)","sogg"],["Tremo","pv"],["dal freddo","cau"]],tags:["cau"]},
 {text:"Piango di gioia.",parts:[["(Io)","sogg"],["Piango","pv"],["di gioia","cau"]],tags:["cau"]},
@@ -550,30 +557,30 @@ var LOG_SENT=[
 {text:"Maria canta a squarciagola.",parts:[["Maria","sogg"],["canta","pv"],["a squarciagola","mod"]],tags:["mod"]},
 // MEZZO
 {text:"Viaggio in treno.",parts:[["(Io)","sogg"],["Viaggio","pv"],["in treno","mez"]],tags:["mez"]},
-{text:"Marco va a scuola in bici.",parts:[["Marco","sogg"],["va","pv"],["a scuola","luo"],["in bici","mez"]],tags:["luo","mez"]},
+{text:"Marco va a scuola in bici.",parts:[["Marco","sogg"],["va","pv"],["a scuola","moto_a"],["in bici","mez"]],tags:["moto_a","mez"]},
 {text:"Ho scritto la lettera con la penna.",parts:[["(Io)","sogg"],["Ho scritto","pv"],["la lettera","ogg"],["con la penna","mez"]],tags:["ogg","mez"]},
 {text:"Il contadino ara il campo con il trattore.",parts:[["Il contadino","sogg"],["ara","pv"],["il campo","ogg"],["con il trattore","mez"]],tags:["ogg","mez"]},
 {text:"Comunichiamo per telefono.",parts:[["(Noi)","sogg"],["Comunichiamo","pv"],["per telefono","mez"]],tags:["mez"]},
 {text:"Il falegname taglia il legno con la sega.",parts:[["Il falegname","sogg"],["taglia","pv"],["il legno","ogg"],["con la sega","mez"]],tags:["ogg","mez"]},
 {text:"Lucia dipinge con gli acquerelli.",parts:[["Lucia","sogg"],["dipinge","pv"],["con gli acquerelli","mez"]],tags:["mez"]},
 {text:"Il chirurgo opera con il bisturi.",parts:[["Il chirurgo","sogg"],["opera","pv"],["con il bisturi","mez"]],tags:["mez"]},
-{text:"Mia sorella va al lavoro in autobus.",parts:[["Mia sorella","sogg"],["va","pv"],["al lavoro","luo"],["in autobus","mez"]],tags:["luo","mez"]},
+{text:"Mia sorella va al lavoro in autobus.",parts:[["Mia sorella","sogg"],["va","pv"],["al lavoro","moto_a"],["in autobus","mez"]],tags:["moto_a","mez"]},
 {text:"Ho aperto la porta con la chiave.",parts:[["(Io)","sogg"],["Ho aperto","pv"],["la porta","ogg"],["con la chiave","mez"]],tags:["ogg","mez"]},
 // AGENTE
 {text:"La torta è stata preparata dalla nonna.",parts:[["La torta","sogg"],["è stata preparata","pv"],["dalla nonna","age"]],tags:["age"]},
 {text:"Il quadro è stato dipinto da Caravaggio.",parts:[["Il quadro","sogg"],["è stato dipinto","pv"],["da Caravaggio","age"]],tags:["age"]},
-{text:"L'albero è stato abbattuto dal vento.",parts:[["L'albero","sogg"],["è stato abbattuto","pv"],["dal vento","age"]],tags:["age"]},
+{text:"L'albero è stato abbattuto dal vento.",parts:[["L'albero","sogg"],["è stato abbattuto","pv"],["dal vento","cau_eff"]],tags:["cau_eff"]},
 {text:"La lettera è stata scritta dal direttore.",parts:[["La lettera","sogg"],["è stata scritta","pv"],["dal direttore","age"]],tags:["age"]},
 {text:"I ladri sono stati arrestati dalla polizia.",parts:[["I ladri","sogg"],["sono stati arrestati","pv"],["dalla polizia","age"]],tags:["age"]},
 {text:"Il gol è stato segnato dall'attaccante.",parts:[["Il gol","sogg"],["è stato segnato","pv"],["dall'attaccante","age"]],tags:["age"]},
-{text:"La casa è stata distrutta dall'incendio.",parts:[["La casa","sogg"],["è stata distrutta","pv"],["dall'incendio","age"]],tags:["age"]},
+{text:"La casa è stata distrutta dall'incendio.",parts:[["La casa","sogg"],["è stata distrutta","pv"],["dall'incendio","cau_eff"]],tags:["cau_eff"]},
 {text:"Il film è stato diretto da Fellini.",parts:[["Il film","sogg"],["è stato diretto","pv"],["da Fellini","age"]],tags:["age"]},
-{text:"La strada è stata allagata dalla pioggia.",parts:[["La strada","sogg"],["è stata allagata","pv"],["dalla pioggia","age"]],tags:["age"]},
+{text:"La strada è stata allagata dalla pioggia.",parts:[["La strada","sogg"],["è stata allagata","pv"],["dalla pioggia","cau_eff"]],tags:["cau_eff"]},
 {text:"Il paziente è stato operato dal chirurgo.",parts:[["Il paziente","sogg"],["è stato operato","pv"],["dal chirurgo","age"]],tags:["age"]},
 // COMPAGNIA
 {text:"Esco con gli amici.",parts:[["(Io)","sogg"],["Esco","pv"],["con gli amici","comp"]],tags:["comp"]},
 {text:"Marco passeggia con il cane.",parts:[["Marco","sogg"],["passeggia","pv"],["con il cane","comp"]],tags:["comp"]},
-{text:"Lucia va al cinema con la sorella.",parts:[["Lucia","sogg"],["va","pv"],["al cinema","luo"],["con la sorella","comp"]],tags:["luo","comp"]},
+{text:"Lucia va al cinema con la sorella.",parts:[["Lucia","sogg"],["va","pv"],["al cinema","moto_a"],["con la sorella","comp"]],tags:["moto_a","comp"]},
 {text:"Il bambino gioca con i compagni.",parts:[["Il bambino","sogg"],["gioca","pv"],["con i compagni","comp"]],tags:["comp"]},
 {text:"Il nonno cena con i nipoti.",parts:[["Il nonno","sogg"],["cena","pv"],["con i nipoti","comp"]],tags:["comp"]},
 {text:"Parto con tutta la famiglia.",parts:[["(Io)","sogg"],["Parto","pv"],["con tutta la famiglia","comp"]],tags:["comp"]},
@@ -582,7 +589,7 @@ var LOG_SENT=[
 {text:"Maria arriva con una valigia enorme.",parts:[["Maria","sogg"],["arriva","pv"],["con una valigia enorme","uni"]],tags:["uni"]},
 {text:"Il soldato marcia con lo zaino in spalla.",parts:[["Il soldato","sogg"],["marcia","pv"],["con lo zaino in spalla","uni"]],tags:["uni"]},
 {text:"Esco con il cappotto.",parts:[["(Io)","sogg"],["Esco","pv"],["con il cappotto","uni"]],tags:["uni"]},
-{text:"Lo studente va a scuola con lo zaino.",parts:[["Lo studente","sogg"],["va","pv"],["a scuola","luo"],["con lo zaino","uni"]],tags:["luo","uni"]},
+{text:"Lo studente va a scuola con lo zaino.",parts:[["Lo studente","sogg"],["va","pv"],["a scuola","moto_a"],["con lo zaino","uni"]],tags:["moto_a","uni"]},
 {text:"Il cuoco serve il piatto con il contorno.",parts:[["Il cuoco","sogg"],["serve","pv"],["il piatto","ogg"],["con il contorno","uni"]],tags:["ogg","uni"]},
 // ARGOMENTO
 {text:"Parliamo di politica.",parts:[["(Noi)","sogg"],["Parliamo","pv"],["di politica","arg"]],tags:["arg"]},
@@ -633,7 +640,7 @@ var LOG_SENT=[
 {text:"Marco è un ragazzo di quindici anni.",parts:[["Marco","sogg"],["è un ragazzo","pn"],["di quindici anni","eta"]],tags:["eta"]},
 {text:"Il nonno è morto a novant'anni.",parts:[["Il nonno","sogg"],["è morto","pv"],["a novant'anni","eta"]],tags:["eta"]},
 {text:"Lucia si è laureata a ventitré anni.",parts:[["Lucia","sogg"],["si è laureata","pv"],["a ventitré anni","eta"]],tags:["eta"]},
-{text:"Un bambino di cinque anni gioca nel parco.",parts:[["Un bambino","sogg"],["di cinque anni","eta"],["gioca","pv"],["nel parco","luo"]],tags:["eta","luo"]},
+{text:"Un bambino di cinque anni gioca nel parco.",parts:[["Un bambino","sogg"],["di cinque anni","eta"],["gioca","pv"],["nel parco","sta"]],tags:["eta","sta"]},
 // LIMITAZIONE
 {text:"Marco eccelle in matematica.",parts:[["Marco","sogg"],["eccelle","pv"],["in matematica","lim"]],tags:["lim"]},
 {text:"Lucia è brava nel disegno.",parts:[["Lucia","sogg"],["è brava","pn"],["nel disegno","lim"]],tags:["lim"]},
@@ -686,18 +693,18 @@ var LOG_SENT=[
 {text:"Le foglie cadono.",parts:[["Le foglie","sogg"],["cadono","pv"]],tags:[]},
 {text:"Il vento soffia.",parts:[["Il vento","sogg"],["soffia","pv"]],tags:[]},
 // MISTE
-{text:"Marco mangia una pizza al ristorante.",parts:[["Marco","sogg"],["mangia","pv"],["una pizza","ogg"],["al ristorante","luo"]],tags:["ogg","luo"]},
+{text:"Marco mangia una pizza al ristorante.",parts:[["Marco","sogg"],["mangia","pv"],["una pizza","ogg"],["al ristorante","sta"]],tags:["ogg","sta"]},
 {text:"Lucia studia con impegno per l'interrogazione.",parts:[["Lucia","sogg"],["studia","pv"],["con impegno","mod"],["per l'interrogazione","fin"]],tags:["mod","fin"]},
-{text:"Il treno parte dalla stazione alle otto.",parts:[["Il treno","sogg"],["parte","pv"],["dalla stazione","luo"],["alle otto","tem"]],tags:["luo","tem"]},
-{text:"La mamma cucina il pranzo in cucina.",parts:[["La mamma","sogg"],["cucina","pv"],["il pranzo","ogg"],["in cucina","luo"]],tags:["ogg","luo"]},
-{text:"Il nonno legge il giornale in giardino.",parts:[["Il nonno","sogg"],["legge","pv"],["il giornale","ogg"],["in giardino","luo"]],tags:["ogg","luo"]},
+{text:"Il treno parte dalla stazione alle otto.",parts:[["Il treno","sogg"],["parte","pv"],["dalla stazione","moto_da"],["alle otto","tem_det"]],tags:["moto_da","tem_det"]},
+{text:"La mamma cucina il pranzo in cucina.",parts:[["La mamma","sogg"],["cucina","pv"],["il pranzo","ogg"],["in cucina","sta"]],tags:["ogg","sta"]},
+{text:"Il nonno legge il giornale in giardino.",parts:[["Il nonno","sogg"],["legge","pv"],["il giornale","ogg"],["in giardino","sta"]],tags:["ogg","sta"]},
 {text:"Lucia scrive una lettera alla zia con la penna.",parts:[["Lucia","sogg"],["scrive","pv"],["una lettera","ogg"],["alla zia","ter"],["con la penna","mez"]],tags:["ogg","ter","mez"]},
-{text:"Ieri la nonna ha preparato una torta per i nipoti.",parts:[["Ieri","tem"],["la nonna","sogg"],["ha preparato","pv"],["una torta","ogg"],["per i nipoti","fin"]],tags:["tem","ogg","fin"]},
-{text:"Maria studia matematica in biblioteca ogni pomeriggio.",parts:[["Maria","sogg"],["studia","pv"],["matematica","ogg"],["in biblioteca","luo"],["ogni pomeriggio","tem"]],tags:["ogg","luo","tem"]},
+{text:"Ieri la nonna ha preparato una torta per i nipoti.",parts:[["Ieri","tem_det"],["la nonna","sogg"],["ha preparato","pv"],["una torta","ogg"],["per i nipoti","fin"]],tags:["tem_det","ogg","fin"]},
+{text:"Maria studia matematica in biblioteca ogni pomeriggio.",parts:[["Maria","sogg"],["studia","pv"],["matematica","ogg"],["in biblioteca","sta"],["ogni pomeriggio","tem_det"]],tags:["ogg","sta","tem_det"]},
 {text:"Lo zio arriva da Roma in aereo.",parts:[["Lo zio","sogg"],["arriva","pv"],["da Roma","ori"],["in aereo","mez"]],tags:["ori","mez"]},
 {text:"La squadra festeggia la vittoria con entusiasmo.",parts:[["La squadra","sogg"],["festeggia","pv"],["la vittoria","ogg"],["con entusiasmo","mod"]],tags:["ogg","mod"]},
 {text:"Nonostante il traffico arrivo in orario.",parts:[["Nonostante il traffico","con"],["(io)","sogg"],["arrivo","pv"],["in orario","mod"]],tags:["con","mod"]},
-{text:"Lucia va a Firenze per una mostra.",parts:[["Lucia","sogg"],["va","pv"],["a Firenze","luo"],["per una mostra","fin"]],tags:["luo","fin"]},
+{text:"Lucia va a Firenze per una mostra.",parts:[["Lucia","sogg"],["va","pv"],["a Firenze","moto_a"],["per una mostra","fin"]],tags:["moto_a","fin"]},
 // EXTRA OGGETTO
 {text:"Il bambino costruisce un castello di sabbia.",parts:[["Il bambino","sogg"],["costruisce","pv"],["un castello","ogg"],["di sabbia","mat"]],tags:["ogg","mat"]},
 {text:"La classe prepara uno spettacolo.",parts:[["La classe","sogg"],["prepara","pv"],["uno spettacolo","ogg"]],tags:["ogg"]},
@@ -706,16 +713,16 @@ var LOG_SENT=[
 {text:"Il dottore prescrive una cura al paziente.",parts:[["Il dottore","sogg"],["prescrive","pv"],["una cura","ogg"],["al paziente","ter"]],tags:["ogg","ter"]},
 {text:"Ho mostrato le foto ai miei genitori.",parts:[["(Io)","sogg"],["Ho mostrato","pv"],["le foto","ogg"],["ai miei genitori","ter"]],tags:["ogg","ter"]},
 // EXTRA LUOGO
-{text:"Il gatto si nasconde sotto il tavolo.",parts:[["Il gatto","sogg"],["si nasconde","pv"],["sotto il tavolo","luo"]],tags:["luo"]},
-{text:"I turisti camminano per le strade del centro.",parts:[["I turisti","sogg"],["camminano","pv"],["per le strade del centro","luo"]],tags:["luo"]},
+{text:"Il gatto si nasconde sotto il tavolo.",parts:[["Il gatto","sogg"],["si nasconde","pv"],["sotto il tavolo","sta"]],tags:["sta"]},
+{text:"I turisti camminano per le strade del centro.",parts:[["I turisti","sogg"],["camminano","pv"],["per le strade del centro","moto_per"]],tags:["moto_per"]},
 // EXTRA TEMPO
-{text:"Ogni mattina faccio colazione al bar.",parts:[["Ogni mattina","tem"],["(io)","sogg"],["faccio","pv"],["colazione","ogg"],["al bar","luo"]],tags:["tem","ogg","luo"]},
-{text:"La domenica il nonno prepara il ragù.",parts:[["La domenica","tem"],["il nonno","sogg"],["prepara","pv"],["il ragù","ogg"]],tags:["tem","ogg"]},
+{text:"Ogni mattina faccio colazione al bar.",parts:[["Ogni mattina","tem_det"],["(io)","sogg"],["faccio","pv"],["colazione","ogg"],["al bar","sta"]],tags:["tem_det","ogg","sta"]},
+{text:"La domenica il nonno prepara il ragù.",parts:[["La domenica","tem_det"],["il nonno","sogg"],["prepara","pv"],["il ragù","ogg"]],tags:["tem_det","ogg"]},
 // EXTRA CAUSA
 {text:"Marco ride per lo scherzo.",parts:[["Marco","sogg"],["ride","pv"],["per lo scherzo","cau"]],tags:["cau"]},
 // EXTRA FINE
 {text:"La professoressa prepara il materiale per la lezione.",parts:[["La professoressa","sogg"],["prepara","pv"],["il materiale","ogg"],["per la lezione","fin"]],tags:["ogg","fin"]},
-{text:"Mi alleno ogni giorno per la maratona.",parts:[["(Io)","sogg"],["Mi alleno","pv"],["ogni giorno","tem"],["per la maratona","fin"]],tags:["tem","fin"]},
+{text:"Mi alleno ogni giorno per la maratona.",parts:[["(Io)","sogg"],["Mi alleno","pv"],["ogni giorno","tem_det"],["per la maratona","fin"]],tags:["tem_det","fin"]},
 // EXTRA MODO
 {text:"Il treno corre a grande velocità.",parts:[["Il treno","sogg"],["corre","pv"],["a grande velocità","mod"]],tags:["mod"]},
 // EXTRA MEZZO
@@ -767,14 +774,14 @@ var LOG_SENT=[
 // EXTRA PREDICATIVO OGGETTO
 {text:"Considero Marco un vero amico.",parts:[["(Io)","sogg"],["Considero","pv"],["Marco","ogg"],["un vero amico","pred_ogg"]],tags:["ogg","pred_ogg"]},
 // EXTRA MISTE
-{text:"Il cane corre nel prato con il padrone.",parts:[["Il cane","sogg"],["corre","pv"],["nel prato","luo"],["con il padrone","comp"]],tags:["luo","comp"]},
-{text:"Marco parte da Roma in treno alle sei.",parts:[["Marco","sogg"],["parte","pv"],["da Roma","all"],["in treno","mez"],["alle sei","tem"]],tags:["all","mez","tem"]},
-{text:"Il papà legge una storia al bambino prima di dormire.",parts:[["Il papà","sogg"],["legge","pv"],["una storia","ogg"],["al bambino","ter"],["prima di dormire","tem"]],tags:["ogg","ter","tem"]},
+{text:"Il cane corre nel prato con il padrone.",parts:[["Il cane","sogg"],["corre","pv"],["nel prato","sta"],["con il padrone","comp"]],tags:["sta","comp"]},
+{text:"Marco parte da Roma in treno alle sei.",parts:[["Marco","sogg"],["parte","pv"],["da Roma","all"],["in treno","mez"],["alle sei","tem_det"]],tags:["all","mez","tem_det"]},
+{text:"Il papà legge una storia al bambino prima di dormire.",parts:[["Il papà","sogg"],["legge","pv"],["una storia","ogg"],["al bambino","ter"],["prima di dormire","tem_det"]],tags:["ogg","ter","tem_det"]},
 {text:"La zia cucina con amore per tutta la famiglia.",parts:[["La zia","sogg"],["cucina","pv"],["con amore","mod"],["per tutta la famiglia","van"]],tags:["mod","van"]},
 {text:"Il libro di avventure è stato letto dai ragazzi con entusiasmo.",parts:[["Il libro di avventure","sogg"],["è stato letto","pv"],["dai ragazzi","age"],["con entusiasmo","mod"]],tags:["age","mod"]},
 {text:"Secondo gli esperti il problema è grave.",parts:[["Secondo gli esperti","lim"],["il problema","sogg"],["è grave","pn"]],tags:["lim"]},
-{text:"Per la pioggia la gita è stata rimandata a sabato.",parts:[["Per la pioggia","cau"],["la gita","sogg"],["è stata rimandata","pv"],["a sabato","tem"]],tags:["cau","tem"]},
-{text:"I compagni di classe giocano a calcio nel cortile dopo pranzo.",parts:[["I compagni di classe","sogg"],["giocano","pv"],["a calcio","ogg"],["nel cortile","luo"],["dopo pranzo","tem"]],tags:["ogg","luo","tem"]},
+{text:"Per la pioggia la gita è stata rimandata a sabato.",parts:[["Per la pioggia","cau"],["la gita","sogg"],["è stata rimandata","pv"],["a sabato","tem_det"]],tags:["cau","tem_det"]},
+{text:"I compagni di classe giocano a calcio nel cortile dopo pranzo.",parts:[["I compagni di classe","sogg"],["giocano","pv"],["a calcio","ogg"],["nel cortile","sta"],["dopo pranzo","tem_det"]],tags:["ogg","sta","tem_det"]},
 {text:"La nonna racconta una fiaba ai nipoti con dolcezza.",parts:[["La nonna","sogg"],["racconta","pv"],["una fiaba","ogg"],["ai nipoti","ter"],["con dolcezza","mod"]],tags:["ogg","ter","mod"]},
 // EXTRA SOGGETTO + PV
 {text:"La campana suona.",parts:[["La campana","sogg"],["suona","pv"]],tags:[]},
@@ -784,7 +791,53 @@ var LOG_SENT=[
 // EXTRA PN PURO
 {text:"Il compito è facile.",parts:[["Il compito","sogg"],["è facile","pn"]],tags:[]},
 {text:"La giornata è stata lunga.",parts:[["La giornata","sogg"],["è stata lunga","pn"]],tags:[]},
-{text:"Marco è un bravo ragazzo.",parts:[["Marco","sogg"],["è un bravo ragazzo","pn"]],tags:[]}
+{text:"Marco è un bravo ragazzo.",parts:[["Marco","sogg"],["è un bravo ragazzo","pn"]],tags:[]},
+// MOTO DA LUOGO (nuove)
+{text:"Il treno proviene da Napoli.",parts:[["Il treno","sogg"],["proviene","pv"],["da Napoli","moto_da"]],tags:["moto_da"]},
+{text:"I ragazzi escono dalla scuola.",parts:[["I ragazzi","sogg"],["escono","pv"],["dalla scuola","moto_da"]],tags:["moto_da"]},
+{text:"Il fumo esce dal camino.",parts:[["Il fumo","sogg"],["esce","pv"],["dal camino","moto_da"]],tags:["moto_da"]},
+{text:"Lucia torna dal supermercato.",parts:[["Lucia","sogg"],["torna","pv"],["dal supermercato","moto_da"]],tags:["moto_da"]},
+{text:"Il pallone rotola giù dalla collina.",parts:[["Il pallone","sogg"],["rotola giù","pv"],["dalla collina","moto_da"]],tags:["moto_da"]},
+{text:"Marco scende dall'autobus alla fermata.",parts:[["Marco","sogg"],["scende","pv"],["dall'autobus","moto_da"],["alla fermata","sta"]],tags:["moto_da","sta"]},
+{text:"Gli studenti tornano da scuola in bicicletta.",parts:[["Gli studenti","sogg"],["tornano","pv"],["da scuola","moto_da"],["in bicicletta","mez"]],tags:["moto_da","mez"]},
+// MOTO PER LUOGO (nuove)
+{text:"Il fiume scorre attraverso la pianura.",parts:[["Il fiume","sogg"],["scorre","pv"],["attraverso la pianura","moto_per"]],tags:["moto_per"]},
+{text:"La processione passa per il centro storico.",parts:[["La processione","sogg"],["passa","pv"],["per il centro storico","moto_per"]],tags:["moto_per"]},
+{text:"Il treno passa attraverso la galleria.",parts:[["Il treno","sogg"],["passa","pv"],["attraverso la galleria","moto_per"]],tags:["moto_per"]},
+{text:"I corridori corrono per le vie della città.",parts:[["I corridori","sogg"],["corrono","pv"],["per le vie della città","moto_per"]],tags:["moto_per"]},
+{text:"Il vento soffia attraverso le finestre aperte.",parts:[["Il vento","sogg"],["soffia","pv"],["attraverso le finestre aperte","moto_per"]],tags:["moto_per"]},
+// TEMPO CONTINUATO (nuove)
+{text:"Ho studiato per tre ore.",parts:[["(Io)","sogg"],["Ho studiato","pv"],["per tre ore","tem_con"]],tags:["tem_con"]},
+{text:"La pioggia è durata tutta la notte.",parts:[["La pioggia","sogg"],["è durata","pv"],["tutta la notte","tem_con"]],tags:["tem_con"]},
+{text:"Abbiamo camminato per due ore nel bosco.",parts:[["(Noi)","sogg"],["Abbiamo camminato","pv"],["per due ore","tem_con"],["nel bosco","sta"]],tags:["tem_con","sta"]},
+{text:"Il cantiere resta aperto per sei mesi.",parts:[["Il cantiere","sogg"],["resta aperto","pn"],["per sei mesi","tem_con"]],tags:["tem_con"]},
+{text:"Marco ha dormito per tutto il pomeriggio.",parts:[["Marco","sogg"],["ha dormito","pv"],["per tutto il pomeriggio","tem_con"]],tags:["tem_con"]},
+{text:"La partita dura novanta minuti.",parts:[["La partita","sogg"],["dura","pv"],["novanta minuti","tem_con"]],tags:["tem_con"]},
+// CAUSA EFFICIENTE (nuove)
+{text:"La barca è stata trascinata dalla corrente.",parts:[["La barca","sogg"],["è stata trascinata","pv"],["dalla corrente","cau_eff"]],tags:["cau_eff"]},
+{text:"Il tetto è stato danneggiato dalla grandine.",parts:[["Il tetto","sogg"],["è stato danneggiato","pv"],["dalla grandine","cau_eff"]],tags:["cau_eff"]},
+{text:"Il raccolto è stato distrutto dal gelo.",parts:[["Il raccolto","sogg"],["è stato distrutto","pv"],["dal gelo","cau_eff"]],tags:["cau_eff"]},
+{text:"La spiaggia è stata erosa dalle onde.",parts:[["La spiaggia","sogg"],["è stata erosa","pv"],["dalle onde","cau_eff"]],tags:["cau_eff"]},
+// FRASI NON LINEARI — inversioni, pronomi, trappole
+{text:"A me piace molto la musica.",parts:[["A me","ter"],["piace","pv"],["molto","mod"],["la musica","sogg"]],tags:["ter","mod"]},
+{text:"Gli hanno regalato un orologio per il compleanno.",parts:[["(Essi)","sogg"],["Gli","ter"],["hanno regalato","pv"],["un orologio","ogg"],["per il compleanno","cau"]],tags:["ter","ogg","cau"]},
+{text:"Ce lo ha detto la professoressa.",parts:[["la professoressa","sogg"],["Ce","ter"],["lo","ogg"],["ha detto","pv"]],tags:["ter","ogg"]},
+{text:"Di questo problema si è discusso a lungo.",parts:[["Di questo problema","arg"],["si è discusso","pv"],["a lungo","tem_con"]],tags:["arg","tem_con"]},
+{text:"In classe non si parla ad alta voce.",parts:[["In classe","sta"],["non","mod"],["si parla","pv"],["ad alta voce","mod"]],tags:["sta","mod"]},
+{text:"Al mercato la mamma compra la frutta fresca.",parts:[["Al mercato","sta"],["la mamma","sogg"],["compra","pv"],["la frutta fresca","ogg"]],tags:["sta","ogg"]},
+{text:"Dalla finestra si vede il mare.",parts:[["Dalla finestra","moto_da"],["si vede","pv"],["il mare","ogg"]],tags:["moto_da","ogg"]},
+{text:"Mi è stato consegnato il pacco dal corriere.",parts:[["Mi","ter"],["è stato consegnato","pv"],["il pacco","sogg"],["dal corriere","age"]],tags:["ter","age"]},
+{text:"Di sera la piazza si riempie di gente.",parts:[["Di sera","tem_det"],["la piazza","sogg"],["si riempie","pv"],["di gente","abb"]],tags:["tem_det","abb"]},
+{text:"Non gli è piaciuto il regalo.",parts:[["il regalo","sogg"],["Non","mod"],["gli","ter"],["è piaciuto","pv"]],tags:["ter"]},
+{text:"Ci vuole pazienza con i bambini.",parts:[["pazienza","sogg"],["Ci vuole","pv"],["con i bambini","comp"]],tags:["comp"]},
+{text:"Per strada ho incontrato il mio vecchio professore.",parts:[["Per strada","sta"],["(io)","sogg"],["ho incontrato","pv"],["il mio vecchio professore","ogg"]],tags:["sta","ogg"]},
+{text:"In giardino fioriscono le rose a primavera.",parts:[["In giardino","sta"],["fioriscono","pv"],["le rose","sogg"],["a primavera","tem_det"]],tags:["sta","tem_det"]},
+{text:"Te lo ripeto per l'ultima volta.",parts:[["(Io)","sogg"],["Te","ter"],["lo","ogg"],["ripeto","pv"],["per l'ultima volta","tem_det"]],tags:["ter","ogg","tem_det"]},
+{text:"Sotto il ponte scorre il fiume.",parts:[["Sotto il ponte","sta"],["scorre","pv"],["il fiume","sogg"]],tags:["sta"]},
+{text:"Dal fruttivendolo la mamma ha comprato le mele.",parts:[["Dal fruttivendolo","moto_da"],["la mamma","sogg"],["ha comprato","pv"],["le mele","ogg"]],tags:["moto_da","ogg"]},
+{text:"A tutti gli studenti è stato distribuito il materiale.",parts:[["A tutti gli studenti","ter"],["è stato distribuito","pv"],["il materiale","sogg"]],tags:["ter"]},
+{text:"Con grande fatica lo scalatore ha raggiunto la vetta.",parts:[["Con grande fatica","mod"],["lo scalatore","sogg"],["ha raggiunto","pv"],["la vetta","ogg"]],tags:["mod","ogg"]},
+{text:"Ne abbiamo parlato a lungo in riunione.",parts:[["(Noi)","sogg"],["Ne","arg"],["abbiamo parlato","pv"],["a lungo","tem_con"],["in riunione","sta"]],tags:["arg","tem_con","sta"]}
 ];
 
 // ============================================================
@@ -945,6 +998,44 @@ var GRAMM_VERBS=[
 // ============================================================
 //  ANALISI LOGICA — ENGINE
 // ============================================================
+var CAT_HELP={
+sogg:"Chi compie o subisce l'azione. Risponde a: chi? che cosa?",
+pv:"Il verbo che esprime l'azione o lo stato del soggetto.",
+pn:"Formato da copula (essere/sembrare/diventare) + nome o aggettivo.",
+ogg:"Chi o che cosa subisce l'azione. Risponde a: chi? che cosa? (senza preposizione).",
+pred_sogg:"Aggettivo o nome che si riferisce al soggetto tramite verbi come sembrare, diventare, essere eletto.",
+pred_ogg:"Aggettivo o nome che si riferisce al complemento oggetto tramite verbi come considerare, eleggere, chiamare.",
+ter:"A chi è destinata l'azione. Risponde a: a chi? a che cosa?",
+spec:"Precisa il significato di un nome. Risponde a: di chi? di che cosa?",
+sta:"Dove si svolge l'azione (senza spostamento). Risponde a: dove? in quale luogo?",
+moto_a:"Verso dove ci si muove. Risponde a: verso dove? in quale direzione?",
+moto_da:"Da dove si proviene o ci si allontana. Risponde a: da dove?",
+moto_per:"Attraverso quale luogo si passa. Risponde a: per dove? attraverso dove?",
+tem_det:"Quando avviene l'azione (un momento preciso). Risponde a: quando? in che momento?",
+tem_con:"Per quanto tempo dura l'azione. Risponde a: per quanto tempo?",
+cau:"Il motivo dell'azione. Risponde a: perché? per quale motivo?",
+fin:"Lo scopo dell'azione. Risponde a: per quale fine? a che scopo?",
+mod:"Come si svolge l'azione. Risponde a: come? in che modo?",
+mez:"Lo strumento usato. Risponde a: per mezzo di che cosa? con che cosa?",
+age:"Chi compie l'azione nella forma passiva (essere animato). Risponde a: da chi?",
+cau_eff:"Cosa provoca l'azione nella forma passiva (cosa/forza naturale). Risponde a: da che cosa?",
+comp:"Con chi si svolge l'azione (persona o animale). Risponde a: con chi? insieme a chi?",
+uni:"Con quale oggetto. Risponde a: con che cosa? insieme a che cosa?",
+arg:"Di che cosa si parla. Risponde a: di che cosa? su quale argomento?",
+mat:"Di quale materiale è fatto. Risponde a: di che materiale? di che cosa?",
+qual:"Una caratteristica fisica o morale. Risponde a: con quale qualità?",
+den:"Il nome proprio che precisa un nome comune. Risponde a: di quale nome?",
+par:"Indica il tutto di cui si considera una parte. Risponde a: tra chi? fra che cosa?",
+ori:"Da dove si proviene (nascita, discendenza). Risponde a: da dove? da chi?",
+all:"Da dove ci si allontana o separa. Risponde a: da dove? da chi?",
+eta:"L'età di qualcuno o qualcosa. Risponde a: di quanti anni? di che età?",
+lim:"In quale ambito vale l'affermazione. Risponde a: rispetto a che cosa? in che ambito?",
+van:"A vantaggio o svantaggio di chi. Risponde a: a favore di chi? per chi?",
+par2:"Il secondo termine di paragone. Risponde a: rispetto a chi? più di che cosa?",
+con:"Nonostante un ostacolo, l'azione avviene. Risponde a: nonostante che cosa?",
+abb:"Di cosa c'è abbondanza. Risponde a: pieno di che cosa?",
+pri:"Di cosa c'è mancanza. Risponde a: privo di che cosa?"
+};
 var LS={questions:[],qi:0,score:0,results:[],selectedPart:null,assignments:{},activeCats:[],replayMode:false};
 
 function openLogica(){show('scrLogHome');buildLogTopics()}
@@ -1056,7 +1147,8 @@ function logCheckAnswer(){
     var correctName='';LOG_CATS.forEach(function(c){if(c.id===correctId)correctName=c.name});
     details.push({text:p[0],correct:correctName,given:given?given.name:'—',ok:isOk});
     if(!isOk){chips[i].classList.add('wrong');chips[i].classList.remove('assigned');
-      var lbl=chips[i].querySelector('.label');if(lbl){lbl.textContent='✗ '+correctName;lbl.style.color='var(--red)'}}
+      var lbl=chips[i].querySelector('.label');if(lbl){lbl.textContent='✗ '+correctName;lbl.style.color='var(--red)'}
+      var help=CAT_HELP[correctId];if(help){var tip=document.createElement('div');tip.className='cat-tip';tip.textContent=help;chips[i].appendChild(tip)}}
   });
   if(allCorrect)LS.score++;
   LS.results.push({sentence:q,allCorrect:allCorrect,details:details});
@@ -1064,7 +1156,7 @@ function logCheckAnswer(){
   chips.forEach(function(c){c.onclick=null;c.style.cursor='default'});
   document.querySelectorAll('#logCatGrid .cat-btn').forEach(function(b){b.disabled=true});
   document.getElementById('btnLogCheck').disabled=true;
-  setTimeout(function(){LS.qi++;if(LS.qi<LS.questions.length)logRenderQ();else logShowResults()},allCorrect?1200:2500);
+  setTimeout(function(){LS.qi++;if(LS.qi<LS.questions.length)logRenderQ();else logShowResults()},allCorrect?1200:3500);
 }
 function logShowResults(){
   show('scrLogResults');
@@ -1077,7 +1169,10 @@ function logShowResults(){
     var div=document.createElement('div');div.className='review-item'+(r.allCorrect?' correct':'');
     var h='<div class="review-sentence">'+r.sentence.text+'</div>';
     if(!r.allCorrect){h+='<div class="review-detail">';
-      r.details.forEach(function(d){if(!d.ok)h+='<b>'+d.text+'</b>: <span class="wrong-text">'+d.given+'</span> → <span class="right">'+d.correct+'</span><br>'});
+      r.details.forEach(function(d){if(!d.ok){h+='<b>'+d.text+'</b>: <span class="wrong-text">'+d.given+'</span> → <span class="right">'+d.correct+'</span>';
+        var cid='';LOG_CATS.forEach(function(c){if(c.name===d.correct)cid=c.id});
+        if(cid&&CAT_HELP[cid])h+='<div class="review-tip">'+CAT_HELP[cid]+'</div>';
+        h+='<br>'}});
       h+='</div>';}
     div.innerHTML=h;rl.appendChild(div);
   });
