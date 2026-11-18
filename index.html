@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Analisi Logica e Grammaticale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Literata:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg1:#0f172a;--bg2:#1e1b4b;--card:#1e293b;--card2:#334155;--text:#e2e8f0;--text2:#94a3b8;--accent:#818cf8;--accent2:#6366f1;--green:#34d399;--red:#f87171;--orange:#fbbf24;--radius:14px;--font:'DM Sans',sans-serif;--serif:'Literata',serif;--mono:'Space Mono',monospace}
+html,body{min-height:100vh;font-family:var(--font);background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text);-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+.container{max-width:820px;margin:0 auto;padding:16px}
+h1{font-size:1.6rem;font-weight:700;text-align:center;margin-bottom:4px}
+h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
+.subtitle{text-align:center;color:var(--text2);font-size:.9rem;margin-bottom:20px}
+.screen{display:none}.screen.active{display:block}
+.section-label{text-align:center;color:var(--text2);font-size:.8rem;margin:12px 0 8px;font-weight:600}
+
+/* Main menu cards */
+.menu-cards{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:24px 0}
+.menu-card{background:var(--card);border:2px solid var(--card2);border-radius:var(--radius);padding:28px 24px;text-align:center;cursor:pointer;transition:all .2s;width:280px;user-select:none;-webkit-user-select:none}
+.menu-card:active{transform:scale(.97)}
+.menu-card:hover{border-color:var(--accent)}
+.menu-card .mc-icon{font-size:2.5rem;margin-bottom:10px}
+.menu-card .mc-title{font-size:1.15rem;font-weight:700;margin-bottom:6px}
+.menu-card .mc-desc{font-size:.82rem;color:var(--text2);line-height:1.5}
+.menu-card .mc-badge{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600;background:rgba(129,140,248,.15);color:var(--accent)}
+
+/* Topic selector */
+.topic-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}
+.topic-btn{padding:8px 14px;border-radius:10px;border:2px solid var(--card2);background:var(--card);color:var(--text);font-family:var(--font);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;user-select:none;-webkit-user-select:none}
+.topic-btn.always{border-color:var(--accent);background:rgba(129,140,248,.15);cursor:default;opacity:.85}
+.topic-btn.selected{border-color:var(--green);background:rgba(52,211,153,.15);color:var(--green)}
+.topic-btn:not(.always):not(.selected):active{transform:scale(.96)}
+.topic-group{width:100%;margin-top:10px}
+.topic-group-label{font-size:.75rem;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.8px;text-align:center;margin-bottom:6px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:var(--radius);border:none;font-family:var(--font);font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s;user-select:none;-webkit-user-select:none}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.btn-primary:active{transform:scale(.96)}
+.btn-secondary{background:var(--card2);color:var(--text)}
+.btn-secondary:active{transform:scale(.96)}
+.btn-sm{padding:10px 18px;font-size:.85rem}
+.btn:disabled{opacity:.4;pointer-events:none}
+.btn-row{display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+
+/* Progress bar */
+.progress-bar{width:100%;height:8px;background:var(--card);border-radius:4px;margin:12px 0;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:4px;transition:width .4s}
+.progress-text{text-align:center;font-family:var(--mono);font-size:.8rem;color:var(--text2);margin-bottom:8px}
+
+/* Sentence display */
+.sentence-box{background:var(--card);border-radius:var(--radius);padding:20px;margin:16px 0;min-height:80px}
+.sentence-text{font-family:var(--serif);font-size:1.2rem;line-height:1.8;text-align:center}
+.parts-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:20px 0}
+.part-chip{padding:10px 16px;border-radius:10px;border:2px solid var(--card2);background:var(--card);font-family:var(--serif);font-size:1rem;cursor:pointer;transition:all .2s;user-select:none;-webkit-user-select:none;text-align:center}
+.part-chip.selected{border-color:var(--accent);background:rgba(129,140,248,.2);transform:scale(1.04)}
+.part-chip.assigned{border-color:var(--green);background:rgba(52,211,153,.12);color:var(--green);cursor:default}
+.part-chip.wrong{border-color:var(--red);background:rgba(248,113,113,.12);color:var(--red)}
+.part-chip .label{display:block;font-family:var(--font);font-size:.65rem;font-weight:600;margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+
+/* Category buttons */
+.cat-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:12px 0}
+.cat-btn{padding:7px 12px;border-radius:8px;border:2px solid var(--card2);background:var(--card);color:var(--text);font-family:var(--font);font-size:.78rem;font-weight:500;cursor:pointer;transition:all .15s;user-select:none;-webkit-user-select:none}
+.cat-btn:active{transform:scale(.95)}
+.cat-btn.highlight{border-color:var(--accent);background:rgba(129,140,248,.15)}
+.cat-btn.cat-selected{border-color:var(--green);background:rgba(52,211,153,.15);color:var(--green)}
+.cat-btn.cat-wrong{border-color:var(--red);color:var(--red)}
+.cat-btn.cat-correct{border-color:var(--green);color:var(--green)}
+
+/* Verb analysis - step groups */
+.step-group{background:var(--card);border-radius:var(--radius);padding:14px;margin:10px 0}
+.step-group-label{font-size:.75rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.step-group .cat-grid{margin:0}
+.verb-highlight{color:var(--accent);font-weight:600;font-style:italic}
+
+/* Score card */
+.score-card{background:var(--card);border-radius:var(--radius);padding:24px;text-align:center;margin:20px 0}
+.score-big{font-family:var(--mono);font-size:3rem;font-weight:700;color:var(--green)}
+.score-big.medium{color:var(--orange)}
+.score-big.low{color:var(--red)}
+.score-label{color:var(--text2);font-size:.9rem;margin-top:4px}
+
+/* Review list */
+.review-item{background:var(--card);border-radius:var(--radius);padding:16px;margin:10px 0;border-left:4px solid var(--red)}
+.review-item.correct{border-left-color:var(--green)}
+.review-sentence{font-family:var(--serif);font-size:1rem;margin-bottom:8px}
+.review-detail{font-size:.85rem;color:var(--text2);line-height:1.6}
+.review-detail span.right{color:var(--green)}
+.review-detail span.wrong-text{color:var(--red);text-decoration:line-through}
+
+/* Feedback overlay */
+.feedback{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:var(--card);border-radius:20px;padding:32px 40px;text-align:center;z-index:100;transition:transform .3s;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.feedback.show{transform:translate(-50%,-50%) scale(1)}
+.feedback .icon{font-size:3rem;margin-bottom:8px}
+.feedback .msg{font-size:1.1rem;font-weight:600}
+
+/* Back button */
+.back-btn{background:none;border:none;color:var(--text2);font-family:var(--font);font-size:.9rem;cursor:pointer;padding:8px 0;margin-bottom:8px;display:inline-flex;align-items:center;gap:4px}
+.back-btn:hover{color:var(--text)}
+
+/* Responsive */
+@media(max-width:600px){
+  .container{padding:12px}
+  h1{font-size:1.3rem}
+  .sentence-text{font-size:1.05rem}
+  .part-chip{padding:8px 12px;font-size:.9rem}
+  .cat-btn{padding:6px 10px;font-size:.72rem}
+  .topic-btn{padding:7px 11px;font-size:.78rem}
+  .btn{padding:12px 22px;font-size:.9rem}
+  .menu-card{width:100%;padding:20px 18px}
+  .menu-card .mc-icon{font-size:2rem}
+  .step-group{padding:10px}
+}
+@media(max-width:380px){
+  h1{font-size:1.15rem}
+  .sentence-text{font-size:.95rem}
+  .part-chip{padding:6px 10px;font-size:.85rem}
+  .cat-btn{padding:5px 8px;font-size:.68rem}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== MAIN MENU ========== -->
+<div class="screen active" id="scrMenu">
+  <h1>📝 Analisi Logica e Grammaticale</h1>
+  <p class="subtitle">Scegli la sezione</p>
+  <div class="menu-cards">
+    <div class="menu-card" onclick="openLogica()">
+      <div class="mc-icon">🔍</div>
+      <div class="mc-title">Analisi Logica</div>
+      <div class="mc-desc">Soggetto, predicato e complementi — identifica la funzione di ogni sintagma nella frase</div>
+      <div class="mc-badge">287 frasi · 31 categorie</div>
+    </div>
+    <div class="menu-card" onclick="openGramm()">
+      <div class="mc-icon">📖</div>
+      <div class="mc-title">Analisi Grammaticale</div>
+      <div class="mc-desc">Analizza le singole parole — coniugazione, modo, tempo, persona del verbo</div>
+      <div class="mc-badge">Il verbo · 120 forme verificate</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ANALISI LOGICA: Topic Selection ========== -->
+<div class="screen" id="scrLogHome">
+  <button class="back-btn" onclick="goMainMenu()">← Menu principale</button>
+  <h1>🔍 Analisi Logica</h1>
+  <p class="subtitle">Seleziona gli argomenti da esercitare</p>
+  <p class="section-label">Sempre attivi:</p>
+  <div class="topic-grid" id="alwaysTopics"></div>
+  <p class="section-label" style="margin-top:16px">Seleziona i complementi:</p>
+  <div id="selectTopics"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="toggleAllLog()">Seleziona tutti</button>
+    <button class="btn btn-primary" id="btnStartLog" onclick="startLogica()">Inizia ▶</button>
+  </div>
+</div>
+
+<!-- ========== ANALISI LOGICA: Game ========== -->
+<div class="screen" id="scrLogGame">
+  <div class="progress-text" id="logProgText">1 / 10</div>
+  <div class="progress-bar"><div class="progress-fill" id="logProgFill"></div></div>
+  <div class="sentence-box">
+    <div class="sentence-text" id="logSentText"></div>
+  </div>
+  <p style="text-align:center;color:var(--text2);font-size:.8rem;margin-bottom:6px">Tocca un sintagma, poi assegna la funzione:</p>
+  <div class="parts-row" id="logPartsRow"></div>
+  <div class="cat-grid" id="logCatGrid"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="logResetCurrent()">↺ Resetta</button>
+    <button class="btn btn-primary" id="btnLogCheck" onclick="logCheckAnswer()" disabled>Verifica ✓</button>
+  </div>
+</div>
+
+<!-- ========== ANALISI LOGICA: Results ========== -->
+<div class="screen" id="scrLogResults">
+  <h1>Risultati — Analisi Logica</h1>
+  <div class="score-card">
+    <div class="score-big" id="logScoreBig"></div>
+    <div class="score-label" id="logScoreLbl"></div>
+  </div>
+  <div id="logReviewList"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="logReplayErrors()">Ripassa errori</button>
+    <button class="btn btn-primary" onclick="openLogica()">Nuova sessione ▶</button>
+  </div>
+</div>
+
+<!-- ========== ANALISI GRAMMATICALE: Topic Selection ========== -->
+<div class="screen" id="scrGrammHome">
+  <button class="back-btn" onclick="goMainMenu()">← Menu principale</button>
+  <h1>📖 Analisi Grammaticale</h1>
+  <p class="subtitle">Seleziona i modi verbali da esercitare</p>
+  <p class="section-label">Scegli i modi:</p>
+  <div class="topic-grid" id="grammTopics"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="toggleAllGramm()">Seleziona tutti</button>
+    <button class="btn btn-primary" id="btnStartGramm" onclick="startGramm()">Inizia ▶</button>
+  </div>
+</div>
+
+<!-- ========== ANALISI GRAMMATICALE: Game ========== -->
+<div class="screen" id="scrGrammGame">
+  <div class="progress-text" id="grammProgText">1 / 10</div>
+  <div class="progress-bar"><div class="progress-fill" id="grammProgFill"></div></div>
+  <div class="sentence-box">
+    <div class="sentence-text" id="grammSentText"></div>
+  </div>
+  <div id="grammSteps"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="grammResetCurrent()">↺ Resetta</button>
+    <button class="btn btn-primary" id="btnGrammCheck" onclick="grammCheckAnswer()" disabled>Verifica ✓</button>
+  </div>
+</div>
+
+<!-- ========== ANALISI GRAMMATICALE: Results ========== -->
+<div class="screen" id="scrGrammResults">
+  <h1>Risultati — Analisi Grammaticale</h1>
+  <div class="score-card">
+    <div class="score-big" id="grammScoreBig"></div>
+    <div class="score-label" id="grammScoreLbl"></div>
+  </div>
+  <div id="grammReviewList"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="grammReplayErrors()">Ripassa errori</button>
+    <button class="btn btn-primary" onclick="openGramm()">Nuova sessione ▶</button>
+  </div>
+</div>
+
+</div>
+<div class="feedback" id="fb"><div class="icon" id="fbIcon"></div><div class="msg" id="fbMsg"></div></div>
+
+<script>
+// ============================================================
+//  SHARED UTILITIES
+// ============================================================
+var QXL=10;
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function show(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+function showFeedback(icon,msg){var fb=document.getElementById('fb');document.getElementById('fbIcon').textContent=icon;document.getElementById('fbMsg').textContent=msg;fb.classList.add('show');setTimeout(function(){fb.classList.remove('show')},1000)}
+function goMainMenu(){show('scrMenu')}
+
+// ============================================================
+//  ANALISI LOGICA — DATA
+// ============================================================
+var LOG_CATS=[
+{id:"sogg",name:"Soggetto",always:true,group:"base"},
+{id:"pv",name:"Predicato verbale",always:true,group:"base"},
+{id:"pn",name:"Predicato nominale",always:true,group:"base"},
+{id:"ogg",name:"Compl. oggetto",always:false,group:"diretti"},
+{id:"pred_sogg",name:"Predicativo del soggetto",always:false,group:"diretti"},
+{id:"pred_ogg",name:"Predicativo dell'oggetto",always:false,group:"diretti"},
+{id:"ter",name:"Compl. di termine",always:false,group:"indiretti"},
+{id:"spec",name:"Compl. di specificazione",always:false,group:"indiretti"},
+{id:"luo",name:"Compl. di luogo",always:false,group:"indiretti"},
+{id:"tem",name:"Compl. di tempo",always:false,group:"indiretti"},
+{id:"cau",name:"Compl. di causa",always:false,group:"indiretti"},
+{id:"fin",name:"Compl. di fine",always:false,group:"indiretti"},
+{id:"mod",name:"Compl. di modo",always:false,group:"indiretti"},
+{id:"mez",name:"Compl. di mezzo",always:false,group:"indiretti"},
+{id:"age",name:"Compl. d'agente",always:false,group:"avanzati"},
+{id:"comp",name:"Compl. di compagnia",always:false,group:"avanzati"},
+{id:"uni",name:"Compl. di unione",always:false,group:"avanzati"},
+{id:"arg",name:"Compl. di argomento",always:false,group:"avanzati"},
+{id:"mat",name:"Compl. di materia",always:false,group:"avanzati"},
+{id:"qual",name:"Compl. di qualità",always:false,group:"avanzati"},
+{id:"den",name:"Compl. di denominazione",always:false,group:"avanzati"},
+{id:"par",name:"Compl. partitivo",always:false,group:"avanzati"},
+{id:"ori",name:"Compl. di origine",always:false,group:"avanzati"},
+{id:"all",name:"Compl. di allontanamento",always:false,group:"avanzati"},
+{id:"eta",name:"Compl. di età",always:false,group:"avanzati"},
+{id:"lim",name:"Compl. di limitazione",always:false,group:"avanzati"},
+{id:"van",name:"Compl. di vantaggio",always:false,group:"avanzati"},
+{id:"par2",name:"Compl. di paragone",always:false,group:"avanzati"},
+{id:"con",name:"Compl. concessivo",always:false,group:"avanzati"},
+{id:"abb",name:"Compl. di abbondanza",always:false,group:"avanzati"},
+{id:"pri",name:"Compl. di privazione",always:false,group:"avanzati"}
+];
+var LOG_GROUPS=[{id:"diretti",label:"Complementi diretti e predicativi"},{id:"indiretti",label:"Complementi indiretti base"},{id:"avanzati",label:"Complementi avanzati"}];
+
+var LOG_SENT=[
+// OGGETTO
+{text:"Marco legge un libro.",parts:[["Marco","sogg"],["legge","pv"],["un libro","ogg"]],tags:["ogg"]},
+{text:"La mamma prepara la cena.",parts:[["La mamma","sogg"],["prepara","pv"],["la cena","ogg"]],tags:["ogg"]},
+{text:"Il gatto rincorre il topo.",parts:[["Il gatto","sogg"],["rincorre","pv"],["il topo","ogg"]],tags:["ogg"]},
+{text:"Lucia studia la storia.",parts:[["Lucia","sogg"],["studia","pv"],["la storia","ogg"]],tags:["ogg"]},
+{text:"Il nonno racconta una fiaba.",parts:[["Il nonno","sogg"],["racconta","pv"],["una fiaba","ogg"]],tags:["ogg"]},
+{text:"Noi ascoltiamo la musica.",parts:[["Noi","sogg"],["ascoltiamo","pv"],["la musica","ogg"]],tags:["ogg"]},
+{text:"L'insegnante corregge i compiti.",parts:[["L'insegnante","sogg"],["corregge","pv"],["i compiti","ogg"]],tags:["ogg"]},
+{text:"Il pittore dipinge un quadro.",parts:[["Il pittore","sogg"],["dipinge","pv"],["un quadro","ogg"]],tags:["ogg"]},
+{text:"Gli studenti leggono il giornale.",parts:[["Gli studenti","sogg"],["leggono","pv"],["il giornale","ogg"]],tags:["ogg"]},
+{text:"Io bevo un caffè.",parts:[["Io","sogg"],["bevo","pv"],["un caffè","ogg"]],tags:["ogg"]},
+{text:"Tu mangi una mela.",parts:[["Tu","sogg"],["mangi","pv"],["una mela","ogg"]],tags:["ogg"]},
+{text:"Il cane mangia la pappa.",parts:[["Il cane","sogg"],["mangia","pv"],["la pappa","ogg"]],tags:["ogg"]},
+// PREDICATIVO DEL SOGGETTO
+{text:"Marco è stato eletto presidente.",parts:[["Marco","sogg"],["è stato eletto","pv"],["presidente","pred_sogg"]],tags:["pred_sogg"]},
+{text:"Lucia sembra stanca.",parts:[["Lucia","sogg"],["sembra","pv"],["stanca","pred_sogg"]],tags:["pred_sogg"]},
+{text:"Il cielo diventa scuro.",parts:[["Il cielo","sogg"],["diventa","pv"],["scuro","pred_sogg"]],tags:["pred_sogg"]},
+{text:"Marco è stato nominato capitano.",parts:[["Marco","sogg"],["è stato nominato","pv"],["capitano","pred_sogg"]],tags:["pred_sogg"]},
+{text:"L'acqua sembra limpida.",parts:[["L'acqua","sogg"],["sembra","pv"],["limpida","pred_sogg"]],tags:["pred_sogg"]},
+{text:"Il ragazzo è diventato famoso.",parts:[["Il ragazzo","sogg"],["è diventato","pv"],["famoso","pred_sogg"]],tags:["pred_sogg"]},
+{text:"La giornata si fa calda.",parts:[["La giornata","sogg"],["si fa","pv"],["calda","pred_sogg"]],tags:["pred_sogg"]},
+{text:"Maria pare contenta.",parts:[["Maria","sogg"],["pare","pv"],["contenta","pred_sogg"]],tags:["pred_sogg"]},
+{text:"Lo studente è risultato il migliore.",parts:[["Lo studente","sogg"],["è risultato","pv"],["il migliore","pred_sogg"]],tags:["pred_sogg"]},
+{text:"Maria è considerata la più brava della classe.",parts:[["Maria","sogg"],["è considerata","pv"],["la più brava della classe","pred_sogg"]],tags:["pred_sogg"]},
+// PREDICATIVO DELL'OGGETTO
+{text:"I compagni considerano Marco simpatico.",parts:[["I compagni","sogg"],["considerano","pv"],["Marco","ogg"],["simpatico","pred_ogg"]],tags:["ogg","pred_ogg"]},
+{text:"Il preside ha nominato Lucia rappresentante.",parts:[["Il preside","sogg"],["ha nominato","pv"],["Lucia","ogg"],["rappresentante","pred_ogg"]],tags:["ogg","pred_ogg"]},
+{text:"Tutti ritengono il problema difficile.",parts:[["Tutti","sogg"],["ritengono","pv"],["il problema","ogg"],["difficile","pred_ogg"]],tags:["ogg","pred_ogg"]},
+{text:"La classe ha eletto Paolo capoclasse.",parts:[["La classe","sogg"],["ha eletto","pv"],["Paolo","ogg"],["capoclasse","pred_ogg"]],tags:["ogg","pred_ogg"]},
+{text:"Il pubblico giudica lo spettacolo noioso.",parts:[["Il pubblico","sogg"],["giudica","pv"],["lo spettacolo","ogg"],["noioso","pred_ogg"]],tags:["ogg","pred_ogg"]},
+{text:"Lo chiamano tutti il professore.",parts:[["(Tutti)","sogg"],["Lo","ogg"],["chiamano","pv"],["il professore","pred_ogg"]],tags:["ogg","pred_ogg"]},
+{text:"I genitori trovano la maestra severa.",parts:[["I genitori","sogg"],["trovano","pv"],["la maestra","ogg"],["severa","pred_ogg"]],tags:["ogg","pred_ogg"]},
+{text:"L'allenatore ha reso la squadra vincente.",parts:[["L'allenatore","sogg"],["ha reso","pv"],["la squadra","ogg"],["vincente","pred_ogg"]],tags:["ogg","pred_ogg"]},
+{text:"Reputo questo libro interessante.",parts:[["(Io)","sogg"],["Reputo","pv"],["questo libro","ogg"],["interessante","pred_ogg"]],tags:["ogg","pred_ogg"]},
+{text:"Il re nominò il cavaliere suo consigliere.",parts:[["Il re","sogg"],["nominò","pv"],["il cavaliere","ogg"],["suo consigliere","pred_ogg"]],tags:["ogg","pred_ogg"]},
+// TERMINE
+{text:"Marco dà un libro a Luca.",parts:[["Marco","sogg"],["dà","pv"],["un libro","ogg"],["a Luca","ter"]],tags:["ogg","ter"]},
+{text:"La mamma regala un vestito alla figlia.",parts:[["La mamma","sogg"],["regala","pv"],["un vestito","ogg"],["alla figlia","ter"]],tags:["ogg","ter"]},
+{text:"Il professore spiega la lezione agli studenti.",parts:[["Il professore","sogg"],["spiega","pv"],["la lezione","ogg"],["agli studenti","ter"]],tags:["ogg","ter"]},
+{text:"Io scrivo una lettera a mia nonna.",parts:[["Io","sogg"],["scrivo","pv"],["una lettera","ogg"],["a mia nonna","ter"]],tags:["ogg","ter"]},
+{text:"Il cameriere porta il menu ai clienti.",parts:[["Il cameriere","sogg"],["porta","pv"],["il menu","ogg"],["ai clienti","ter"]],tags:["ogg","ter"]},
+{text:"Luca presta la bici a Paolo.",parts:[["Luca","sogg"],["presta","pv"],["la bici","ogg"],["a Paolo","ter"]],tags:["ogg","ter"]},
+{text:"La professoressa consegna le verifiche agli alunni.",parts:[["La professoressa","sogg"],["consegna","pv"],["le verifiche","ogg"],["agli alunni","ter"]],tags:["ogg","ter"]},
+{text:"Noi offriamo un caffè agli ospiti.",parts:[["Noi","sogg"],["offriamo","pv"],["un caffè","ogg"],["agli ospiti","ter"]],tags:["ogg","ter"]},
+{text:"Il postino consegna il pacco al vicino.",parts:[["Il postino","sogg"],["consegna","pv"],["il pacco","ogg"],["al vicino","ter"]],tags:["ogg","ter"]},
+// SPECIFICAZIONE
+{text:"La porta della classe è aperta.",parts:[["La porta della classe","sogg"],["è aperta","pn"]],tags:["spec"]},
+{text:"Il colore del cielo è azzurro.",parts:[["Il colore del cielo","sogg"],["è azzurro","pn"]],tags:["spec"]},
+{text:"Le pagine del libro sono ingiallite.",parts:[["Le pagine del libro","sogg"],["sono ingiallite","pn"]],tags:["spec"]},
+{text:"La voce della cantante è melodiosa.",parts:[["La voce della cantante","sogg"],["è melodiosa","pn"]],tags:["spec"]},
+{text:"Il profumo dei fiori riempie la stanza.",parts:[["Il profumo dei fiori","sogg"],["riempie","pv"],["la stanza","ogg"]],tags:["spec","ogg"]},
+{text:"Il quaderno di Lucia è ordinato.",parts:[["Il quaderno di Lucia","sogg"],["è ordinato","pn"]],tags:["spec"]},
+{text:"La macchina dello zio è rossa.",parts:[["La macchina dello zio","sogg"],["è rossa","pn"]],tags:["spec"]},
+{text:"I giocatori della squadra festeggiano la vittoria.",parts:[["I giocatori della squadra","sogg"],["festeggiano","pv"],["la vittoria","ogg"]],tags:["spec","ogg"]},
+{text:"Il tetto della casa è nuovo.",parts:[["Il tetto della casa","sogg"],["è nuovo","pn"]],tags:["spec"]},
+{text:"Le zampe del gatto sono morbide.",parts:[["Le zampe del gatto","sogg"],["sono morbide","pn"]],tags:["spec"]},
+// LUOGO
+{text:"Il gatto dorme sul divano.",parts:[["Il gatto","sogg"],["dorme","pv"],["sul divano","luo"]],tags:["luo"]},
+{text:"I bambini giocano nel parco.",parts:[["I bambini","sogg"],["giocano","pv"],["nel parco","luo"]],tags:["luo"]},
+{text:"Andiamo al cinema.",parts:[["(Noi)","sogg"],["Andiamo","pv"],["al cinema","luo"]],tags:["luo"]},
+{text:"Lucia abita a Milano.",parts:[["Lucia","sogg"],["abita","pv"],["a Milano","luo"]],tags:["luo"]},
+{text:"Il treno arriva alla stazione.",parts:[["Il treno","sogg"],["arriva","pv"],["alla stazione","luo"]],tags:["luo"]},
+{text:"Marco studia in biblioteca.",parts:[["Marco","sogg"],["studia","pv"],["in biblioteca","luo"]],tags:["luo"]},
+{text:"Il cane corre nel giardino.",parts:[["Il cane","sogg"],["corre","pv"],["nel giardino","luo"]],tags:["luo"]},
+{text:"La nonna vive in campagna.",parts:[["La nonna","sogg"],["vive","pv"],["in campagna","luo"]],tags:["luo"]},
+{text:"I pesci nuotano nel lago.",parts:[["I pesci","sogg"],["nuotano","pv"],["nel lago","luo"]],tags:["luo"]},
+{text:"Gli uccelli volano nel cielo.",parts:[["Gli uccelli","sogg"],["volano","pv"],["nel cielo","luo"]],tags:["luo"]},
+{text:"La maestra entra in aula.",parts:[["La maestra","sogg"],["entra","pv"],["in aula","luo"]],tags:["luo"]},
+// TEMPO
+{text:"La scuola inizia a settembre.",parts:[["La scuola","sogg"],["inizia","pv"],["a settembre","tem"]],tags:["tem"]},
+{text:"Ieri ho incontrato un amico.",parts:[["(Io)","sogg"],["Ieri","tem"],["ho incontrato","pv"],["un amico","ogg"]],tags:["tem","ogg"]},
+{text:"Il concerto dura tre ore.",parts:[["Il concerto","sogg"],["dura","pv"],["tre ore","tem"]],tags:["tem"]},
+{text:"In estate andiamo al mare.",parts:[["In estate","tem"],["(noi)","sogg"],["andiamo","pv"],["al mare","luo"]],tags:["tem","luo"]},
+{text:"Di notte le strade sono silenziose.",parts:[["Di notte","tem"],["le strade","sogg"],["sono silenziose","pn"]],tags:["tem"]},
+{text:"Il negozio chiude alle otto.",parts:[["Il negozio","sogg"],["chiude","pv"],["alle otto","tem"]],tags:["tem"]},
+{text:"D'inverno la neve copre le montagne.",parts:[["D'inverno","tem"],["la neve","sogg"],["copre","pv"],["le montagne","ogg"]],tags:["tem","ogg"]},
+{text:"A Natale la famiglia si riunisce.",parts:[["A Natale","tem"],["la famiglia","sogg"],["si riunisce","pv"]],tags:["tem"]},
+{text:"Marco si sveglia alle sei.",parts:[["Marco","sogg"],["si sveglia","pv"],["alle sei","tem"]],tags:["tem"]},
+{text:"In autunno cadono le foglie.",parts:[["In autunno","tem"],["cadono","pv"],["le foglie","sogg"]],tags:["tem"]},
+// CAUSA
+{text:"Tremo dal freddo.",parts:[["(Io)","sogg"],["Tremo","pv"],["dal freddo","cau"]],tags:["cau"]},
+{text:"Piango di gioia.",parts:[["(Io)","sogg"],["Piango","pv"],["di gioia","cau"]],tags:["cau"]},
+{text:"Il bambino piange per la fame.",parts:[["Il bambino","sogg"],["piange","pv"],["per la fame","cau"]],tags:["cau"]},
+{text:"La partita è stata sospesa per la pioggia.",parts:[["La partita","sogg"],["è stata sospesa","pv"],["per la pioggia","cau"]],tags:["cau"]},
+{text:"Lucia arrossisce per la vergogna.",parts:[["Lucia","sogg"],["arrossisce","pv"],["per la vergogna","cau"]],tags:["cau"]},
+{text:"Marco è assente per malattia.",parts:[["Marco","sogg"],["è assente","pn"],["per malattia","cau"]],tags:["cau"]},
+{text:"Il giardino è secco per il caldo.",parts:[["Il giardino","sogg"],["è secco","pn"],["per il caldo","cau"]],tags:["cau"]},
+{text:"Lo studente è felice per il bel voto.",parts:[["Lo studente","sogg"],["è felice","pn"],["per il bel voto","cau"]],tags:["cau"]},
+{text:"Gli alberi sono caduti per il vento.",parts:[["Gli alberi","sogg"],["sono caduti","pv"],["per il vento","cau"]],tags:["cau"]},
+// FINE
+{text:"Studio per l'esame.",parts:[["(Io)","sogg"],["Studio","pv"],["per l'esame","fin"]],tags:["fin"]},
+{text:"Marco si allena per la gara.",parts:[["Marco","sogg"],["si allena","pv"],["per la gara","fin"]],tags:["fin"]},
+{text:"I soldati combattono per la patria.",parts:[["I soldati","sogg"],["combattono","pv"],["per la patria","fin"]],tags:["fin"]},
+{text:"Luca risparmia per il viaggio.",parts:[["Luca","sogg"],["risparmia","pv"],["per il viaggio","fin"]],tags:["fin"]},
+{text:"Ho comprato un regalo per il compleanno.",parts:[["(Io)","sogg"],["Ho comprato","pv"],["un regalo","ogg"],["per il compleanno","fin"]],tags:["ogg","fin"]},
+{text:"La mamma cucina per la festa.",parts:[["La mamma","sogg"],["cucina","pv"],["per la festa","fin"]],tags:["fin"]},
+{text:"Gli atleti si preparano per le Olimpiadi.",parts:[["Gli atleti","sogg"],["si preparano","pv"],["per le Olimpiadi","fin"]],tags:["fin"]},
+{text:"Lucia legge per piacere.",parts:[["Lucia","sogg"],["legge","pv"],["per piacere","fin"]],tags:["fin"]},
+// MODO
+{text:"Lucia cammina in fretta.",parts:[["Lucia","sogg"],["cammina","pv"],["in fretta","mod"]],tags:["mod"]},
+{text:"Il bambino mangia con appetito.",parts:[["Il bambino","sogg"],["mangia","pv"],["con appetito","mod"]],tags:["mod"]},
+{text:"Marco parla con calma.",parts:[["Marco","sogg"],["parla","pv"],["con calma","mod"]],tags:["mod"]},
+{text:"L'atleta corre velocemente.",parts:[["L'atleta","sogg"],["corre","pv"],["velocemente","mod"]],tags:["mod"]},
+{text:"Il maestro spiega con chiarezza.",parts:[["Il maestro","sogg"],["spiega","pv"],["con chiarezza","mod"]],tags:["mod"]},
+{text:"La nonna cucina con amore.",parts:[["La nonna","sogg"],["cucina","pv"],["con amore","mod"]],tags:["mod"]},
+{text:"Lucia risponde gentilmente.",parts:[["Lucia","sogg"],["risponde","pv"],["gentilmente","mod"]],tags:["mod"]},
+{text:"Parliamo a bassa voce.",parts:[["(Noi)","sogg"],["Parliamo","pv"],["a bassa voce","mod"]],tags:["mod"]},
+{text:"Lo studente ascolta con attenzione.",parts:[["Lo studente","sogg"],["ascolta","pv"],["con attenzione","mod"]],tags:["mod"]},
+{text:"Maria canta a squarciagola.",parts:[["Maria","sogg"],["canta","pv"],["a squarciagola","mod"]],tags:["mod"]},
+// MEZZO
+{text:"Viaggio in treno.",parts:[["(Io)","sogg"],["Viaggio","pv"],["in treno","mez"]],tags:["mez"]},
+{text:"Marco va a scuola in bici.",parts:[["Marco","sogg"],["va","pv"],["a scuola","luo"],["in bici","mez"]],tags:["luo","mez"]},
+{text:"Ho scritto la lettera con la penna.",parts:[["(Io)","sogg"],["Ho scritto","pv"],["la lettera","ogg"],["con la penna","mez"]],tags:["ogg","mez"]},
+{text:"Il contadino ara il campo con il trattore.",parts:[["Il contadino","sogg"],["ara","pv"],["il campo","ogg"],["con il trattore","mez"]],tags:["ogg","mez"]},
+{text:"Comunichiamo per telefono.",parts:[["(Noi)","sogg"],["Comunichiamo","pv"],["per telefono","mez"]],tags:["mez"]},
+{text:"Il falegname taglia il legno con la sega.",parts:[["Il falegname","sogg"],["taglia","pv"],["il legno","ogg"],["con la sega","mez"]],tags:["ogg","mez"]},
+{text:"Lucia dipinge con gli acquerelli.",parts:[["Lucia","sogg"],["dipinge","pv"],["con gli acquerelli","mez"]],tags:["mez"]},
+{text:"Il chirurgo opera con il bisturi.",parts:[["Il chirurgo","sogg"],["opera","pv"],["con il bisturi","mez"]],tags:["mez"]},
+{text:"Mia sorella va al lavoro in autobus.",parts:[["Mia sorella","sogg"],["va","pv"],["al lavoro","luo"],["in autobus","mez"]],tags:["luo","mez"]},
+{text:"Ho aperto la porta con la chiave.",parts:[["(Io)","sogg"],["Ho aperto","pv"],["la porta","ogg"],["con la chiave","mez"]],tags:["ogg","mez"]},
+// AGENTE
+{text:"La torta è stata preparata dalla nonna.",parts:[["La torta","sogg"],["è stata preparata","pv"],["dalla nonna","age"]],tags:["age"]},
+{text:"Il quadro è stato dipinto da Caravaggio.",parts:[["Il quadro","sogg"],["è stato dipinto","pv"],["da Caravaggio","age"]],tags:["age"]},
+{text:"L'albero è stato abbattuto dal vento.",parts:[["L'albero","sogg"],["è stato abbattuto","pv"],["dal vento","age"]],tags:["age"]},
+{text:"La lettera è stata scritta dal direttore.",parts:[["La lettera","sogg"],["è stata scritta","pv"],["dal direttore","age"]],tags:["age"]},
+{text:"I ladri sono stati arrestati dalla polizia.",parts:[["I ladri","sogg"],["sono stati arrestati","pv"],["dalla polizia","age"]],tags:["age"]},
+{text:"Il gol è stato segnato dall'attaccante.",parts:[["Il gol","sogg"],["è stato segnato","pv"],["dall'attaccante","age"]],tags:["age"]},
+{text:"La casa è stata distrutta dall'incendio.",parts:[["La casa","sogg"],["è stata distrutta","pv"],["dall'incendio","age"]],tags:["age"]},
+{text:"Il film è stato diretto da Fellini.",parts:[["Il film","sogg"],["è stato diretto","pv"],["da Fellini","age"]],tags:["age"]},
+{text:"La strada è stata allagata dalla pioggia.",parts:[["La strada","sogg"],["è stata allagata","pv"],["dalla pioggia","age"]],tags:["age"]},
+{text:"Il paziente è stato operato dal chirurgo.",parts:[["Il paziente","sogg"],["è stato operato","pv"],["dal chirurgo","age"]],tags:["age"]},
+// COMPAGNIA
+{text:"Esco con gli amici.",parts:[["(Io)","sogg"],["Esco","pv"],["con gli amici","comp"]],tags:["comp"]},
+{text:"Marco passeggia con il cane.",parts:[["Marco","sogg"],["passeggia","pv"],["con il cane","comp"]],tags:["comp"]},
+{text:"Lucia va al cinema con la sorella.",parts:[["Lucia","sogg"],["va","pv"],["al cinema","luo"],["con la sorella","comp"]],tags:["luo","comp"]},
+{text:"Il bambino gioca con i compagni.",parts:[["Il bambino","sogg"],["gioca","pv"],["con i compagni","comp"]],tags:["comp"]},
+{text:"Il nonno cena con i nipoti.",parts:[["Il nonno","sogg"],["cena","pv"],["con i nipoti","comp"]],tags:["comp"]},
+{text:"Parto con tutta la famiglia.",parts:[["(Io)","sogg"],["Parto","pv"],["con tutta la famiglia","comp"]],tags:["comp"]},
+// UNIONE
+{text:"Il ragazzo esce con l'ombrello.",parts:[["Il ragazzo","sogg"],["esce","pv"],["con l'ombrello","uni"]],tags:["uni"]},
+{text:"Maria arriva con una valigia enorme.",parts:[["Maria","sogg"],["arriva","pv"],["con una valigia enorme","uni"]],tags:["uni"]},
+{text:"Il soldato marcia con lo zaino in spalla.",parts:[["Il soldato","sogg"],["marcia","pv"],["con lo zaino in spalla","uni"]],tags:["uni"]},
+{text:"Esco con il cappotto.",parts:[["(Io)","sogg"],["Esco","pv"],["con il cappotto","uni"]],tags:["uni"]},
+{text:"Lo studente va a scuola con lo zaino.",parts:[["Lo studente","sogg"],["va","pv"],["a scuola","luo"],["con lo zaino","uni"]],tags:["luo","uni"]},
+{text:"Il cuoco serve il piatto con il contorno.",parts:[["Il cuoco","sogg"],["serve","pv"],["il piatto","ogg"],["con il contorno","uni"]],tags:["ogg","uni"]},
+// ARGOMENTO
+{text:"Parliamo di politica.",parts:[["(Noi)","sogg"],["Parliamo","pv"],["di politica","arg"]],tags:["arg"]},
+{text:"Il documentario tratta di storia romana.",parts:[["Il documentario","sogg"],["tratta","pv"],["di storia romana","arg"]],tags:["arg"]},
+{text:"Discutiamo del progetto.",parts:[["(Noi)","sogg"],["Discutiamo","pv"],["del progetto","arg"]],tags:["arg"]},
+{text:"Il libro parla della Seconda guerra mondiale.",parts:[["Il libro","sogg"],["parla","pv"],["della Seconda guerra mondiale","arg"]],tags:["arg"]},
+{text:"L'insegnante interroga su Dante.",parts:[["L'insegnante","sogg"],["interroga","pv"],["su Dante","arg"]],tags:["arg"]},
+{text:"Ho letto un articolo sull'inquinamento.",parts:[["(Io)","sogg"],["Ho letto","pv"],["un articolo","ogg"],["sull'inquinamento","arg"]],tags:["ogg","arg"]},
+{text:"I ragazzi chiacchierano delle vacanze.",parts:[["I ragazzi","sogg"],["chiacchierano","pv"],["delle vacanze","arg"]],tags:["arg"]},
+// MATERIA
+{text:"Il tavolo è di legno.",parts:[["Il tavolo","sogg"],["è di legno","pn"]],tags:["mat"]},
+{text:"La collana è d'oro.",parts:[["La collana","sogg"],["è d'oro","pn"]],tags:["mat"]},
+{text:"La statua è di marmo.",parts:[["La statua","sogg"],["è di marmo","pn"]],tags:["mat"]},
+{text:"Le sbarre sono di ferro.",parts:[["Le sbarre","sogg"],["sono di ferro","pn"]],tags:["mat"]},
+{text:"Il ponte è di pietra.",parts:[["Il ponte","sogg"],["è di pietra","pn"]],tags:["mat"]},
+// QUALITÀ
+{text:"Lucia è una ragazza di grande intelligenza.",parts:[["Lucia","sogg"],["è una ragazza di grande intelligenza","pn"]],tags:["qual"]},
+{text:"Marco è un ragazzo di bell'aspetto.",parts:[["Marco","sogg"],["è un ragazzo di bell'aspetto","pn"]],tags:["qual"]},
+{text:"La signora dagli occhi verdi è la preside.",parts:[["La signora dagli occhi verdi","sogg"],["è la preside","pn"]],tags:["qual"]},
+{text:"È un libro di grande valore.",parts:[["(Esso)","sogg"],["È un libro di grande valore","pn"]],tags:["qual"]},
+{text:"È una persona di buon cuore.",parts:[["(Essa)","sogg"],["È una persona di buon cuore","pn"]],tags:["qual"]},
+// DENOMINAZIONE
+{text:"La città di Roma è bellissima.",parts:[["La città di Roma","sogg"],["è bellissima","pn"]],tags:["den"]},
+{text:"Il lago di Garda è il più grande d'Italia.",parts:[["Il lago di Garda","sogg"],["è il più grande d'Italia","pn"]],tags:["den"]},
+{text:"Il mese di dicembre è freddo.",parts:[["Il mese di dicembre","sogg"],["è freddo","pn"]],tags:["den"]},
+{text:"L'isola di Sicilia è la più grande del Mediterraneo.",parts:[["L'isola di Sicilia","sogg"],["è la più grande del Mediterraneo","pn"]],tags:["den"]},
+{text:"Il monte Bianco è la vetta più alta d'Europa.",parts:[["Il monte Bianco","sogg"],["è la vetta più alta d'Europa","pn"]],tags:["den"]},
+{text:"Il fiume Po attraversa la Pianura Padana.",parts:[["Il fiume Po","sogg"],["attraversa","pv"],["la Pianura Padana","ogg"]],tags:["den","ogg"]},
+// PARTITIVO
+{text:"Alcuni degli studenti sono assenti.",parts:[["Alcuni degli studenti","sogg"],["sono assenti","pn"]],tags:["par"]},
+{text:"Molti di noi preferiscono il mare.",parts:[["Molti di noi","sogg"],["preferiscono","pv"],["il mare","ogg"]],tags:["par","ogg"]},
+{text:"Nessuno dei presenti ha parlato.",parts:[["Nessuno dei presenti","sogg"],["ha parlato","pv"]],tags:["par"]},
+{text:"La maggior parte dei cittadini ha votato.",parts:[["La maggior parte dei cittadini","sogg"],["ha votato","pv"]],tags:["par"]},
+{text:"Uno dei cani abbaia.",parts:[["Uno dei cani","sogg"],["abbaia","pv"]],tags:["par"]},
+// ORIGINE
+{text:"Marco proviene da Napoli.",parts:[["Marco","sogg"],["proviene","pv"],["da Napoli","ori"]],tags:["ori"]},
+{text:"Il vino proviene dalla Toscana.",parts:[["Il vino","sogg"],["proviene","pv"],["dalla Toscana","ori"]],tags:["ori"]},
+{text:"Il turista arriva dall'Australia.",parts:[["Il turista","sogg"],["arriva","pv"],["dall'Australia","ori"]],tags:["ori"]},
+{text:"Sono nato a Milano.",parts:[["(Io)","sogg"],["Sono nato","pv"],["a Milano","ori"]],tags:["ori"]},
+{text:"La notizia viene dalla Spagna.",parts:[["La notizia","sogg"],["viene","pv"],["dalla Spagna","ori"]],tags:["ori"]},
+// ALLONTANAMENTO
+{text:"Marco si allontana da casa.",parts:[["Marco","sogg"],["si allontana","pv"],["da casa","all"]],tags:["all"]},
+{text:"La nave si stacca dal molo.",parts:[["La nave","sogg"],["si stacca","pv"],["dal molo","all"]],tags:["all"]},
+{text:"Lucia si separa dal gruppo.",parts:[["Lucia","sogg"],["si separa","pv"],["dal gruppo","all"]],tags:["all"]},
+{text:"Mi libero dai dubbi.",parts:[["(Io)","sogg"],["Mi libero","pv"],["dai dubbi","all"]],tags:["all"]},
+{text:"Fuggiamo dal pericolo.",parts:[["(Noi)","sogg"],["Fuggiamo","pv"],["dal pericolo","all"]],tags:["all"]},
+// ETÀ
+{text:"Marco è un ragazzo di quindici anni.",parts:[["Marco","sogg"],["è un ragazzo di quindici anni","pn"]],tags:["eta"]},
+{text:"Il nonno è morto a novant'anni.",parts:[["Il nonno","sogg"],["è morto","pv"],["a novant'anni","eta"]],tags:["eta"]},
+{text:"Lucia si è laureata a ventitré anni.",parts:[["Lucia","sogg"],["si è laureata","pv"],["a ventitré anni","eta"]],tags:["eta"]},
+{text:"Un bambino di cinque anni gioca nel parco.",parts:[["Un bambino di cinque anni","sogg"],["gioca","pv"],["nel parco","luo"]],tags:["eta","luo"]},
+// LIMITAZIONE
+{text:"Marco eccelle in matematica.",parts:[["Marco","sogg"],["eccelle","pv"],["in matematica","lim"]],tags:["lim"]},
+{text:"Lucia è brava nel disegno.",parts:[["Lucia","sogg"],["è brava","pn"],["nel disegno","lim"]],tags:["lim"]},
+{text:"Secondo me il film è bello.",parts:[["Secondo me","lim"],["il film","sogg"],["è bello","pn"]],tags:["lim"]},
+{text:"A mio parere la scelta è giusta.",parts:[["A mio parere","lim"],["la scelta","sogg"],["è giusta","pn"]],tags:["lim"]},
+{text:"L'Italia è ricca di storia.",parts:[["L'Italia","sogg"],["è ricca","pn"],["di storia","lim"]],tags:["lim"]},
+// VANTAGGIO
+{text:"Lavoro per la mia famiglia.",parts:[["(Io)","sogg"],["Lavoro","pv"],["per la mia famiglia","van"]],tags:["van"]},
+{text:"Il fumo è dannoso per la salute.",parts:[["Il fumo","sogg"],["è dannoso","pn"],["per la salute","van"]],tags:["van"]},
+{text:"Ho fatto un sacrificio per te.",parts:[["(Io)","sogg"],["Ho fatto","pv"],["un sacrificio","ogg"],["per te","van"]],tags:["ogg","van"]},
+{text:"La raccolta è a beneficio dei bisognosi.",parts:[["La raccolta","sogg"],["è a beneficio dei bisognosi","pn"]],tags:["van"]},
+// PARAGONE
+{text:"Marco è più alto di Luca.",parts:[["Marco","sogg"],["è più alto","pn"],["di Luca","par2"]],tags:["par2"]},
+{text:"L'estate è più calda dell'inverno.",parts:[["L'estate","sogg"],["è più calda","pn"],["dell'inverno","par2"]],tags:["par2"]},
+{text:"Questo esercizio è meno difficile del precedente.",parts:[["Questo esercizio","sogg"],["è meno difficile","pn"],["del precedente","par2"]],tags:["par2"]},
+{text:"Il treno è più veloce dell'autobus.",parts:[["Il treno","sogg"],["è più veloce","pn"],["dell'autobus","par2"]],tags:["par2"]},
+{text:"La pizza è buona come la pasta.",parts:[["La pizza","sogg"],["è buona","pn"],["come la pasta","par2"]],tags:["par2"]},
+// CONCESSIVO
+{text:"Nonostante il freddo esco a correre.",parts:[["Nonostante il freddo","con"],["(io)","sogg"],["esco","pv"],["a correre","fin"]],tags:["con","fin"]},
+{text:"Malgrado la stanchezza continuo a studiare.",parts:[["Malgrado la stanchezza","con"],["(io)","sogg"],["continuo a studiare","pv"]],tags:["con"]},
+{text:"Nonostante la pioggia la partita si gioca.",parts:[["Nonostante la pioggia","con"],["la partita","sogg"],["si gioca","pv"]],tags:["con"]},
+{text:"Malgrado le difficoltà Marco non si arrende.",parts:[["Malgrado le difficoltà","con"],["Marco","sogg"],["non si arrende","pv"]],tags:["con"]},
+{text:"Nonostante l'età il nonno è molto attivo.",parts:[["Nonostante l'età","con"],["il nonno","sogg"],["è molto attivo","pn"]],tags:["con"]},
+// ABBONDANZA
+{text:"Il giardino è pieno di fiori.",parts:[["Il giardino","sogg"],["è pieno","pn"],["di fiori","abb"]],tags:["abb"]},
+{text:"La stanza è colma di libri.",parts:[["La stanza","sogg"],["è colma","pn"],["di libri","abb"]],tags:["abb"]},
+{text:"Il lago abbonda di pesci.",parts:[["Il lago","sogg"],["abbonda","pv"],["di pesci","abb"]],tags:["abb"]},
+{text:"Questa regione è ricca di monumenti.",parts:[["Questa regione","sogg"],["è ricca","pn"],["di monumenti","abb"]],tags:["abb"]},
+{text:"Il frigorifero è pieno di cibo.",parts:[["Il frigorifero","sogg"],["è pieno","pn"],["di cibo","abb"]],tags:["abb"]},
+// PRIVAZIONE
+{text:"Il vaso è privo di fiori.",parts:[["Il vaso","sogg"],["è privo","pn"],["di fiori","pri"]],tags:["pri"]},
+{text:"La casa è priva di riscaldamento.",parts:[["La casa","sogg"],["è priva","pn"],["di riscaldamento","pri"]],tags:["pri"]},
+{text:"Questo testo manca di chiarezza.",parts:[["Questo testo","sogg"],["manca","pv"],["di chiarezza","pri"]],tags:["pri"]},
+{text:"Il paese è privo di un ospedale.",parts:[["Il paese","sogg"],["è privo","pn"],["di un ospedale","pri"]],tags:["pri"]},
+{text:"Siamo sprovvisti di ombrello.",parts:[["(Noi)","sogg"],["Siamo sprovvisti","pn"],["di ombrello","pri"]],tags:["pri"]},
+// PREDICATO NOMINALE PURO
+{text:"Roma è la capitale d'Italia.",parts:[["Roma","sogg"],["è la capitale d'Italia","pn"]],tags:[]},
+{text:"Questo libro è interessante.",parts:[["Questo libro","sogg"],["è interessante","pn"]],tags:[]},
+{text:"I bambini sono stanchi.",parts:[["I bambini","sogg"],["sono stanchi","pn"]],tags:[]},
+{text:"Mio fratello è un ingegnere.",parts:[["Mio fratello","sogg"],["è un ingegnere","pn"]],tags:[]},
+{text:"Il cielo è nuvoloso.",parts:[["Il cielo","sogg"],["è nuvoloso","pn"]],tags:[]},
+{text:"Le rose sono profumate.",parts:[["Le rose","sogg"],["sono profumate","pn"]],tags:[]},
+{text:"La pizza è buona.",parts:[["La pizza","sogg"],["è buona","pn"]],tags:[]},
+{text:"L'esercizio è difficile.",parts:[["L'esercizio","sogg"],["è difficile","pn"]],tags:[]},
+// SOGGETTO + PV PURI
+{text:"Il sole splende.",parts:[["Il sole","sogg"],["splende","pv"]],tags:[]},
+{text:"Piove.",parts:[["Piove","pv"]],tags:[]},
+{text:"I fiori sbocciano.",parts:[["I fiori","sogg"],["sbocciano","pv"]],tags:[]},
+{text:"Il bambino ride.",parts:[["Il bambino","sogg"],["ride","pv"]],tags:[]},
+{text:"Le foglie cadono.",parts:[["Le foglie","sogg"],["cadono","pv"]],tags:[]},
+{text:"Il vento soffia.",parts:[["Il vento","sogg"],["soffia","pv"]],tags:[]},
+// MISTE
+{text:"Marco mangia una pizza al ristorante.",parts:[["Marco","sogg"],["mangia","pv"],["una pizza","ogg"],["al ristorante","luo"]],tags:["ogg","luo"]},
+{text:"Lucia studia con impegno per l'interrogazione.",parts:[["Lucia","sogg"],["studia","pv"],["con impegno","mod"],["per l'interrogazione","fin"]],tags:["mod","fin"]},
+{text:"Il treno parte dalla stazione alle otto.",parts:[["Il treno","sogg"],["parte","pv"],["dalla stazione","luo"],["alle otto","tem"]],tags:["luo","tem"]},
+{text:"La mamma cucina il pranzo in cucina.",parts:[["La mamma","sogg"],["cucina","pv"],["il pranzo","ogg"],["in cucina","luo"]],tags:["ogg","luo"]},
+{text:"Il nonno legge il giornale in giardino.",parts:[["Il nonno","sogg"],["legge","pv"],["il giornale","ogg"],["in giardino","luo"]],tags:["ogg","luo"]},
+{text:"Lucia scrive una lettera alla zia con la penna.",parts:[["Lucia","sogg"],["scrive","pv"],["una lettera","ogg"],["alla zia","ter"],["con la penna","mez"]],tags:["ogg","ter","mez"]},
+{text:"Ieri la nonna ha preparato una torta per i nipoti.",parts:[["Ieri","tem"],["la nonna","sogg"],["ha preparato","pv"],["una torta","ogg"],["per i nipoti","fin"]],tags:["tem","ogg","fin"]},
+{text:"Maria studia matematica in biblioteca ogni pomeriggio.",parts:[["Maria","sogg"],["studia","pv"],["matematica","ogg"],["in biblioteca","luo"],["ogni pomeriggio","tem"]],tags:["ogg","luo","tem"]},
+{text:"Lo zio arriva da Roma in aereo.",parts:[["Lo zio","sogg"],["arriva","pv"],["da Roma","ori"],["in aereo","mez"]],tags:["ori","mez"]},
+{text:"La squadra festeggia la vittoria con entusiasmo.",parts:[["La squadra","sogg"],["festeggia","pv"],["la vittoria","ogg"],["con entusiasmo","mod"]],tags:["ogg","mod"]},
+{text:"Nonostante il traffico arrivo in orario.",parts:[["Nonostante il traffico","con"],["(io)","sogg"],["arrivo","pv"],["in orario","mod"]],tags:["con","mod"]},
+{text:"Lucia va a Firenze per una mostra.",parts:[["Lucia","sogg"],["va","pv"],["a Firenze","luo"],["per una mostra","fin"]],tags:["luo","fin"]},
+// EXTRA OGGETTO
+{text:"Il bambino costruisce un castello di sabbia.",parts:[["Il bambino","sogg"],["costruisce","pv"],["un castello di sabbia","ogg"]],tags:["ogg"]},
+{text:"La classe prepara uno spettacolo.",parts:[["La classe","sogg"],["prepara","pv"],["uno spettacolo","ogg"]],tags:["ogg"]},
+{text:"Marco apre la finestra.",parts:[["Marco","sogg"],["apre","pv"],["la finestra","ogg"]],tags:["ogg"]},
+// EXTRA TERMINE
+{text:"Il dottore prescrive una cura al paziente.",parts:[["Il dottore","sogg"],["prescrive","pv"],["una cura","ogg"],["al paziente","ter"]],tags:["ogg","ter"]},
+{text:"Ho mostrato le foto ai miei genitori.",parts:[["(Io)","sogg"],["Ho mostrato","pv"],["le foto","ogg"],["ai miei genitori","ter"]],tags:["ogg","ter"]},
+// EXTRA LUOGO
+{text:"Il gatto si nasconde sotto il tavolo.",parts:[["Il gatto","sogg"],["si nasconde","pv"],["sotto il tavolo","luo"]],tags:["luo"]},
+{text:"I turisti camminano per le strade del centro.",parts:[["I turisti","sogg"],["camminano","pv"],["per le strade del centro","luo"]],tags:["luo"]},
+// EXTRA TEMPO
+{text:"Ogni mattina faccio colazione al bar.",parts:[["Ogni mattina","tem"],["(io)","sogg"],["faccio","pv"],["colazione","ogg"],["al bar","luo"]],tags:["tem","ogg","luo"]},
+{text:"La domenica il nonno prepara il ragù.",parts:[["La domenica","tem"],["il nonno","sogg"],["prepara","pv"],["il ragù","ogg"]],tags:["tem","ogg"]},
+// EXTRA CAUSA
+{text:"Marco ride per lo scherzo.",parts:[["Marco","sogg"],["ride","pv"],["per lo scherzo","cau"]],tags:["cau"]},
+// EXTRA FINE
+{text:"La professoressa prepara il materiale per la lezione.",parts:[["La professoressa","sogg"],["prepara","pv"],["il materiale","ogg"],["per la lezione","fin"]],tags:["ogg","fin"]},
+{text:"Mi alleno ogni giorno per la maratona.",parts:[["(Io)","sogg"],["Mi alleno","pv"],["ogni giorno","tem"],["per la maratona","fin"]],tags:["tem","fin"]},
+// EXTRA MODO
+{text:"Il treno corre a grande velocità.",parts:[["Il treno","sogg"],["corre","pv"],["a grande velocità","mod"]],tags:["mod"]},
+// EXTRA MEZZO
+{text:"Il pescatore cattura i pesci con la rete.",parts:[["Il pescatore","sogg"],["cattura","pv"],["i pesci","ogg"],["con la rete","mez"]],tags:["ogg","mez"]},
+// EXTRA COMPAGNIA
+{text:"Lucia studia con la compagna di banco.",parts:[["Lucia","sogg"],["studia","pv"],["con la compagna di banco","comp"]],tags:["comp"]},
+{text:"Marco esce con il fratello.",parts:[["Marco","sogg"],["esce","pv"],["con il fratello","comp"]],tags:["comp"]},
+// EXTRA UNIONE
+{text:"Il cavaliere cavalca con la spada al fianco.",parts:[["Il cavaliere","sogg"],["cavalca","pv"],["con la spada al fianco","uni"]],tags:["uni"]},
+{text:"La turista viaggia con una grande valigia.",parts:[["La turista","sogg"],["viaggia","pv"],["con una grande valigia","uni"]],tags:["uni"]},
+// EXTRA ARGOMENTO
+{text:"La conferenza tratta di cambiamenti climatici.",parts:[["La conferenza","sogg"],["tratta","pv"],["di cambiamenti climatici","arg"]],tags:["arg"]},
+{text:"Il professore spiega un capitolo sulla Rivoluzione francese.",parts:[["Il professore","sogg"],["spiega","pv"],["un capitolo","ogg"],["sulla Rivoluzione francese","arg"]],tags:["ogg","arg"]},
+// EXTRA MATERIA
+{text:"La finestra è di vetro.",parts:[["La finestra","sogg"],["è di vetro","pn"]],tags:["mat"]},
+{text:"L'anello è d'argento.",parts:[["L'anello","sogg"],["è d'argento","pn"]],tags:["mat"]},
+{text:"Le mura del castello sono di pietra.",parts:[["Le mura del castello","sogg"],["sono di pietra","pn"]],tags:["mat"]},
+// EXTRA QUALITÀ
+{text:"Il ragazzo dai capelli rossi è mio cugino.",parts:[["Il ragazzo dai capelli rossi","sogg"],["è mio cugino","pn"]],tags:["qual"]},
+{text:"Ho incontrato una donna di grande eleganza.",parts:[["(Io)","sogg"],["Ho incontrato","pv"],["una donna di grande eleganza","ogg"]],tags:["qual","ogg"]},
+// EXTRA DENOMINAZIONE
+{text:"Lo stretto di Messina separa la Sicilia dalla Calabria.",parts:[["Lo stretto di Messina","sogg"],["separa","pv"],["la Sicilia","ogg"],["dalla Calabria","all"]],tags:["den","ogg","all"]},
+// EXTRA PARTITIVO
+{text:"Tre dei miei amici suonano la chitarra.",parts:[["Tre dei miei amici","sogg"],["suonano","pv"],["la chitarra","ogg"]],tags:["par","ogg"]},
+{text:"Qualcuno degli invitati è arrivato in ritardo.",parts:[["Qualcuno degli invitati","sogg"],["è arrivato","pv"],["in ritardo","mod"]],tags:["par","mod"]},
+// EXTRA ORIGINE
+{text:"La famiglia proviene dal sud Italia.",parts:[["La famiglia","sogg"],["proviene","pv"],["dal sud Italia","ori"]],tags:["ori"]},
+// EXTRA ALLONTANAMENTO
+{text:"Il treno si allontana dalla stazione.",parts:[["Il treno","sogg"],["si allontana","pv"],["dalla stazione","all"]],tags:["all"]},
+{text:"Lo studente esce dall'aula.",parts:[["Lo studente","sogg"],["esce","pv"],["dall'aula","all"]],tags:["all"]},
+// EXTRA ETÀ
+{text:"A diciotto anni si diventa maggiorenni.",parts:[["A diciotto anni","eta"],["si diventa","pv"],["maggiorenni","pred_sogg"]],tags:["eta","pred_sogg"]},
+{text:"Il cane è un cucciolo di tre mesi.",parts:[["Il cane","sogg"],["è un cucciolo di tre mesi","pn"]],tags:["eta"]},
+// EXTRA LIMITAZIONE
+{text:"Per quanto riguarda la storia è molto preparato.",parts:[["Per quanto riguarda la storia","lim"],["(egli)","sogg"],["è molto preparato","pn"]],tags:["lim"]},
+// EXTRA VANTAGGIO
+{text:"I genitori fanno sacrifici per i figli.",parts:[["I genitori","sogg"],["fanno","pv"],["sacrifici","ogg"],["per i figli","van"]],tags:["ogg","van"]},
+{text:"Questa legge è favorevole ai lavoratori.",parts:[["Questa legge","sogg"],["è favorevole","pn"],["ai lavoratori","van"]],tags:["van"]},
+// EXTRA PARAGONE
+{text:"La montagna è più alta della collina.",parts:[["La montagna","sogg"],["è più alta","pn"],["della collina","par2"]],tags:["par2"]},
+// EXTRA CONCESSIVO
+{text:"Nonostante la fatica lo studente continua a studiare.",parts:[["Nonostante la fatica","con"],["lo studente","sogg"],["continua a studiare","pv"]],tags:["con"]},
+// EXTRA ABBONDANZA
+{text:"L'albero è carico di frutti.",parts:[["L'albero","sogg"],["è carico","pn"],["di frutti","abb"]],tags:["abb"]},
+// EXTRA PRIVAZIONE
+{text:"Il cielo è privo di nuvole.",parts:[["Il cielo","sogg"],["è privo","pn"],["di nuvole","pri"]],tags:["pri"]},
+// EXTRA PREDICATIVO SOGGETTO
+{text:"L'aria si fa fredda.",parts:[["L'aria","sogg"],["si fa","pv"],["fredda","pred_sogg"]],tags:["pred_sogg"]},
+// EXTRA PREDICATIVO OGGETTO
+{text:"Considero Marco un vero amico.",parts:[["(Io)","sogg"],["Considero","pv"],["Marco","ogg"],["un vero amico","pred_ogg"]],tags:["ogg","pred_ogg"]},
+// EXTRA MISTE
+{text:"Il cane corre nel prato con il padrone.",parts:[["Il cane","sogg"],["corre","pv"],["nel prato","luo"],["con il padrone","comp"]],tags:["luo","comp"]},
+{text:"Marco parte da Roma in treno alle sei.",parts:[["Marco","sogg"],["parte","pv"],["da Roma","all"],["in treno","mez"],["alle sei","tem"]],tags:["all","mez","tem"]},
+{text:"Il papà legge una storia al bambino prima di dormire.",parts:[["Il papà","sogg"],["legge","pv"],["una storia","ogg"],["al bambino","ter"],["prima di dormire","tem"]],tags:["ogg","ter","tem"]},
+{text:"La zia cucina con amore per tutta la famiglia.",parts:[["La zia","sogg"],["cucina","pv"],["con amore","mod"],["per tutta la famiglia","van"]],tags:["mod","van"]},
+{text:"Il libro di avventure è stato letto dai ragazzi con entusiasmo.",parts:[["Il libro di avventure","sogg"],["è stato letto","pv"],["dai ragazzi","age"],["con entusiasmo","mod"]],tags:["age","mod"]},
+{text:"Secondo gli esperti il problema è grave.",parts:[["Secondo gli esperti","lim"],["il problema","sogg"],["è grave","pn"]],tags:["lim"]},
+{text:"Per la pioggia la gita è stata rimandata a sabato.",parts:[["Per la pioggia","cau"],["la gita","sogg"],["è stata rimandata","pv"],["a sabato","tem"]],tags:["cau","tem"]},
+{text:"I compagni di classe giocano a calcio nel cortile dopo pranzo.",parts:[["I compagni di classe","sogg"],["giocano","pv"],["a calcio","ogg"],["nel cortile","luo"],["dopo pranzo","tem"]],tags:["ogg","luo","tem"]},
+{text:"La nonna racconta una fiaba ai nipoti con dolcezza.",parts:[["La nonna","sogg"],["racconta","pv"],["una fiaba","ogg"],["ai nipoti","ter"],["con dolcezza","mod"]],tags:["ogg","ter","mod"]},
+// EXTRA SOGGETTO + PV
+{text:"La campana suona.",parts:[["La campana","sogg"],["suona","pv"]],tags:[]},
+{text:"Il telefono squilla.",parts:[["Il telefono","sogg"],["squilla","pv"]],tags:[]},
+{text:"Nevica.",parts:[["Nevica","pv"]],tags:[]},
+{text:"Il fiume scorre.",parts:[["Il fiume","sogg"],["scorre","pv"]],tags:[]},
+// EXTRA PN PURO
+{text:"Il compito è facile.",parts:[["Il compito","sogg"],["è facile","pn"]],tags:[]},
+{text:"La giornata è stata lunga.",parts:[["La giornata","sogg"],["è stata lunga","pn"]],tags:[]},
+{text:"Marco è un bravo ragazzo.",parts:[["Marco","sogg"],["è un bravo ragazzo","pn"]],tags:[]}
+];
+
+// ============================================================
+//  ANALISI GRAMMATICALE — IL VERBO (DATA)
+// ============================================================
+var GRAMM_MODI=[
+  {id:"ind",name:"Indicativo"},
+  {id:"cong",name:"Congiuntivo"},
+  {id:"cond",name:"Condizionale"},
+  {id:"imp",name:"Imperativo"},
+  {id:"inf",name:"Infinito"},
+  {id:"part",name:"Participio"},
+  {id:"ger",name:"Gerundio"}
+];
+
+// v=forma verbale, s=frase di contesto, c=coniugazione, m=modo, t=tempo, p=persona/numero, tags=modi
+var GRAMM_VERBS=[
+// INDICATIVO PRESENTE
+{v:"parlo",s:"Io parlo con Marco.",c:"1a",m:"Indicativo",t:"Presente",p:"1a sing.",tags:["ind"]},
+{v:"mangi",s:"Tu mangi una mela.",c:"1a",m:"Indicativo",t:"Presente",p:"2a sing.",tags:["ind"]},
+{v:"legge",s:"Lucia legge un libro.",c:"2a",m:"Indicativo",t:"Presente",p:"3a sing.",tags:["ind"]},
+{v:"scriviamo",s:"Noi scriviamo una lettera.",c:"2a",m:"Indicativo",t:"Presente",p:"1a plur.",tags:["ind"]},
+{v:"dormite",s:"Voi dormite fino a tardi.",c:"3a",m:"Indicativo",t:"Presente",p:"2a plur.",tags:["ind"]},
+{v:"partono",s:"I ragazzi partono domani.",c:"3a",m:"Indicativo",t:"Presente",p:"3a plur.",tags:["ind"]},
+{v:"è",s:"Marco è contento.",c:"propria",m:"Indicativo",t:"Presente",p:"3a sing.",tags:["ind"]},
+{v:"hanno",s:"I bambini hanno fame.",c:"propria",m:"Indicativo",t:"Presente",p:"3a plur.",tags:["ind"]},
+// INDICATIVO IMPERFETTO
+{v:"parlavo",s:"Io parlavo al telefono.",c:"1a",m:"Indicativo",t:"Imperfetto",p:"1a sing.",tags:["ind"]},
+{v:"leggevi",s:"Tu leggevi il giornale.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"2a sing.",tags:["ind"]},
+{v:"dormiva",s:"Il bambino dormiva tranquillo.",c:"3a",m:"Indicativo",t:"Imperfetto",p:"3a sing.",tags:["ind"]},
+{v:"mangiavamo",s:"Noi mangiavamo in giardino.",c:"1a",m:"Indicativo",t:"Imperfetto",p:"1a plur.",tags:["ind"]},
+{v:"correvano",s:"I cani correvano nel parco.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"3a plur.",tags:["ind"]},
+{v:"era",s:"Il cielo era sereno.",c:"propria",m:"Indicativo",t:"Imperfetto",p:"3a sing.",tags:["ind"]},
+// INDICATIVO PASSATO REMOTO
+{v:"parlai",s:"Io parlai a lungo.",c:"1a",m:"Indicativo",t:"Passato remoto",p:"1a sing.",tags:["ind"]},
+{v:"scrisse",s:"Dante scrisse la Commedia.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",tags:["ind"]},
+{v:"partirono",s:"I soldati partirono all'alba.",c:"3a",m:"Indicativo",t:"Passato remoto",p:"3a plur.",tags:["ind"]},
+{v:"fu",s:"La battaglia fu decisiva.",c:"propria",m:"Indicativo",t:"Passato remoto",p:"3a sing.",tags:["ind"]},
+{v:"nacque",s:"Leonardo nacque nel 1452.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",tags:["ind"]},
+{v:"vinsero",s:"I romani vinsero la guerra.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a plur.",tags:["ind"]},
+// INDICATIVO FUTURO SEMPLICE
+{v:"parlerò",s:"Domani parlerò con il preside.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"1a sing.",tags:["ind"]},
+{v:"leggerai",s:"Tu leggerai questo libro.",c:"2a",m:"Indicativo",t:"Futuro semplice",p:"2a sing.",tags:["ind"]},
+{v:"partirà",s:"Il treno partirà alle dieci.",c:"3a",m:"Indicativo",t:"Futuro semplice",p:"3a sing.",tags:["ind"]},
+{v:"saremo",s:"Noi saremo pronti.",c:"propria",m:"Indicativo",t:"Futuro semplice",p:"1a plur.",tags:["ind"]},
+{v:"studieranno",s:"Gli studenti studieranno di più.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"3a plur.",tags:["ind"]},
+// INDICATIVO PASSATO PROSSIMO
+{v:"ho parlato",s:"Io ho parlato con Lucia.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"1a sing.",tags:["ind"]},
+{v:"hai letto",s:"Tu hai letto il libro.",c:"2a",m:"Indicativo",t:"Passato prossimo",p:"2a sing.",tags:["ind"]},
+{v:"è partito",s:"Marco è partito ieri.",c:"3a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",tags:["ind"]},
+{v:"abbiamo mangiato",s:"Noi abbiamo mangiato bene.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"1a plur.",tags:["ind"]},
+{v:"sono arrivati",s:"I turisti sono arrivati.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"3a plur.",tags:["ind"]},
+{v:"ha scritto",s:"Lucia ha scritto una lettera.",c:"2a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",tags:["ind"]},
+// INDICATIVO TRAPASSATO PROSSIMO
+{v:"avevo studiato",s:"Io avevo studiato molto.",c:"1a",m:"Indicativo",t:"Trapassato prossimo",p:"1a sing.",tags:["ind"]},
+{v:"era partito",s:"Marco era partito presto.",c:"3a",m:"Indicativo",t:"Trapassato prossimo",p:"3a sing.",tags:["ind"]},
+{v:"avevano letto",s:"I ragazzi avevano letto il libro.",c:"2a",m:"Indicativo",t:"Trapassato prossimo",p:"3a plur.",tags:["ind"]},
+// INDICATIVO FUTURO ANTERIORE
+{v:"avrò finito",s:"Domani avrò finito il lavoro.",c:"3a",m:"Indicativo",t:"Futuro anteriore",p:"1a sing.",tags:["ind"]},
+{v:"sarà partito",s:"Il treno sarà partito.",c:"3a",m:"Indicativo",t:"Futuro anteriore",p:"3a sing.",tags:["ind"]},
+// CONGIUNTIVO
+{v:"parli",s:"Credo che tu parli bene.",c:"1a",m:"Congiuntivo",t:"Presente",p:"2a sing.",tags:["cong"]},
+{v:"scriva",s:"Penso che Marco scriva un libro.",c:"2a",m:"Congiuntivo",t:"Presente",p:"3a sing.",tags:["cong"]},
+{v:"partano",s:"Spero che partano presto.",c:"3a",m:"Congiuntivo",t:"Presente",p:"3a plur.",tags:["cong"]},
+{v:"sia",s:"Credo che sia giusto.",c:"propria",m:"Congiuntivo",t:"Presente",p:"3a sing.",tags:["cong"]},
+{v:"abbia",s:"Penso che abbia ragione.",c:"propria",m:"Congiuntivo",t:"Presente",p:"3a sing.",tags:["cong"]},
+{v:"parlassi",s:"Volevo che tu parlassi.",c:"1a",m:"Congiuntivo",t:"Imperfetto",p:"2a sing.",tags:["cong"]},
+{v:"scrivesse",s:"Speravo che scrivesse.",c:"2a",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",tags:["cong"]},
+{v:"partissero",s:"Volevo che partissero.",c:"3a",m:"Congiuntivo",t:"Imperfetto",p:"3a plur.",tags:["cong"]},
+{v:"fosse",s:"Credevo che fosse vero.",c:"propria",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",tags:["cong"]},
+{v:"avesse",s:"Pensavo che avesse torto.",c:"propria",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",tags:["cong"]},
+{v:"abbia parlato",s:"Credo che abbia parlato lui.",c:"1a",m:"Congiuntivo",t:"Passato",p:"3a sing.",tags:["cong"]},
+{v:"sia partito",s:"Penso che sia partito.",c:"3a",m:"Congiuntivo",t:"Passato",p:"3a sing.",tags:["cong"]},
+{v:"avesse scritto",s:"Pensavo che avesse scritto.",c:"2a",m:"Congiuntivo",t:"Trapassato",p:"3a sing.",tags:["cong"]},
+{v:"fosse partito",s:"Credevo che fosse partito.",c:"3a",m:"Congiuntivo",t:"Trapassato",p:"3a sing.",tags:["cong"]},
+// CONDIZIONALE
+{v:"parlerei",s:"Io parlerei volentieri.",c:"1a",m:"Condizionale",t:"Presente",p:"1a sing.",tags:["cond"]},
+{v:"leggeresti",s:"Tu leggeresti questo libro?",c:"2a",m:"Condizionale",t:"Presente",p:"2a sing.",tags:["cond"]},
+{v:"partirebbe",s:"Marco partirebbe domani.",c:"3a",m:"Condizionale",t:"Presente",p:"3a sing.",tags:["cond"]},
+{v:"saremmo",s:"Noi saremmo felici.",c:"propria",m:"Condizionale",t:"Presente",p:"1a plur.",tags:["cond"]},
+{v:"mangerebbero",s:"I ragazzi mangerebbero la pizza.",c:"1a",m:"Condizionale",t:"Presente",p:"3a plur.",tags:["cond"]},
+{v:"avrei parlato",s:"Io avrei parlato con lui.",c:"1a",m:"Condizionale",t:"Passato",p:"1a sing.",tags:["cond"]},
+{v:"avrebbe letto",s:"Lucia avrebbe letto il libro.",c:"2a",m:"Condizionale",t:"Passato",p:"3a sing.",tags:["cond"]},
+{v:"sarebbe partito",s:"Marco sarebbe partito.",c:"3a",m:"Condizionale",t:"Passato",p:"3a sing.",tags:["cond"]},
+{v:"avremmo mangiato",s:"Noi avremmo mangiato volentieri.",c:"1a",m:"Condizionale",t:"Passato",p:"1a plur.",tags:["cond"]},
+// IMPERATIVO
+{v:"parla",s:"Parla più piano!",c:"1a",m:"Imperativo",t:"Presente",p:"2a sing.",tags:["imp"]},
+{v:"leggi",s:"Leggi questo libro!",c:"2a",m:"Imperativo",t:"Presente",p:"2a sing.",tags:["imp"]},
+{v:"parti",s:"Parti subito!",c:"3a",m:"Imperativo",t:"Presente",p:"2a sing.",tags:["imp"]},
+{v:"mangiamo",s:"Mangiamo insieme!",c:"1a",m:"Imperativo",t:"Presente",p:"1a plur.",tags:["imp"]},
+{v:"scrivete",s:"Scrivete il compito!",c:"2a",m:"Imperativo",t:"Presente",p:"2a plur.",tags:["imp"]},
+{v:"siate",s:"Siate gentili!",c:"propria",m:"Imperativo",t:"Presente",p:"2a plur.",tags:["imp"]},
+{v:"abbi",s:"Abbi pazienza!",c:"propria",m:"Imperativo",t:"Presente",p:"2a sing.",tags:["imp"]},
+// INFINITO
+{v:"parlare",s:"Parlare è importante.",c:"1a",m:"Infinito",t:"Presente",p:"—",tags:["inf"]},
+{v:"leggere",s:"Leggere è un piacere.",c:"2a",m:"Infinito",t:"Presente",p:"—",tags:["inf"]},
+{v:"dormire",s:"Dormire fa bene.",c:"3a",m:"Infinito",t:"Presente",p:"—",tags:["inf"]},
+{v:"essere",s:"Essere o non essere.",c:"propria",m:"Infinito",t:"Presente",p:"—",tags:["inf"]},
+{v:"avere",s:"Avere pazienza è una virtù.",c:"propria",m:"Infinito",t:"Presente",p:"—",tags:["inf"]},
+{v:"aver parlato",s:"Dopo aver parlato, uscì.",c:"1a",m:"Infinito",t:"Passato",p:"—",tags:["inf"]},
+{v:"essere partito",s:"Dopo essere partito, chiamò.",c:"3a",m:"Infinito",t:"Passato",p:"—",tags:["inf"]},
+// PARTICIPIO
+{v:"parlante",s:"Una voce parlante usciva dal buio.",c:"1a",m:"Participio",t:"Presente",p:"—",tags:["part"]},
+{v:"parlato",s:"Ho parlato con Marco.",c:"1a",m:"Participio",t:"Passato",p:"—",tags:["part"]},
+{v:"letto",s:"Il libro letto era bello.",c:"2a",m:"Participio",t:"Passato",p:"—",tags:["part"]},
+{v:"partito",s:"Il treno è partito.",c:"3a",m:"Participio",t:"Passato",p:"—",tags:["part"]},
+{v:"scritto",s:"La lettera è stata scritta.",c:"2a",m:"Participio",t:"Passato",p:"—",tags:["part"]},
+{v:"dormito",s:"Ho dormito bene.",c:"3a",m:"Participio",t:"Passato",p:"—",tags:["part"]},
+{v:"stato",s:"È stato bello.",c:"propria",m:"Participio",t:"Passato",p:"—",tags:["part"]},
+// GERUNDIO
+{v:"parlando",s:"Parlando si impara.",c:"1a",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]},
+{v:"leggendo",s:"Leggendo il libro, mi addormentai.",c:"2a",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]},
+{v:"dormendo",s:"Dormendo, non sentì il rumore.",c:"3a",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]},
+{v:"essendo",s:"Essendo stanco, andò a letto.",c:"propria",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]},
+{v:"avendo",s:"Avendo fame, mangiò subito.",c:"propria",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]},
+{v:"avendo parlato",s:"Avendo parlato, si sentì meglio.",c:"1a",m:"Gerundio",t:"Passato",p:"—",tags:["ger"]},
+{v:"essendo partito",s:"Essendo partito presto, arrivò per primo.",c:"3a",m:"Gerundio",t:"Passato",p:"—",tags:["ger"]},
+// EXTRA INDICATIVO per varietà
+{v:"cammina",s:"Il bambino cammina da solo.",c:"1a",m:"Indicativo",t:"Presente",p:"3a sing.",tags:["ind"]},
+{v:"bevevano",s:"I gatti bevevano il latte.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"3a plur.",tags:["ind"]},
+{v:"canterà",s:"Maria canterà domani.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"3a sing.",tags:["ind"]},
+{v:"hanno dormito",s:"I bambini hanno dormito bene.",c:"3a",m:"Indicativo",t:"Passato prossimo",p:"3a plur.",tags:["ind"]},
+{v:"capisco",s:"Io capisco la lezione.",c:"3a",m:"Indicativo",t:"Presente",p:"1a sing.",tags:["ind"]},
+{v:"vinse",s:"Cesare vinse in Gallia.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",tags:["ind"]},
+{v:"avevi mangiato",s:"Tu avevi mangiato troppo.",c:"1a",m:"Indicativo",t:"Trapassato prossimo",p:"2a sing.",tags:["ind"]},
+{v:"finiremo",s:"Noi finiremo il progetto.",c:"3a",m:"Indicativo",t:"Futuro semplice",p:"1a plur.",tags:["ind"]},
+{v:"ha cantato",s:"Maria ha cantato bene.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",tags:["ind"]},
+{v:"eravamo",s:"Noi eravamo al parco.",c:"propria",m:"Indicativo",t:"Imperfetto",p:"1a plur.",tags:["ind"]},
+// EXTRA CONGIUNTIVO
+{v:"mangiassero",s:"Volevo che mangiassero.",c:"1a",m:"Congiuntivo",t:"Imperfetto",p:"3a plur.",tags:["cong"]},
+{v:"finisca",s:"Spero che finisca presto.",c:"3a",m:"Congiuntivo",t:"Presente",p:"3a sing.",tags:["cong"]},
+{v:"abbia dormito",s:"Credo che abbia dormito poco.",c:"3a",m:"Congiuntivo",t:"Passato",p:"3a sing.",tags:["cong"]},
+// EXTRA CONDIZIONALE
+{v:"dormiremmo",s:"Noi dormiremmo volentieri.",c:"3a",m:"Condizionale",t:"Presente",p:"1a plur.",tags:["cond"]},
+{v:"avrebbe dormito",s:"Il bambino avrebbe dormito di più.",c:"3a",m:"Condizionale",t:"Passato",p:"3a sing.",tags:["cond"]},
+// TRAPASSATO REMOTO (mancava!)
+{v:"ebbi parlato",s:"Dopo che ebbi parlato, uscii.",c:"1a",m:"Indicativo",t:"Trapassato remoto",p:"1a sing.",tags:["ind"]},
+{v:"ebbe scritto",s:"Quando ebbe scritto la lettera, la spedì.",c:"2a",m:"Indicativo",t:"Trapassato remoto",p:"3a sing.",tags:["ind"]},
+{v:"furono partiti",s:"Dopo che furono partiti, chiusi la porta.",c:"3a",m:"Indicativo",t:"Trapassato remoto",p:"3a plur.",tags:["ind"]},
+{v:"ebbe finito",s:"Appena ebbe finito, si alzò.",c:"3a",m:"Indicativo",t:"Trapassato remoto",p:"3a sing.",tags:["ind"]},
+// EXTRA — varietà per persone/tempi poco rappresentati
+{v:"camminiamo",s:"Noi camminiamo lungo il fiume.",c:"1a",m:"Indicativo",t:"Presente",p:"1a plur.",tags:["ind"]},
+{v:"scrivevi",s:"Tu scrivevi una poesia.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"2a sing.",tags:["ind"]},
+{v:"partiste",s:"Voi partiste all'alba.",c:"3a",m:"Indicativo",t:"Passato remoto",p:"2a plur.",tags:["ind"]},
+{v:"mangerete",s:"Voi mangerete al ristorante.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"2a plur.",tags:["ind"]},
+{v:"avete letto",s:"Voi avete letto il romanzo.",c:"2a",m:"Indicativo",t:"Passato prossimo",p:"2a plur.",tags:["ind"]},
+{v:"avevamo dormito",s:"Noi avevamo dormito poco.",c:"3a",m:"Indicativo",t:"Trapassato prossimo",p:"1a plur.",tags:["ind"]},
+{v:"avrà finito",s:"Lucia avrà finito il compito.",c:"3a",m:"Indicativo",t:"Futuro anteriore",p:"3a sing.",tags:["ind"]},
+{v:"studi",s:"Voglio che tu studi di più.",c:"1a",m:"Congiuntivo",t:"Presente",p:"2a sing.",tags:["cong"]},
+{v:"leggessimo",s:"Voleva che leggessimo quel libro.",c:"2a",m:"Congiuntivo",t:"Imperfetto",p:"1a plur.",tags:["cong"]},
+{v:"scriveresti",s:"Tu scriveresti un libro?",c:"2a",m:"Condizionale",t:"Presente",p:"2a sing.",tags:["cond"]},
+{v:"partite",s:"Partite subito!",c:"3a",m:"Imperativo",t:"Presente",p:"2a plur.",tags:["imp"]},
+{v:"mangiate",s:"Mangiate la verdura!",c:"1a",m:"Imperativo",t:"Presente",p:"2a plur.",tags:["imp"]},
+{v:"avendo letto",s:"Avendo letto il libro, lo consigliò.",c:"2a",m:"Gerundio",t:"Passato",p:"—",tags:["ger"]},
+{v:"correndo",s:"Correndo, inciampò.",c:"2a",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]}
+];
+
+// ============================================================
+//  ANALISI LOGICA — ENGINE
+// ============================================================
+var LS={questions:[],qi:0,score:0,results:[],selectedPart:null,assignments:{},activeCats:[],replayMode:false};
+
+function openLogica(){show('scrLogHome');buildLogTopics()}
+function buildLogTopics(){
+  var ah=document.getElementById('alwaysTopics');
+  var sh=document.getElementById('selectTopics');
+  ah.innerHTML='';sh.innerHTML='';
+  LOG_CATS.forEach(function(c){
+    if(!c.always)return;
+    var b=document.createElement('button');
+    b.className='topic-btn always';b.textContent=c.name;b.dataset.id=c.id;
+    ah.appendChild(b);
+  });
+  LOG_GROUPS.forEach(function(g){
+    var cats=LOG_CATS.filter(function(c){return !c.always&&c.group===g.id});
+    if(!cats.length)return;
+    var gd=document.createElement('div');gd.className='topic-group';
+    gd.innerHTML='<div class="topic-group-label">'+g.label+'</div>';
+    var grid=document.createElement('div');grid.className='topic-grid';
+    cats.forEach(function(c){
+      var b=document.createElement('button');b.className='topic-btn';b.textContent=c.name;b.dataset.id=c.id;
+      b.onclick=function(){b.classList.toggle('selected');updateLogStart()};
+      grid.appendChild(b);
+    });
+    gd.appendChild(grid);sh.appendChild(gd);
+  });
+  updateLogStart();
+}
+function updateLogStart(){
+  var sel=[];document.querySelectorAll('#selectTopics .topic-btn.selected').forEach(function(b){sel.push(b.dataset.id)});
+  document.getElementById('btnStartLog').disabled=sel.length===0;
+}
+function toggleAllLog(){
+  var btns=document.querySelectorAll('#selectTopics .topic-btn');
+  var allSel=true;btns.forEach(function(b){if(!b.classList.contains('selected'))allSel=false});
+  btns.forEach(function(b){if(allSel)b.classList.remove('selected');else b.classList.add('selected')});
+  updateLogStart();
+}
+function startLogica(){
+  var topics=[];document.querySelectorAll('#selectTopics .topic-btn.selected').forEach(function(b){topics.push(b.dataset.id)});
+  LS.activeCats=[];
+  LOG_CATS.forEach(function(c){if(c.always||topics.indexOf(c.id)!==-1)LS.activeCats.push(c)});
+  var pool=[];
+  LOG_SENT.forEach(function(s){var ok=true;s.tags.forEach(function(t){if(topics.indexOf(t)===-1)ok=false});if(ok)pool.push(s)});
+  if(pool.length<QXL){alert('Non ci sono abbastanza frasi. Seleziona più argomenti.');return}
+  LS.questions=shuffle(pool.slice()).slice(0,QXL);
+  LS.qi=0;LS.score=0;LS.results=[];LS.replayMode=false;
+  show('scrLogGame');logRenderQ();
+}
+function logReplayErrors(){
+  var errs=[];LS.results.forEach(function(r){if(!r.allCorrect)errs.push(r.sentence)});
+  if(!errs.length){showFeedback('✅','Nessun errore!');return}
+  LS.questions=shuffle(errs);LS.qi=0;LS.score=0;LS.results=[];LS.replayMode=true;
+  show('scrLogGame');logRenderQ();
+}
+function logRenderQ(){
+  var q=LS.questions[LS.qi],total=LS.questions.length;
+  document.getElementById('logProgText').textContent=(LS.qi+1)+' / '+total;
+  document.getElementById('logProgFill').style.width=((LS.qi+1)/total*100)+'%';
+  document.getElementById('logSentText').textContent=q.text;
+  LS.selectedPart=null;LS.assignments={};
+  var pr=document.getElementById('logPartsRow');pr.innerHTML='';
+  q.parts.forEach(function(p,i){
+    var ch=document.createElement('div');ch.className='part-chip';ch.textContent=p[0];ch.dataset.idx=i;
+    ch.onclick=function(){logSelectPart(i)};pr.appendChild(ch);
+  });
+  var cg=document.getElementById('logCatGrid');cg.innerHTML='';
+  LS.activeCats.forEach(function(c){
+    var b=document.createElement('button');b.className='cat-btn';b.textContent=c.name;b.dataset.id=c.id;
+    b.onclick=function(){logAssignCat(c.id,c.name)};cg.appendChild(b);
+  });
+  document.getElementById('btnLogCheck').disabled=true;
+}
+function logSelectPart(idx){
+  var chips=document.querySelectorAll('#logPartsRow .part-chip');
+  if(chips[idx].classList.contains('assigned'))return;
+  chips.forEach(function(c){c.classList.remove('selected')});
+  chips[idx].classList.add('selected');LS.selectedPart=idx;
+}
+function logAssignCat(catId,catName){
+  if(LS.selectedPart===null)return;
+  var idx=LS.selectedPart;LS.assignments[idx]={id:catId,name:catName};
+  var chips=document.querySelectorAll('#logPartsRow .part-chip');
+  chips[idx].classList.remove('selected');chips[idx].classList.add('assigned');
+  var lbl=chips[idx].querySelector('.label');
+  if(!lbl){lbl=document.createElement('span');lbl.className='label';chips[idx].appendChild(lbl)}
+  lbl.textContent=catName;LS.selectedPart=null;
+  var q=LS.questions[LS.qi],allDone=true;
+  q.parts.forEach(function(p,i){if(!LS.assignments[i])allDone=false});
+  document.getElementById('btnLogCheck').disabled=!allDone;
+}
+function logResetCurrent(){
+  LS.selectedPart=null;LS.assignments={};
+  document.querySelectorAll('#logPartsRow .part-chip').forEach(function(c){
+    c.classList.remove('selected','assigned','wrong');var l=c.querySelector('.label');if(l)l.remove();
+  });
+  document.getElementById('btnLogCheck').disabled=true;
+}
+function logCheckAnswer(){
+  var q=LS.questions[LS.qi],allCorrect=true,details=[];
+  var chips=document.querySelectorAll('#logPartsRow .part-chip');
+  q.parts.forEach(function(p,i){
+    var correctId=p[1],given=LS.assignments[i],isOk=given&&given.id===correctId;
+    if(!isOk)allCorrect=false;
+    var correctName='';LOG_CATS.forEach(function(c){if(c.id===correctId)correctName=c.name});
+    details.push({text:p[0],correct:correctName,given:given?given.name:'—',ok:isOk});
+    if(!isOk){chips[i].classList.add('wrong');chips[i].classList.remove('assigned');
+      var lbl=chips[i].querySelector('.label');if(lbl){lbl.textContent='✗ '+correctName;lbl.style.color='var(--red)'}}
+  });
+  if(allCorrect)LS.score++;
+  LS.results.push({sentence:q,allCorrect:allCorrect,details:details});
+  showFeedback(allCorrect?'✅':'❌',allCorrect?'Corretto!':'Controlla le correzioni');
+  chips.forEach(function(c){c.onclick=null;c.style.cursor='default'});
+  document.querySelectorAll('#logCatGrid .cat-btn').forEach(function(b){b.disabled=true});
+  document.getElementById('btnLogCheck').disabled=true;
+  setTimeout(function(){LS.qi++;if(LS.qi<LS.questions.length)logRenderQ();else logShowResults()},allCorrect?1200:2500);
+}
+function logShowResults(){
+  show('scrLogResults');
+  var total=LS.questions.length,pct=Math.round(LS.score/total*100);
+  var el=document.getElementById('logScoreBig');el.textContent=pct+'%';
+  el.className='score-big'+(pct>=70?'':pct>=50?' medium':' low');
+  document.getElementById('logScoreLbl').textContent=LS.score+' / '+total+' frasi corrette';
+  var rl=document.getElementById('logReviewList');rl.innerHTML='<h2>Riepilogo</h2>';
+  LS.results.forEach(function(r){
+    var div=document.createElement('div');div.className='review-item'+(r.allCorrect?' correct':'');
+    var h='<div class="review-sentence">'+r.sentence.text+'</div>';
+    if(!r.allCorrect){h+='<div class="review-detail">';
+      r.details.forEach(function(d){if(!d.ok)h+='<b>'+d.text+'</b>: <span class="wrong-text">'+d.given+'</span> → <span class="right">'+d.correct+'</span><br>'});
+      h+='</div>';}
+    div.innerHTML=h;rl.appendChild(div);
+  });
+}
+
+// ============================================================
+//  ANALISI GRAMMATICALE — ENGINE
+// ============================================================
+var GS={questions:[],qi:0,score:0,results:[],answers:{},replayMode:false};
+
+function openGramm(){show('scrGrammHome');buildGrammTopics()}
+function buildGrammTopics(){
+  var gt=document.getElementById('grammTopics');gt.innerHTML='';
+  GRAMM_MODI.forEach(function(m){
+    var b=document.createElement('button');b.className='topic-btn';b.textContent=m.name;b.dataset.id=m.id;
+    b.onclick=function(){b.classList.toggle('selected');updateGrammStart()};
+    gt.appendChild(b);
+  });
+  updateGrammStart();
+}
+function updateGrammStart(){
+  var sel=[];document.querySelectorAll('#grammTopics .topic-btn.selected').forEach(function(b){sel.push(b.dataset.id)});
+  document.getElementById('btnStartGramm').disabled=sel.length===0;
+}
+function toggleAllGramm(){
+  var btns=document.querySelectorAll('#grammTopics .topic-btn');
+  var allSel=true;btns.forEach(function(b){if(!b.classList.contains('selected'))allSel=false});
+  btns.forEach(function(b){if(allSel)b.classList.remove('selected');else b.classList.add('selected')});
+  updateGrammStart();
+}
+function startGramm(){
+  var topics=[];document.querySelectorAll('#grammTopics .topic-btn.selected').forEach(function(b){topics.push(b.dataset.id)});
+  var pool=[];
+  GRAMM_VERBS.forEach(function(v){var ok=false;v.tags.forEach(function(t){if(topics.indexOf(t)!==-1)ok=true});if(ok)pool.push(v)});
+  if(pool.length<QXL){alert('Non ci sono abbastanza forme verbali. Seleziona più modi.');return}
+  GS.questions=shuffle(pool.slice()).slice(0,QXL);
+  GS.qi=0;GS.score=0;GS.results=[];GS.replayMode=false;
+  show('scrGrammGame');grammRenderQ();
+}
+function grammReplayErrors(){
+  var errs=[];GS.results.forEach(function(r){if(!r.allCorrect)errs.push(r.verb)});
+  if(!errs.length){showFeedback('✅','Nessun errore!');return}
+  GS.questions=shuffle(errs);GS.qi=0;GS.score=0;GS.results=[];GS.replayMode=true;
+  show('scrGrammGame');grammRenderQ();
+}
+
+function grammGetTempi(modo){
+  var map={
+    "Indicativo":["Presente","Imperfetto","Passato remoto","Futuro semplice","Passato prossimo","Trapassato prossimo","Trapassato remoto","Futuro anteriore"],
+    "Congiuntivo":["Presente","Imperfetto","Passato","Trapassato"],
+    "Condizionale":["Presente","Passato"],
+    "Imperativo":["Presente"],
+    "Infinito":["Presente","Passato"],
+    "Participio":["Presente","Passato"],
+    "Gerundio":["Presente","Passato"]
+  };
+  return map[modo]||[];
+}
+
+function grammRenderQ(){
+  var q=GS.questions[GS.qi],total=GS.questions.length;
+  document.getElementById('grammProgText').textContent=(GS.qi+1)+' / '+total;
+  document.getElementById('grammProgFill').style.width=((GS.qi+1)/total*100)+'%';
+  document.getElementById('grammSentText').innerHTML=q.s.replace(q.v,'<span class="verb-highlight">'+q.v+'</span>');
+  GS.answers={};
+
+  var steps=document.getElementById('grammSteps');
+  steps.innerHTML='';
+
+  // Step 1: Coniugazione
+  var s1=makeStepGroup('Coniugazione',['1a','2a','3a','propria'],'conj');
+  steps.appendChild(s1);
+
+  // Step 2: Modo
+  var modoNames=GRAMM_MODI.map(function(m){return m.name});
+  var s2=makeStepGroup('Modo',modoNames,'modo');
+  steps.appendChild(s2);
+
+  // Step 3: Tempo (appears after modo is selected)
+  var s3=document.createElement('div');s3.className='step-group';s3.id='stepTempo';s3.style.display='none';
+  s3.innerHTML='<div class="step-group-label">Tempo</div><div class="cat-grid" id="tempoGrid"></div>';
+  steps.appendChild(s3);
+
+  // Step 4: Persona (not for inf/part/ger)
+  var s4=document.createElement('div');s4.className='step-group';s4.id='stepPersona';s4.style.display='none';
+  s4.innerHTML='<div class="step-group-label">Persona e numero</div><div class="cat-grid" id="personaGrid"></div>';
+  steps.appendChild(s4);
+
+  document.getElementById('btnGrammCheck').disabled=true;
+}
+
+function makeStepGroup(label,options,key){
+  var div=document.createElement('div');div.className='step-group';
+  div.innerHTML='<div class="step-group-label">'+label+'</div>';
+  var grid=document.createElement('div');grid.className='cat-grid';
+  options.forEach(function(o){
+    var b=document.createElement('button');b.className='cat-btn';b.textContent=o;
+    b.onclick=function(){
+      grid.querySelectorAll('.cat-btn').forEach(function(x){x.classList.remove('cat-selected')});
+      b.classList.add('cat-selected');
+      GS.answers[key]=o;
+      if(key==='modo')onModoSelected(o);
+      grammCheckReady();
+    };
+    grid.appendChild(b);
+  });
+  div.appendChild(grid);return div;
+}
+
+function onModoSelected(modo){
+  var tempi=grammGetTempi(modo);
+  var ts=document.getElementById('stepTempo');
+  var tg=document.getElementById('tempoGrid');
+  ts.style.display='block';tg.innerHTML='';
+  delete GS.answers.tempo;delete GS.answers.persona;
+
+  tempi.forEach(function(t){
+    var b=document.createElement('button');b.className='cat-btn';b.textContent=t;
+    b.onclick=function(){
+      tg.querySelectorAll('.cat-btn').forEach(function(x){x.classList.remove('cat-selected')});
+      b.classList.add('cat-selected');GS.answers.tempo=t;grammCheckReady();
+    };
+    tg.appendChild(b);
+  });
+
+  var ps=document.getElementById('stepPersona');
+  var pg=document.getElementById('personaGrid');
+  var needsPersona=["Indicativo","Congiuntivo","Condizionale","Imperativo"].indexOf(modo)!==-1;
+  if(needsPersona){
+    ps.style.display='block';pg.innerHTML='';
+    var persone=["1a sing.","2a sing.","3a sing.","1a plur.","2a plur.","3a plur."];
+    persone.forEach(function(p){
+      var b=document.createElement('button');b.className='cat-btn';b.textContent=p;
+      b.onclick=function(){
+        pg.querySelectorAll('.cat-btn').forEach(function(x){x.classList.remove('cat-selected')});
+        b.classList.add('cat-selected');GS.answers.persona=p;grammCheckReady();
+      };
+      pg.appendChild(b);
+    });
+  } else {
+    ps.style.display='none';GS.answers.persona='—';
+  }
+  grammCheckReady();
+}
+
+function grammCheckReady(){
+  var needed=['conj','modo','tempo','persona'];
+  var ready=true;
+  needed.forEach(function(k){if(!GS.answers[k])ready=false});
+  document.getElementById('btnGrammCheck').disabled=!ready;
+}
+
+function grammResetCurrent(){
+  GS.answers={};
+  document.querySelectorAll('#grammSteps .cat-btn').forEach(function(b){b.classList.remove('cat-selected','cat-wrong','cat-correct')});
+  document.getElementById('stepTempo').style.display='none';
+  document.getElementById('stepPersona').style.display='none';
+  document.getElementById('btnGrammCheck').disabled=true;
+}
+
+function grammCheckAnswer(){
+  var q=GS.questions[GS.qi];
+  var checks=[
+    {key:'conj',label:'Coniugazione',correct:q.c,given:GS.answers.conj},
+    {key:'modo',label:'Modo',correct:q.m,given:GS.answers.modo},
+    {key:'tempo',label:'Tempo',correct:q.t,given:GS.answers.tempo},
+    {key:'persona',label:'Persona',correct:q.p,given:GS.answers.persona}
+  ];
+  var allCorrect=true;
+  checks.forEach(function(ch){if(ch.given!==ch.correct)allCorrect=false});
+  if(allCorrect)GS.score++;
+  GS.results.push({verb:q,allCorrect:allCorrect,checks:checks});
+  showFeedback(allCorrect?'✅':'❌',allCorrect?'Corretto!':'Controlla le correzioni');
+
+  // Color feedback on buttons
+  document.querySelectorAll('#grammSteps .cat-btn').forEach(function(b){b.onclick=null;b.style.cursor='default'});
+  document.getElementById('btnGrammCheck').disabled=true;
+
+  setTimeout(function(){GS.qi++;if(GS.qi<GS.questions.length)grammRenderQ();else grammShowResults()},allCorrect?1200:2500);
+}
+
+function grammShowResults(){
+  show('scrGrammResults');
+  var total=GS.questions.length,pct=Math.round(GS.score/total*100);
+  var el=document.getElementById('grammScoreBig');el.textContent=pct+'%';
+  el.className='score-big'+(pct>=70?'':pct>=50?' medium':' low');
+  document.getElementById('grammScoreLbl').textContent=GS.score+' / '+total+' forme corrette';
+  var rl=document.getElementById('grammReviewList');rl.innerHTML='<h2>Riepilogo</h2>';
+  GS.results.forEach(function(r){
+    var div=document.createElement('div');div.className='review-item'+(r.allCorrect?' correct':'');
+    var h='<div class="review-sentence"><span class="verb-highlight">'+r.verb.v+'</span> — '+r.verb.s+'</div>';
+    if(!r.allCorrect){
+      h+='<div class="review-detail">';
+      r.checks.forEach(function(ch){
+        if(ch.given!==ch.correct)h+='<b>'+ch.label+'</b>: <span class="wrong-text">'+ch.given+'</span> → <span class="right">'+ch.correct+'</span><br>';
+      });
+      h+='</div>';
+    }
+    div.innerHTML=h;rl.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>
