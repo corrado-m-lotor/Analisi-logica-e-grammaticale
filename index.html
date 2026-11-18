@@ -35,6 +35,7 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
 .topic-btn.always{border-color:var(--accent);background:rgba(129,140,248,.15);cursor:default;opacity:.85}
 .topic-btn.selected{border-color:var(--green);background:rgba(52,211,153,.15);color:var(--green)}
 .topic-btn:not(.always):not(.selected):active{transform:scale(.96)}
+.topic-section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin:8px 0 4px 2px}
 .topic-group{width:100%;margin-top:10px}
 .topic-group-label{font-size:.75rem;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.8px;text-align:center;margin-bottom:6px}
 
@@ -1034,7 +1035,7 @@ var LOG_SENT=[
 {text:"Per il compleanno del figlio la mamma ha preparato una torta di cioccolato.",parts:[["Per il compleanno","cau"],["del figlio","spec"],["la mamma","sogg"],["ha preparato","pv"],["una torta","ogg"],["di cioccolato","mat"]],tags:["cau","spec","ogg","mat"]},
 {text:"Malgrado la pioggia gli operai lavorano nel cantiere da stamattina.",parts:[["Malgrado la pioggia","con"],["gli operai","sogg"],["lavorano","pv"],["nel cantiere","sta"],["da stamattina","tem_det"]],tags:["con","sta","tem_det"]},
 {text:"Il regalo per la maestra è stato comprato dai genitori con entusiasmo.",parts:[["Il regalo","sogg"],["per la maestra","van"],["è stato comprato","pv"],["dai genitori","age"],["con entusiasmo","mod"]],tags:["van","age","mod"]},
-{text:"Dal balcone di casa mia si vedono le montagne.",parts:[["Dal balcone","moto_da"],["di casa mia","spec"],["si vedono","pv"],["le montagne","ogg"]],tags:["moto_da","spec","ogg"]},
+{text:"Dal balcone di casa mia si vedono le montagne.",parts:[["Dal balcone","sta"],["di casa mia","spec"],["si vedono","pv"],["le montagne","sogg"]],tags:["sta","spec"]},
 {text:"Secondo il regolamento gli studenti devono arrivare a scuola alle otto.",parts:[["Secondo il regolamento","lim"],["gli studenti","sogg"],["devono arrivare","pv"],["a scuola","moto_a"],["alle otto","tem_det"]],tags:["lim","moto_a","tem_det"]},
 // MOTO DA LUOGO (nuove)
 {text:"Il treno proviene da Napoli.",parts:[["Il treno","sogg"],["proviene","pv"],["da Napoli","moto_da"]],tags:["moto_da"]},
@@ -1067,12 +1068,12 @@ var LOG_SENT=[
 {text:"Gli hanno regalato un orologio per il compleanno.",parts:[["(Essi)","sogg"],["Gli","ter"],["hanno regalato","pv"],["un orologio","ogg"],["per il compleanno","cau"]],tags:["ter","ogg","cau"]},
 {text:"Ce lo ha detto la professoressa.",parts:[["la professoressa","sogg"],["Ce","ter"],["lo","ogg"],["ha detto","pv"]],tags:["ter","ogg"]},
 {text:"Di questo problema si è discusso a lungo.",parts:[["Di questo problema","arg"],["si è discusso","pv"],["a lungo","tem_con"]],tags:["arg","tem_con"]},
-{text:"In classe non si parla ad alta voce.",parts:[["In classe","sta"],["non","mod"],["si parla","pv"],["ad alta voce","mod"]],tags:["sta","mod"]},
+{text:"In classe non si parla ad alta voce.",parts:[["In classe","sta"],["non si parla","pv"],["ad alta voce","mod"]],tags:["sta","mod"]},
 {text:"Al mercato la mamma compra la frutta fresca.",parts:[["Al mercato","sta"],["la mamma","sogg"],["compra","pv"],["la frutta fresca","ogg"]],tags:["sta","ogg"]},
-{text:"Dalla finestra si vede il mare.",parts:[["Dalla finestra","moto_da"],["si vede","pv"],["il mare","ogg"]],tags:["moto_da","ogg"]},
+{text:"Dalla finestra si vede il mare.",parts:[["Dalla finestra","sta"],["si vede","pv"],["il mare","sogg"]],tags:["sta"]},
 {text:"Mi è stato consegnato il pacco dal corriere.",parts:[["Mi","ter"],["è stato consegnato","pv"],["il pacco","sogg"],["dal corriere","age"]],tags:["ter","age"]},
 {text:"Di sera la piazza si riempie di gente.",parts:[["Di sera","tem_det"],["la piazza","sogg"],["si riempie","pv"],["di gente","abb"]],tags:["tem_det","abb"]},
-{text:"Non gli è piaciuto il regalo.",parts:[["il regalo","sogg"],["Non","mod"],["gli","ter"],["è piaciuto","pv"]],tags:["ter"]},
+{text:"Il regalo non è piaciuto al bambino.",parts:[["Il regalo","sogg"],["non è piaciuto","pv"],["al bambino","ter"]],tags:["ter"]},
 {text:"Ci vuole pazienza con i bambini.",parts:[["pazienza","sogg"],["Ci vuole","pv"],["con i bambini","comp"]],tags:["comp"]},
 {text:"Per strada ho incontrato il mio vecchio professore.",parts:[["Per strada","sta"],["(io)","sogg"],["ho incontrato","pv"],["il mio vecchio professore","ogg"]],tags:["sta","ogg"]},
 {text:"In giardino fioriscono le rose a primavera.",parts:[["In giardino","sta"],["fioriscono","pv"],["le rose","sogg"],["a primavera","tem_det"]],tags:["sta","tem_det"]},
@@ -1100,143 +1101,219 @@ var GRAMM_MODI=[
 // v=forma verbale, s=frase di contesto, c=coniugazione, m=modo, t=tempo, p=persona/numero, tags=modi
 var GRAMM_VERBS=[
 // INDICATIVO PRESENTE
-{v:"parlo",s:"Io parlo con Marco.",c:"1a",m:"Indicativo",t:"Presente",p:"1a sing.",tags:["ind"]},
-{v:"mangi",s:"Tu mangi una mela.",c:"1a",m:"Indicativo",t:"Presente",p:"2a sing.",tags:["ind"]},
-{v:"legge",s:"Lucia legge un libro.",c:"2a",m:"Indicativo",t:"Presente",p:"3a sing.",tags:["ind"]},
-{v:"scriviamo",s:"Noi scriviamo una lettera.",c:"2a",m:"Indicativo",t:"Presente",p:"1a plur.",tags:["ind"]},
-{v:"dormite",s:"Voi dormite fino a tardi.",c:"3a",m:"Indicativo",t:"Presente",p:"2a plur.",tags:["ind"]},
-{v:"partono",s:"I ragazzi partono domani.",c:"3a",m:"Indicativo",t:"Presente",p:"3a plur.",tags:["ind"]},
-{v:"è",s:"Marco è contento.",c:"propria",m:"Indicativo",t:"Presente",p:"3a sing.",tags:["ind"]},
-{v:"hanno",s:"I bambini hanno fame.",c:"propria",m:"Indicativo",t:"Presente",p:"3a plur.",tags:["ind"]},
+{v:"parlo",s:"Io parlo con Marco.",c:"1a",m:"Indicativo",t:"Presente",p:"1a sing.",d:"attiva",tags:["ind"]},
+{v:"mangi",s:"Tu mangi una mela.",c:"1a",m:"Indicativo",t:"Presente",p:"2a sing.",d:"attiva",tags:["ind"]},
+{v:"legge",s:"Lucia legge un libro.",c:"2a",m:"Indicativo",t:"Presente",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"scriviamo",s:"Noi scriviamo una lettera.",c:"2a",m:"Indicativo",t:"Presente",p:"1a plur.",d:"attiva",tags:["ind"]},
+{v:"dormite",s:"Voi dormite fino a tardi.",c:"3a",m:"Indicativo",t:"Presente",p:"2a plur.",d:"attiva",tags:["ind"]},
+{v:"partono",s:"I ragazzi partono domani.",c:"3a",m:"Indicativo",t:"Presente",p:"3a plur.",d:"attiva",tags:["ind"]},
+{v:"è",s:"Marco è contento.",c:"propria",m:"Indicativo",t:"Presente",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"hanno",s:"I bambini hanno fame.",c:"propria",m:"Indicativo",t:"Presente",p:"3a plur.",d:"attiva",tags:["ind"]},
 // INDICATIVO IMPERFETTO
-{v:"parlavo",s:"Io parlavo al telefono.",c:"1a",m:"Indicativo",t:"Imperfetto",p:"1a sing.",tags:["ind"]},
-{v:"leggevi",s:"Tu leggevi il giornale.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"2a sing.",tags:["ind"]},
-{v:"dormiva",s:"Il bambino dormiva tranquillo.",c:"3a",m:"Indicativo",t:"Imperfetto",p:"3a sing.",tags:["ind"]},
-{v:"mangiavamo",s:"Noi mangiavamo in giardino.",c:"1a",m:"Indicativo",t:"Imperfetto",p:"1a plur.",tags:["ind"]},
-{v:"correvano",s:"I cani correvano nel parco.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"3a plur.",tags:["ind"]},
-{v:"era",s:"Il cielo era sereno.",c:"propria",m:"Indicativo",t:"Imperfetto",p:"3a sing.",tags:["ind"]},
+{v:"parlavo",s:"Io parlavo al telefono.",c:"1a",m:"Indicativo",t:"Imperfetto",p:"1a sing.",d:"attiva",tags:["ind"]},
+{v:"leggevi",s:"Tu leggevi il giornale.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"2a sing.",d:"attiva",tags:["ind"]},
+{v:"dormiva",s:"Il bambino dormiva tranquillo.",c:"3a",m:"Indicativo",t:"Imperfetto",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"mangiavamo",s:"Noi mangiavamo in giardino.",c:"1a",m:"Indicativo",t:"Imperfetto",p:"1a plur.",d:"attiva",tags:["ind"]},
+{v:"correvano",s:"I cani correvano nel parco.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"3a plur.",d:"attiva",tags:["ind"]},
+{v:"era",s:"Il cielo era sereno.",c:"propria",m:"Indicativo",t:"Imperfetto",p:"3a sing.",d:"attiva",tags:["ind"]},
 // INDICATIVO PASSATO REMOTO
-{v:"parlai",s:"Io parlai a lungo.",c:"1a",m:"Indicativo",t:"Passato remoto",p:"1a sing.",tags:["ind"]},
-{v:"scrisse",s:"Dante scrisse la Commedia.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",tags:["ind"]},
-{v:"partirono",s:"I soldati partirono all'alba.",c:"3a",m:"Indicativo",t:"Passato remoto",p:"3a plur.",tags:["ind"]},
-{v:"fu",s:"La battaglia fu decisiva.",c:"propria",m:"Indicativo",t:"Passato remoto",p:"3a sing.",tags:["ind"]},
-{v:"nacque",s:"Leonardo nacque nel 1452.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",tags:["ind"]},
-{v:"vinsero",s:"I romani vinsero la guerra.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a plur.",tags:["ind"]},
+{v:"parlai",s:"Io parlai a lungo.",c:"1a",m:"Indicativo",t:"Passato remoto",p:"1a sing.",d:"attiva",tags:["ind"]},
+{v:"scrisse",s:"Dante scrisse la Commedia.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"partirono",s:"I soldati partirono all'alba.",c:"3a",m:"Indicativo",t:"Passato remoto",p:"3a plur.",d:"attiva",tags:["ind"]},
+{v:"fu",s:"La battaglia fu decisiva.",c:"propria",m:"Indicativo",t:"Passato remoto",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"nacque",s:"Leonardo nacque nel 1452.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"vinsero",s:"I romani vinsero la guerra.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a plur.",d:"attiva",tags:["ind"]},
 // INDICATIVO FUTURO SEMPLICE
-{v:"parlerò",s:"Domani parlerò con il preside.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"1a sing.",tags:["ind"]},
-{v:"leggerai",s:"Tu leggerai questo libro.",c:"2a",m:"Indicativo",t:"Futuro semplice",p:"2a sing.",tags:["ind"]},
-{v:"partirà",s:"Il treno partirà alle dieci.",c:"3a",m:"Indicativo",t:"Futuro semplice",p:"3a sing.",tags:["ind"]},
-{v:"saremo",s:"Noi saremo pronti.",c:"propria",m:"Indicativo",t:"Futuro semplice",p:"1a plur.",tags:["ind"]},
-{v:"studieranno",s:"Gli studenti studieranno di più.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"3a plur.",tags:["ind"]},
+{v:"parlerò",s:"Domani parlerò con il preside.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"1a sing.",d:"attiva",tags:["ind"]},
+{v:"leggerai",s:"Tu leggerai questo libro.",c:"2a",m:"Indicativo",t:"Futuro semplice",p:"2a sing.",d:"attiva",tags:["ind"]},
+{v:"partirà",s:"Il treno partirà alle dieci.",c:"3a",m:"Indicativo",t:"Futuro semplice",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"saremo",s:"Noi saremo pronti.",c:"propria",m:"Indicativo",t:"Futuro semplice",p:"1a plur.",d:"attiva",tags:["ind"]},
+{v:"studieranno",s:"Gli studenti studieranno di più.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"3a plur.",d:"attiva",tags:["ind"]},
 // INDICATIVO PASSATO PROSSIMO
-{v:"ho parlato",s:"Io ho parlato con Lucia.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"1a sing.",tags:["ind"]},
-{v:"hai letto",s:"Tu hai letto il libro.",c:"2a",m:"Indicativo",t:"Passato prossimo",p:"2a sing.",tags:["ind"]},
-{v:"è partito",s:"Marco è partito ieri.",c:"3a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",tags:["ind"]},
-{v:"abbiamo mangiato",s:"Noi abbiamo mangiato bene.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"1a plur.",tags:["ind"]},
-{v:"sono arrivati",s:"I turisti sono arrivati.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"3a plur.",tags:["ind"]},
-{v:"ha scritto",s:"Lucia ha scritto una lettera.",c:"2a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",tags:["ind"]},
+{v:"ho parlato",s:"Io ho parlato con Lucia.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"1a sing.",d:"attiva",tags:["ind"]},
+{v:"hai letto",s:"Tu hai letto il libro.",c:"2a",m:"Indicativo",t:"Passato prossimo",p:"2a sing.",d:"attiva",tags:["ind"]},
+{v:"è partito",s:"Marco è partito ieri.",c:"3a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"abbiamo mangiato",s:"Noi abbiamo mangiato bene.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"1a plur.",d:"attiva",tags:["ind"]},
+{v:"sono arrivati",s:"I turisti sono arrivati.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"3a plur.",d:"attiva",tags:["ind"]},
+{v:"ha scritto",s:"Lucia ha scritto una lettera.",c:"2a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",d:"attiva",tags:["ind"]},
 // INDICATIVO TRAPASSATO PROSSIMO
-{v:"avevo studiato",s:"Io avevo studiato molto.",c:"1a",m:"Indicativo",t:"Trapassato prossimo",p:"1a sing.",tags:["ind"]},
-{v:"era partito",s:"Marco era partito presto.",c:"3a",m:"Indicativo",t:"Trapassato prossimo",p:"3a sing.",tags:["ind"]},
-{v:"avevano letto",s:"I ragazzi avevano letto il libro.",c:"2a",m:"Indicativo",t:"Trapassato prossimo",p:"3a plur.",tags:["ind"]},
+{v:"avevo studiato",s:"Io avevo studiato molto.",c:"1a",m:"Indicativo",t:"Trapassato prossimo",p:"1a sing.",d:"attiva",tags:["ind"]},
+{v:"era partito",s:"Marco era partito presto.",c:"3a",m:"Indicativo",t:"Trapassato prossimo",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"avevano letto",s:"I ragazzi avevano letto il libro.",c:"2a",m:"Indicativo",t:"Trapassato prossimo",p:"3a plur.",d:"attiva",tags:["ind"]},
 // INDICATIVO FUTURO ANTERIORE
-{v:"avrò finito",s:"Domani avrò finito il lavoro.",c:"3a",m:"Indicativo",t:"Futuro anteriore",p:"1a sing.",tags:["ind"]},
-{v:"sarà partito",s:"Il treno sarà partito.",c:"3a",m:"Indicativo",t:"Futuro anteriore",p:"3a sing.",tags:["ind"]},
+{v:"avrò finito",s:"Domani avrò finito il lavoro.",c:"3a",m:"Indicativo",t:"Futuro anteriore",p:"1a sing.",d:"attiva",tags:["ind"]},
+{v:"sarà partito",s:"Il treno sarà partito.",c:"3a",m:"Indicativo",t:"Futuro anteriore",p:"3a sing.",d:"attiva",tags:["ind"]},
 // CONGIUNTIVO
-{v:"parli",s:"Credo che tu parli bene.",c:"1a",m:"Congiuntivo",t:"Presente",p:"2a sing.",tags:["cong"]},
-{v:"scriva",s:"Penso che Marco scriva un libro.",c:"2a",m:"Congiuntivo",t:"Presente",p:"3a sing.",tags:["cong"]},
-{v:"partano",s:"Spero che partano presto.",c:"3a",m:"Congiuntivo",t:"Presente",p:"3a plur.",tags:["cong"]},
-{v:"sia",s:"Credo che sia giusto.",c:"propria",m:"Congiuntivo",t:"Presente",p:"3a sing.",tags:["cong"]},
-{v:"abbia",s:"Penso che abbia ragione.",c:"propria",m:"Congiuntivo",t:"Presente",p:"3a sing.",tags:["cong"]},
-{v:"parlassi",s:"Volevo che tu parlassi.",c:"1a",m:"Congiuntivo",t:"Imperfetto",p:"2a sing.",tags:["cong"]},
-{v:"scrivesse",s:"Speravo che scrivesse.",c:"2a",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",tags:["cong"]},
-{v:"partissero",s:"Volevo che partissero.",c:"3a",m:"Congiuntivo",t:"Imperfetto",p:"3a plur.",tags:["cong"]},
-{v:"fosse",s:"Credevo che fosse vero.",c:"propria",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",tags:["cong"]},
-{v:"avesse",s:"Pensavo che avesse torto.",c:"propria",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",tags:["cong"]},
-{v:"abbia parlato",s:"Credo che abbia parlato lui.",c:"1a",m:"Congiuntivo",t:"Passato",p:"3a sing.",tags:["cong"]},
-{v:"sia partito",s:"Penso che sia partito.",c:"3a",m:"Congiuntivo",t:"Passato",p:"3a sing.",tags:["cong"]},
-{v:"avesse scritto",s:"Pensavo che avesse scritto.",c:"2a",m:"Congiuntivo",t:"Trapassato",p:"3a sing.",tags:["cong"]},
-{v:"fosse partito",s:"Credevo che fosse partito.",c:"3a",m:"Congiuntivo",t:"Trapassato",p:"3a sing.",tags:["cong"]},
+{v:"parli",s:"Credo che tu parli bene.",c:"1a",m:"Congiuntivo",t:"Presente",p:"2a sing.",d:"attiva",tags:["cong"]},
+{v:"scriva",s:"Penso che Marco scriva un libro.",c:"2a",m:"Congiuntivo",t:"Presente",p:"3a sing.",d:"attiva",tags:["cong"]},
+{v:"partano",s:"Spero che partano presto.",c:"3a",m:"Congiuntivo",t:"Presente",p:"3a plur.",d:"attiva",tags:["cong"]},
+{v:"sia",s:"Credo che sia giusto.",c:"propria",m:"Congiuntivo",t:"Presente",p:"3a sing.",d:"attiva",tags:["cong"]},
+{v:"abbia",s:"Penso che abbia ragione.",c:"propria",m:"Congiuntivo",t:"Presente",p:"3a sing.",d:"attiva",tags:["cong"]},
+{v:"parlassi",s:"Volevo che tu parlassi.",c:"1a",m:"Congiuntivo",t:"Imperfetto",p:"2a sing.",d:"attiva",tags:["cong"]},
+{v:"scrivesse",s:"Speravo che scrivesse.",c:"2a",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",d:"attiva",tags:["cong"]},
+{v:"partissero",s:"Volevo che partissero.",c:"3a",m:"Congiuntivo",t:"Imperfetto",p:"3a plur.",d:"attiva",tags:["cong"]},
+{v:"fosse",s:"Credevo che fosse vero.",c:"propria",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",d:"attiva",tags:["cong"]},
+{v:"avesse",s:"Pensavo che avesse torto.",c:"propria",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",d:"attiva",tags:["cong"]},
+{v:"abbia parlato",s:"Credo che abbia parlato lui.",c:"1a",m:"Congiuntivo",t:"Passato",p:"3a sing.",d:"attiva",tags:["cong"]},
+{v:"sia partito",s:"Penso che sia partito.",c:"3a",m:"Congiuntivo",t:"Passato",p:"3a sing.",d:"attiva",tags:["cong"]},
+{v:"avesse scritto",s:"Pensavo che avesse scritto.",c:"2a",m:"Congiuntivo",t:"Trapassato",p:"3a sing.",d:"attiva",tags:["cong"]},
+{v:"fosse partito",s:"Credevo che fosse partito.",c:"3a",m:"Congiuntivo",t:"Trapassato",p:"3a sing.",d:"attiva",tags:["cong"]},
 // CONDIZIONALE
-{v:"parlerei",s:"Io parlerei volentieri.",c:"1a",m:"Condizionale",t:"Presente",p:"1a sing.",tags:["cond"]},
-{v:"leggeresti",s:"Tu leggeresti questo libro?",c:"2a",m:"Condizionale",t:"Presente",p:"2a sing.",tags:["cond"]},
-{v:"partirebbe",s:"Marco partirebbe domani.",c:"3a",m:"Condizionale",t:"Presente",p:"3a sing.",tags:["cond"]},
-{v:"saremmo",s:"Noi saremmo felici.",c:"propria",m:"Condizionale",t:"Presente",p:"1a plur.",tags:["cond"]},
-{v:"mangerebbero",s:"I ragazzi mangerebbero la pizza.",c:"1a",m:"Condizionale",t:"Presente",p:"3a plur.",tags:["cond"]},
-{v:"avrei parlato",s:"Io avrei parlato con lui.",c:"1a",m:"Condizionale",t:"Passato",p:"1a sing.",tags:["cond"]},
-{v:"avrebbe letto",s:"Lucia avrebbe letto il libro.",c:"2a",m:"Condizionale",t:"Passato",p:"3a sing.",tags:["cond"]},
-{v:"sarebbe partito",s:"Marco sarebbe partito.",c:"3a",m:"Condizionale",t:"Passato",p:"3a sing.",tags:["cond"]},
-{v:"avremmo mangiato",s:"Noi avremmo mangiato volentieri.",c:"1a",m:"Condizionale",t:"Passato",p:"1a plur.",tags:["cond"]},
+{v:"parlerei",s:"Io parlerei volentieri.",c:"1a",m:"Condizionale",t:"Presente",p:"1a sing.",d:"attiva",tags:["cond"]},
+{v:"leggeresti",s:"Tu leggeresti questo libro?",c:"2a",m:"Condizionale",t:"Presente",p:"2a sing.",d:"attiva",tags:["cond"]},
+{v:"partirebbe",s:"Marco partirebbe domani.",c:"3a",m:"Condizionale",t:"Presente",p:"3a sing.",d:"attiva",tags:["cond"]},
+{v:"saremmo",s:"Noi saremmo felici.",c:"propria",m:"Condizionale",t:"Presente",p:"1a plur.",d:"attiva",tags:["cond"]},
+{v:"mangerebbero",s:"I ragazzi mangerebbero la pizza.",c:"1a",m:"Condizionale",t:"Presente",p:"3a plur.",d:"attiva",tags:["cond"]},
+{v:"avrei parlato",s:"Io avrei parlato con lui.",c:"1a",m:"Condizionale",t:"Passato",p:"1a sing.",d:"attiva",tags:["cond"]},
+{v:"avrebbe letto",s:"Lucia avrebbe letto il libro.",c:"2a",m:"Condizionale",t:"Passato",p:"3a sing.",d:"attiva",tags:["cond"]},
+{v:"sarebbe partito",s:"Marco sarebbe partito.",c:"3a",m:"Condizionale",t:"Passato",p:"3a sing.",d:"attiva",tags:["cond"]},
+{v:"avremmo mangiato",s:"Noi avremmo mangiato volentieri.",c:"1a",m:"Condizionale",t:"Passato",p:"1a plur.",d:"attiva",tags:["cond"]},
 // IMPERATIVO
-{v:"parla",s:"Parla più piano!",c:"1a",m:"Imperativo",t:"Presente",p:"2a sing.",tags:["imp"]},
-{v:"leggi",s:"Leggi questo libro!",c:"2a",m:"Imperativo",t:"Presente",p:"2a sing.",tags:["imp"]},
-{v:"parti",s:"Parti subito!",c:"3a",m:"Imperativo",t:"Presente",p:"2a sing.",tags:["imp"]},
-{v:"mangiamo",s:"Mangiamo insieme!",c:"1a",m:"Imperativo",t:"Presente",p:"1a plur.",tags:["imp"]},
-{v:"scrivete",s:"Scrivete il compito!",c:"2a",m:"Imperativo",t:"Presente",p:"2a plur.",tags:["imp"]},
-{v:"siate",s:"Siate gentili!",c:"propria",m:"Imperativo",t:"Presente",p:"2a plur.",tags:["imp"]},
-{v:"abbi",s:"Abbi pazienza!",c:"propria",m:"Imperativo",t:"Presente",p:"2a sing.",tags:["imp"]},
+{v:"parla",s:"Parla più piano!",c:"1a",m:"Imperativo",t:"Presente",p:"2a sing.",d:"attiva",tags:["imp"]},
+{v:"leggi",s:"Leggi questo libro!",c:"2a",m:"Imperativo",t:"Presente",p:"2a sing.",d:"attiva",tags:["imp"]},
+{v:"parti",s:"Parti subito!",c:"3a",m:"Imperativo",t:"Presente",p:"2a sing.",d:"attiva",tags:["imp"]},
+{v:"mangiamo",s:"Mangiamo insieme!",c:"1a",m:"Imperativo",t:"Presente",p:"1a plur.",d:"attiva",tags:["imp"]},
+{v:"scrivete",s:"Scrivete il compito!",c:"2a",m:"Imperativo",t:"Presente",p:"2a plur.",d:"attiva",tags:["imp"]},
+{v:"siate",s:"Siate gentili!",c:"propria",m:"Imperativo",t:"Presente",p:"2a plur.",d:"attiva",tags:["imp"]},
+{v:"abbi",s:"Abbi pazienza!",c:"propria",m:"Imperativo",t:"Presente",p:"2a sing.",d:"attiva",tags:["imp"]},
 // INFINITO
-{v:"parlare",s:"Parlare è importante.",c:"1a",m:"Infinito",t:"Presente",p:"—",tags:["inf"]},
-{v:"leggere",s:"Leggere è un piacere.",c:"2a",m:"Infinito",t:"Presente",p:"—",tags:["inf"]},
-{v:"dormire",s:"Dormire fa bene.",c:"3a",m:"Infinito",t:"Presente",p:"—",tags:["inf"]},
-{v:"essere",s:"Essere o non essere.",c:"propria",m:"Infinito",t:"Presente",p:"—",tags:["inf"]},
-{v:"avere",s:"Avere pazienza è una virtù.",c:"propria",m:"Infinito",t:"Presente",p:"—",tags:["inf"]},
-{v:"aver parlato",s:"Dopo aver parlato, uscì.",c:"1a",m:"Infinito",t:"Passato",p:"—",tags:["inf"]},
-{v:"essere partito",s:"Dopo essere partito, chiamò.",c:"3a",m:"Infinito",t:"Passato",p:"—",tags:["inf"]},
+{v:"parlare",s:"Parlare è importante.",c:"1a",m:"Infinito",t:"Presente",p:"—",d:"attiva",tags:["inf"]},
+{v:"leggere",s:"Leggere è un piacere.",c:"2a",m:"Infinito",t:"Presente",p:"—",d:"attiva",tags:["inf"]},
+{v:"dormire",s:"Dormire fa bene.",c:"3a",m:"Infinito",t:"Presente",p:"—",d:"attiva",tags:["inf"]},
+{v:"essere",s:"Essere o non essere.",c:"propria",m:"Infinito",t:"Presente",p:"—",d:"attiva",tags:["inf"]},
+{v:"avere",s:"Avere pazienza è una virtù.",c:"propria",m:"Infinito",t:"Presente",p:"—",d:"attiva",tags:["inf"]},
+{v:"aver parlato",s:"Dopo aver parlato, uscì.",c:"1a",m:"Infinito",t:"Passato",p:"—",d:"attiva",tags:["inf"]},
+{v:"essere partito",s:"Dopo essere partito, chiamò.",c:"3a",m:"Infinito",t:"Passato",p:"—",d:"attiva",tags:["inf"]},
 // PARTICIPIO
-{v:"parlante",s:"Una voce parlante usciva dal buio.",c:"1a",m:"Participio",t:"Presente",p:"—",tags:["part"]},
-{v:"parlato",s:"Ho parlato con Marco.",c:"1a",m:"Participio",t:"Passato",p:"—",tags:["part"]},
-{v:"letto",s:"Il libro letto era bello.",c:"2a",m:"Participio",t:"Passato",p:"—",tags:["part"]},
-{v:"partito",s:"Il treno è partito.",c:"3a",m:"Participio",t:"Passato",p:"—",tags:["part"]},
-{v:"scritto",s:"La lettera è stata scritta.",c:"2a",m:"Participio",t:"Passato",p:"—",tags:["part"]},
-{v:"dormito",s:"Ho dormito bene.",c:"3a",m:"Participio",t:"Passato",p:"—",tags:["part"]},
-{v:"stato",s:"È stato bello.",c:"propria",m:"Participio",t:"Passato",p:"—",tags:["part"]},
+{v:"parlante",s:"Una voce parlante usciva dal buio.",c:"1a",m:"Participio",t:"Presente",p:"—",d:"attiva",tags:["part"]},
+{v:"parlato",s:"Ho parlato con Marco.",c:"1a",m:"Participio",t:"Passato",p:"—",d:"attiva",tags:["part"]},
+{v:"letto",s:"Il libro letto era bello.",c:"2a",m:"Participio",t:"Passato",p:"—",d:"attiva",tags:["part"]},
+{v:"partito",s:"Il treno è partito.",c:"3a",m:"Participio",t:"Passato",p:"—",d:"attiva",tags:["part"]},
+{v:"scritto",s:"La lettera è stata scritta.",c:"2a",m:"Participio",t:"Passato",p:"—",d:"attiva",tags:["part"]},
+{v:"dormito",s:"Ho dormito bene.",c:"3a",m:"Participio",t:"Passato",p:"—",d:"attiva",tags:["part"]},
+{v:"stato",s:"È stato bello.",c:"propria",m:"Participio",t:"Passato",p:"—",d:"attiva",tags:["part"]},
 // GERUNDIO
-{v:"parlando",s:"Parlando si impara.",c:"1a",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]},
-{v:"leggendo",s:"Leggendo il libro, mi addormentai.",c:"2a",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]},
-{v:"dormendo",s:"Dormendo, non sentì il rumore.",c:"3a",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]},
-{v:"essendo",s:"Essendo stanco, andò a letto.",c:"propria",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]},
-{v:"avendo",s:"Avendo fame, mangiò subito.",c:"propria",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]},
-{v:"avendo parlato",s:"Avendo parlato, si sentì meglio.",c:"1a",m:"Gerundio",t:"Passato",p:"—",tags:["ger"]},
-{v:"essendo partito",s:"Essendo partito presto, arrivò per primo.",c:"3a",m:"Gerundio",t:"Passato",p:"—",tags:["ger"]},
+{v:"parlando",s:"Parlando si impara.",c:"1a",m:"Gerundio",t:"Presente",p:"—",d:"attiva",tags:["ger"]},
+{v:"leggendo",s:"Leggendo il libro, mi addormentai.",c:"2a",m:"Gerundio",t:"Presente",p:"—",d:"attiva",tags:["ger"]},
+{v:"dormendo",s:"Dormendo, non sentì il rumore.",c:"3a",m:"Gerundio",t:"Presente",p:"—",d:"attiva",tags:["ger"]},
+{v:"essendo",s:"Essendo stanco, andò a letto.",c:"propria",m:"Gerundio",t:"Presente",p:"—",d:"attiva",tags:["ger"]},
+{v:"avendo",s:"Avendo fame, mangiò subito.",c:"propria",m:"Gerundio",t:"Presente",p:"—",d:"attiva",tags:["ger"]},
+{v:"avendo parlato",s:"Avendo parlato, si sentì meglio.",c:"1a",m:"Gerundio",t:"Passato",p:"—",d:"attiva",tags:["ger"]},
+{v:"essendo partito",s:"Essendo partito presto, arrivò per primo.",c:"3a",m:"Gerundio",t:"Passato",p:"—",d:"attiva",tags:["ger"]},
 // EXTRA INDICATIVO per varietà
-{v:"cammina",s:"Il bambino cammina da solo.",c:"1a",m:"Indicativo",t:"Presente",p:"3a sing.",tags:["ind"]},
-{v:"bevevano",s:"I gatti bevevano il latte.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"3a plur.",tags:["ind"]},
-{v:"canterà",s:"Maria canterà domani.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"3a sing.",tags:["ind"]},
-{v:"hanno dormito",s:"I bambini hanno dormito bene.",c:"3a",m:"Indicativo",t:"Passato prossimo",p:"3a plur.",tags:["ind"]},
-{v:"capisco",s:"Io capisco la lezione.",c:"3a",m:"Indicativo",t:"Presente",p:"1a sing.",tags:["ind"]},
-{v:"vinse",s:"Cesare vinse in Gallia.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",tags:["ind"]},
-{v:"avevi mangiato",s:"Tu avevi mangiato troppo.",c:"1a",m:"Indicativo",t:"Trapassato prossimo",p:"2a sing.",tags:["ind"]},
-{v:"finiremo",s:"Noi finiremo il progetto.",c:"3a",m:"Indicativo",t:"Futuro semplice",p:"1a plur.",tags:["ind"]},
-{v:"ha cantato",s:"Maria ha cantato bene.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",tags:["ind"]},
-{v:"eravamo",s:"Noi eravamo al parco.",c:"propria",m:"Indicativo",t:"Imperfetto",p:"1a plur.",tags:["ind"]},
+{v:"cammina",s:"Il bambino cammina da solo.",c:"1a",m:"Indicativo",t:"Presente",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"bevevano",s:"I gatti bevevano il latte.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"3a plur.",d:"attiva",tags:["ind"]},
+{v:"canterà",s:"Maria canterà domani.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"hanno dormito",s:"I bambini hanno dormito bene.",c:"3a",m:"Indicativo",t:"Passato prossimo",p:"3a plur.",d:"attiva",tags:["ind"]},
+{v:"capisco",s:"Io capisco la lezione.",c:"3a",m:"Indicativo",t:"Presente",p:"1a sing.",d:"attiva",tags:["ind"]},
+{v:"vinse",s:"Cesare vinse in Gallia.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"avevi mangiato",s:"Tu avevi mangiato troppo.",c:"1a",m:"Indicativo",t:"Trapassato prossimo",p:"2a sing.",d:"attiva",tags:["ind"]},
+{v:"finiremo",s:"Noi finiremo il progetto.",c:"3a",m:"Indicativo",t:"Futuro semplice",p:"1a plur.",d:"attiva",tags:["ind"]},
+{v:"ha cantato",s:"Maria ha cantato bene.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"eravamo",s:"Noi eravamo al parco.",c:"propria",m:"Indicativo",t:"Imperfetto",p:"1a plur.",d:"attiva",tags:["ind"]},
 // EXTRA CONGIUNTIVO
-{v:"mangiassero",s:"Volevo che mangiassero.",c:"1a",m:"Congiuntivo",t:"Imperfetto",p:"3a plur.",tags:["cong"]},
-{v:"finisca",s:"Spero che finisca presto.",c:"3a",m:"Congiuntivo",t:"Presente",p:"3a sing.",tags:["cong"]},
-{v:"abbia dormito",s:"Credo che abbia dormito poco.",c:"3a",m:"Congiuntivo",t:"Passato",p:"3a sing.",tags:["cong"]},
+{v:"mangiassero",s:"Volevo che mangiassero.",c:"1a",m:"Congiuntivo",t:"Imperfetto",p:"3a plur.",d:"attiva",tags:["cong"]},
+{v:"finisca",s:"Spero che finisca presto.",c:"3a",m:"Congiuntivo",t:"Presente",p:"3a sing.",d:"attiva",tags:["cong"]},
+{v:"abbia dormito",s:"Credo che abbia dormito poco.",c:"3a",m:"Congiuntivo",t:"Passato",p:"3a sing.",d:"attiva",tags:["cong"]},
 // EXTRA CONDIZIONALE
-{v:"dormiremmo",s:"Noi dormiremmo volentieri.",c:"3a",m:"Condizionale",t:"Presente",p:"1a plur.",tags:["cond"]},
-{v:"avrebbe dormito",s:"Il bambino avrebbe dormito di più.",c:"3a",m:"Condizionale",t:"Passato",p:"3a sing.",tags:["cond"]},
+{v:"dormiremmo",s:"Noi dormiremmo volentieri.",c:"3a",m:"Condizionale",t:"Presente",p:"1a plur.",d:"attiva",tags:["cond"]},
+{v:"avrebbe dormito",s:"Il bambino avrebbe dormito di più.",c:"3a",m:"Condizionale",t:"Passato",p:"3a sing.",d:"attiva",tags:["cond"]},
 // TRAPASSATO REMOTO (mancava!)
-{v:"ebbi parlato",s:"Dopo che ebbi parlato, uscii.",c:"1a",m:"Indicativo",t:"Trapassato remoto",p:"1a sing.",tags:["ind"]},
-{v:"ebbe scritto",s:"Quando ebbe scritto la lettera, la spedì.",c:"2a",m:"Indicativo",t:"Trapassato remoto",p:"3a sing.",tags:["ind"]},
-{v:"furono partiti",s:"Dopo che furono partiti, chiusi la porta.",c:"3a",m:"Indicativo",t:"Trapassato remoto",p:"3a plur.",tags:["ind"]},
-{v:"ebbe finito",s:"Appena ebbe finito, si alzò.",c:"3a",m:"Indicativo",t:"Trapassato remoto",p:"3a sing.",tags:["ind"]},
+{v:"ebbi parlato",s:"Dopo che ebbi parlato, uscii.",c:"1a",m:"Indicativo",t:"Trapassato remoto",p:"1a sing.",d:"attiva",tags:["ind"]},
+{v:"ebbe scritto",s:"Quando ebbe scritto la lettera, la spedì.",c:"2a",m:"Indicativo",t:"Trapassato remoto",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"furono partiti",s:"Dopo che furono partiti, chiusi la porta.",c:"3a",m:"Indicativo",t:"Trapassato remoto",p:"3a plur.",d:"attiva",tags:["ind"]},
+{v:"ebbe finito",s:"Appena ebbe finito, si alzò.",c:"3a",m:"Indicativo",t:"Trapassato remoto",p:"3a sing.",d:"attiva",tags:["ind"]},
 // EXTRA — varietà per persone/tempi poco rappresentati
-{v:"camminiamo",s:"Noi camminiamo lungo il fiume.",c:"1a",m:"Indicativo",t:"Presente",p:"1a plur.",tags:["ind"]},
-{v:"scrivevi",s:"Tu scrivevi una poesia.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"2a sing.",tags:["ind"]},
-{v:"partiste",s:"Voi partiste all'alba.",c:"3a",m:"Indicativo",t:"Passato remoto",p:"2a plur.",tags:["ind"]},
-{v:"mangerete",s:"Voi mangerete al ristorante.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"2a plur.",tags:["ind"]},
-{v:"avete letto",s:"Voi avete letto il romanzo.",c:"2a",m:"Indicativo",t:"Passato prossimo",p:"2a plur.",tags:["ind"]},
-{v:"avevamo dormito",s:"Noi avevamo dormito poco.",c:"3a",m:"Indicativo",t:"Trapassato prossimo",p:"1a plur.",tags:["ind"]},
-{v:"avrà finito",s:"Lucia avrà finito il compito.",c:"3a",m:"Indicativo",t:"Futuro anteriore",p:"3a sing.",tags:["ind"]},
-{v:"studi",s:"Voglio che tu studi di più.",c:"1a",m:"Congiuntivo",t:"Presente",p:"2a sing.",tags:["cong"]},
-{v:"leggessimo",s:"Voleva che leggessimo quel libro.",c:"2a",m:"Congiuntivo",t:"Imperfetto",p:"1a plur.",tags:["cong"]},
-{v:"scriveresti",s:"Tu scriveresti un libro?",c:"2a",m:"Condizionale",t:"Presente",p:"2a sing.",tags:["cond"]},
-{v:"partite",s:"Partite subito!",c:"3a",m:"Imperativo",t:"Presente",p:"2a plur.",tags:["imp"]},
-{v:"mangiate",s:"Mangiate la verdura!",c:"1a",m:"Imperativo",t:"Presente",p:"2a plur.",tags:["imp"]},
-{v:"avendo letto",s:"Avendo letto il libro, lo consigliò.",c:"2a",m:"Gerundio",t:"Passato",p:"—",tags:["ger"]},
-{v:"correndo",s:"Correndo, inciampò.",c:"2a",m:"Gerundio",t:"Presente",p:"—",tags:["ger"]}
+{v:"camminiamo",s:"Noi camminiamo lungo il fiume.",c:"1a",m:"Indicativo",t:"Presente",p:"1a plur.",d:"attiva",tags:["ind"]},
+{v:"scrivevi",s:"Tu scrivevi una poesia.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"2a sing.",d:"attiva",tags:["ind"]},
+{v:"partiste",s:"Voi partiste all'alba.",c:"3a",m:"Indicativo",t:"Passato remoto",p:"2a plur.",d:"attiva",tags:["ind"]},
+{v:"mangerete",s:"Voi mangerete al ristorante.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"2a plur.",d:"attiva",tags:["ind"]},
+{v:"avete letto",s:"Voi avete letto il romanzo.",c:"2a",m:"Indicativo",t:"Passato prossimo",p:"2a plur.",d:"attiva",tags:["ind"]},
+{v:"avevamo dormito",s:"Noi avevamo dormito poco.",c:"3a",m:"Indicativo",t:"Trapassato prossimo",p:"1a plur.",d:"attiva",tags:["ind"]},
+{v:"avrà finito",s:"Lucia avrà finito il compito.",c:"3a",m:"Indicativo",t:"Futuro anteriore",p:"3a sing.",d:"attiva",tags:["ind"]},
+{v:"studi",s:"Voglio che tu studi di più.",c:"1a",m:"Congiuntivo",t:"Presente",p:"2a sing.",d:"attiva",tags:["cong"]},
+{v:"leggessimo",s:"Voleva che leggessimo quel libro.",c:"2a",m:"Congiuntivo",t:"Imperfetto",p:"1a plur.",d:"attiva",tags:["cong"]},
+{v:"scriveresti",s:"Tu scriveresti un libro?",c:"2a",m:"Condizionale",t:"Presente",p:"2a sing.",d:"attiva",tags:["cond"]},
+{v:"partite",s:"Partite subito!",c:"3a",m:"Imperativo",t:"Presente",p:"2a plur.",d:"attiva",tags:["imp"]},
+{v:"mangiate",s:"Mangiate la verdura!",c:"1a",m:"Imperativo",t:"Presente",p:"2a plur.",d:"attiva",tags:["imp"]},
+{v:"avendo letto",s:"Avendo letto il libro, lo consigliò.",c:"2a",m:"Gerundio",t:"Passato",p:"—",d:"attiva",tags:["ger"]},
+{v:"correndo",s:"Correndo, inciampò.",c:"2a",m:"Gerundio",t:"Presente",p:"—",d:"attiva",tags:["ger"]},
+// ============ FORMA PASSIVA ============
+// INDICATIVO PRESENTE PASSIVO
+{v:"sono lodato",s:"Io sono lodato dal professore.",c:"1a",m:"Indicativo",t:"Presente",p:"1a sing.",d:"passiva",tags:["ind","pass"]},
+{v:"è ammirata",s:"Maria è ammirata da tutti.",c:"1a",m:"Indicativo",t:"Presente",p:"3a sing.",d:"passiva",tags:["ind","pass"]},
+{v:"è letto",s:"Il libro è letto da molti studenti.",c:"2a",m:"Indicativo",t:"Presente",p:"3a sing.",d:"passiva",tags:["ind","pass"]},
+{v:"sono puniti",s:"I bugiardi sono puniti dalla maestra.",c:"3a",m:"Indicativo",t:"Presente",p:"3a plur.",d:"passiva",tags:["ind","pass"]},
+{v:"siamo invitati",s:"Noi siamo invitati alla festa.",c:"1a",m:"Indicativo",t:"Presente",p:"1a plur.",d:"passiva",tags:["ind","pass"]},
+// INDICATIVO IMPERFETTO PASSIVO
+{v:"era amato",s:"Il re era amato dal popolo.",c:"1a",m:"Indicativo",t:"Imperfetto",p:"3a sing.",d:"passiva",tags:["ind","pass"]},
+{v:"erano temuti",s:"I lupi erano temuti dai pastori.",c:"2a",m:"Indicativo",t:"Imperfetto",p:"3a plur.",d:"passiva",tags:["ind","pass"]},
+{v:"ero seguito",s:"Io ero seguito da un cane.",c:"3a",m:"Indicativo",t:"Imperfetto",p:"1a sing.",d:"passiva",tags:["ind","pass"]},
+// INDICATIVO PASSATO REMOTO PASSIVO
+{v:"fu costruita",s:"La torre fu costruita nel Medioevo.",c:"3a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",d:"passiva",tags:["ind","pass"]},
+{v:"fu scritta",s:"La Divina Commedia fu scritta da Dante.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",d:"passiva",tags:["ind","pass"]},
+{v:"furono sconfitti",s:"I nemici furono sconfitti in battaglia.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a plur.",d:"passiva",tags:["ind","pass"]},
+// INDICATIVO FUTURO SEMPLICE PASSIVO
+{v:"sarà premiato",s:"Il vincitore sarà premiato domani.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"3a sing.",d:"passiva",tags:["ind","pass"]},
+{v:"saranno pubblicati",s:"I risultati saranno pubblicati a giugno.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"3a plur.",d:"passiva",tags:["ind","pass"]},
+// INDICATIVO PASSATO PROSSIMO PASSIVO
+{v:"è stato lodato",s:"Marco è stato lodato dall'insegnante.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",d:"passiva",tags:["ind","pass"]},
+{v:"è stata venduta",s:"La casa è stata venduta rapidamente.",c:"2a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",d:"passiva",tags:["ind","pass"]},
+{v:"sono stati invitati",s:"I ragazzi sono stati invitati alla mostra.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"3a plur.",d:"passiva",tags:["ind","pass"]},
+// INDICATIVO TRAPASSATO PROSSIMO PASSIVO
+{v:"era stato avvisato",s:"Il direttore era stato avvisato in tempo.",c:"1a",m:"Indicativo",t:"Trapassato prossimo",p:"3a sing.",d:"passiva",tags:["ind","pass"]},
+{v:"erano state chiuse",s:"Le scuole erano state chiuse per neve.",c:"2a",m:"Indicativo",t:"Trapassato prossimo",p:"3a plur.",d:"passiva",tags:["ind","pass"]},
+// INDICATIVO FUTURO ANTERIORE PASSIVO
+{v:"sarà stato consegnato",s:"Il pacco sarà stato consegnato.",c:"1a",m:"Indicativo",t:"Futuro anteriore",p:"3a sing.",d:"passiva",tags:["ind","pass"]},
+// CONGIUNTIVO PASSIVO
+{v:"sia amato",s:"Credo che sia amato dai compagni.",c:"1a",m:"Congiuntivo",t:"Presente",p:"3a sing.",d:"passiva",tags:["cong","pass"]},
+{v:"siano rispettate",s:"È giusto che le regole siano rispettate.",c:"1a",m:"Congiuntivo",t:"Presente",p:"3a plur.",d:"passiva",tags:["cong","pass"]},
+{v:"fosse punito",s:"Pensavo che fosse punito ingiustamente.",c:"3a",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",d:"passiva",tags:["cong","pass"]},
+{v:"sia stato premiato",s:"Credo che sia stato premiato il migliore.",c:"1a",m:"Congiuntivo",t:"Passato",p:"3a sing.",d:"passiva",tags:["cong","pass"]},
+// CONDIZIONALE PASSIVO
+{v:"sarebbe eletto",s:"Il candidato sarebbe eletto facilmente.",c:"2a",m:"Condizionale",t:"Presente",p:"3a sing.",d:"passiva",tags:["cond","pass"]},
+{v:"sarebbe stato bocciato",s:"Senza studio sarebbe stato bocciato.",c:"1a",m:"Condizionale",t:"Passato",p:"3a sing.",d:"passiva",tags:["cond","pass"]},
+// INFINITO PASSIVO
+{v:"essere lodato",s:"Essere lodato fa sempre piacere.",c:"1a",m:"Infinito",t:"Presente",p:"—",d:"passiva",tags:["inf","pass"]},
+{v:"essere stato punito",s:"Dopo essere stato punito, capì l'errore.",c:"3a",m:"Infinito",t:"Passato",p:"—",d:"passiva",tags:["inf","pass"]},
+// PARTICIPIO PASSIVO (il participio passato È la forma passiva)
+{v:"lodato",s:"Un alunno lodato dal preside sorride.",c:"1a",m:"Participio",t:"Passato",p:"—",d:"passiva",tags:["part","pass"]},
+{v:"sconfitto",s:"L'esercito sconfitto si ritirò.",c:"2a",m:"Participio",t:"Passato",p:"—",d:"passiva",tags:["part","pass"]},
+// GERUNDIO PASSIVO
+{v:"essendo amato",s:"Essendo amato da tutti, era felice.",c:"1a",m:"Gerundio",t:"Presente",p:"—",d:"passiva",tags:["ger","pass"]},
+{v:"essendo stato bocciato",s:"Essendo stato bocciato, ripeté l'anno.",c:"1a",m:"Gerundio",t:"Passato",p:"—",d:"passiva",tags:["ger","pass"]},
+// ============ FORMA RIFLESSIVA ============
+// INDICATIVO PRESENTE RIFLESSIVO
+{v:"mi lavo",s:"Io mi lavo le mani.",c:"1a",m:"Indicativo",t:"Presente",p:"1a sing.",d:"riflessiva",tags:["ind","rifl"]},
+{v:"si sveglia",s:"Marco si sveglia presto.",c:"1a",m:"Indicativo",t:"Presente",p:"3a sing.",d:"riflessiva",tags:["ind","rifl"]},
+{v:"si vestono",s:"I bambini si vestono da soli.",c:"3a",m:"Indicativo",t:"Presente",p:"3a plur.",d:"riflessiva",tags:["ind","rifl"]},
+{v:"ci sediamo",s:"Noi ci sediamo in prima fila.",c:"2a",m:"Indicativo",t:"Presente",p:"1a plur.",d:"riflessiva",tags:["ind","rifl"]},
+{v:"ti pettini",s:"Tu ti pettini ogni mattina.",c:"1a",m:"Indicativo",t:"Presente",p:"2a sing.",d:"riflessiva",tags:["ind","rifl"]},
+// INDICATIVO IMPERFETTO RIFLESSIVO
+{v:"si divertiva",s:"Il bambino si divertiva al parco.",c:"3a",m:"Indicativo",t:"Imperfetto",p:"3a sing.",d:"riflessiva",tags:["ind","rifl"]},
+{v:"mi preparavo",s:"Io mi preparavo per la scuola.",c:"1a",m:"Indicativo",t:"Imperfetto",p:"1a sing.",d:"riflessiva",tags:["ind","rifl"]},
+// INDICATIVO PASSATO PROSSIMO RIFLESSIVO
+{v:"si è svegliato",s:"Marco si è svegliato tardi.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"3a sing.",d:"riflessiva",tags:["ind","rifl"]},
+{v:"mi sono lavato",s:"Io mi sono lavato le mani.",c:"1a",m:"Indicativo",t:"Passato prossimo",p:"1a sing.",d:"riflessiva",tags:["ind","rifl"]},
+{v:"si sono vestiti",s:"I ragazzi si sono vestiti in fretta.",c:"3a",m:"Indicativo",t:"Passato prossimo",p:"3a plur.",d:"riflessiva",tags:["ind","rifl"]},
+// INDICATIVO FUTURO RIFLESSIVO
+{v:"si alzerà",s:"Domani si alzerà presto.",c:"1a",m:"Indicativo",t:"Futuro semplice",p:"3a sing.",d:"riflessiva",tags:["ind","rifl"]},
+// INDICATIVO PASSATO REMOTO RIFLESSIVO
+{v:"si accorse",s:"Marco si accorse dell'errore.",c:"2a",m:"Indicativo",t:"Passato remoto",p:"3a sing.",d:"riflessiva",tags:["ind","rifl"]},
+// CONGIUNTIVO RIFLESSIVO
+{v:"si lavi",s:"Spero che si lavi le mani.",c:"1a",m:"Congiuntivo",t:"Presente",p:"3a sing.",d:"riflessiva",tags:["cong","rifl"]},
+{v:"si pentisse",s:"Volevo che si pentisse.",c:"3a",m:"Congiuntivo",t:"Imperfetto",p:"3a sing.",d:"riflessiva",tags:["cong","rifl"]},
+// CONDIZIONALE RIFLESSIVO
+{v:"si vestirebbe",s:"Maria si vestirebbe con eleganza.",c:"3a",m:"Condizionale",t:"Presente",p:"3a sing.",d:"riflessiva",tags:["cond","rifl"]},
+// IMPERATIVO RIFLESSIVO
+{v:"svegliati",s:"Svegliati subito!",c:"1a",m:"Imperativo",t:"Presente",p:"2a sing.",d:"riflessiva",tags:["imp","rifl"]},
+{v:"lavatevi",s:"Lavatevi le mani!",c:"1a",m:"Imperativo",t:"Presente",p:"2a plur.",d:"riflessiva",tags:["imp","rifl"]},
+// INFINITO RIFLESSIVO
+{v:"lavarsi",s:"Lavarsi le mani è importante.",c:"1a",m:"Infinito",t:"Presente",p:"—",d:"riflessiva",tags:["inf","rifl"]},
+{v:"essersi svegliato",s:"Dopo essersi svegliato, fece colazione.",c:"1a",m:"Infinito",t:"Passato",p:"—",d:"riflessiva",tags:["inf","rifl"]},
+// GERUNDIO RIFLESSIVO
+{v:"vestendosi",s:"Vestendosi in fretta, uscì di casa.",c:"3a",m:"Gerundio",t:"Presente",p:"—",d:"riflessiva",tags:["ger","rifl"]},
+{v:"essendosi preparato",s:"Essendosi preparato bene, superò l'esame.",c:"1a",m:"Gerundio",t:"Passato",p:"—",d:"riflessiva",tags:["ger","rifl"]}
 ];
 
 // ============================================================
@@ -1451,8 +1528,17 @@ var GS={questions:[],qi:0,score:0,results:[],answers:{},replayMode:false};
 function openGramm(){show('scrGrammHome');buildGrammTopics()}
 function buildGrammTopics(){
   var gt=document.getElementById('grammTopics');gt.innerHTML='';
+  // Sezione Modi
+  var mh=document.createElement('div');mh.className='topic-section-label';mh.textContent='🎯 Modi';gt.appendChild(mh);
   GRAMM_MODI.forEach(function(m){
     var b=document.createElement('button');b.className='topic-btn';b.textContent=m.name;b.dataset.id=m.id;
+    b.onclick=function(){b.classList.toggle('selected');updateGrammStart()};
+    gt.appendChild(b);
+  });
+  // Sezione Diatesi
+  var dh=document.createElement('div');dh.className='topic-section-label';dh.style.marginTop='12px';dh.textContent='🔄 Diatesi';gt.appendChild(dh);
+  [{id:"pass",name:"Passiva"},{id:"rifl",name:"Riflessiva"}].forEach(function(d){
+    var b=document.createElement('button');b.className='topic-btn';b.textContent=d.name;b.dataset.id=d.id;
     b.onclick=function(){b.classList.toggle('selected');updateGrammStart()};
     gt.appendChild(b);
   });
@@ -1507,21 +1593,25 @@ function grammRenderQ(){
   var steps=document.getElementById('grammSteps');
   steps.innerHTML='';
 
-  // Step 1: Coniugazione
+  // Step 1: Diatesi
+  var s0=makeStepGroup('Diatesi',['attiva','passiva','riflessiva'],'diatesi');
+  steps.appendChild(s0);
+
+  // Step 2: Coniugazione
   var s1=makeStepGroup('Coniugazione',['1a','2a','3a','propria'],'conj');
   steps.appendChild(s1);
 
-  // Step 2: Modo
+  // Step 3: Modo
   var modoNames=GRAMM_MODI.map(function(m){return m.name});
   var s2=makeStepGroup('Modo',modoNames,'modo');
   steps.appendChild(s2);
 
-  // Step 3: Tempo (appears after modo is selected)
+  // Step 4: Tempo (appears after modo is selected)
   var s3=document.createElement('div');s3.className='step-group';s3.id='stepTempo';s3.style.display='none';
   s3.innerHTML='<div class="step-group-label">Tempo</div><div class="cat-grid" id="tempoGrid"></div>';
   steps.appendChild(s3);
 
-  // Step 4: Persona (not for inf/part/ger)
+  // Step 5: Persona (not for inf/part/ger)
   var s4=document.createElement('div');s4.className='step-group';s4.id='stepPersona';s4.style.display='none';
   s4.innerHTML='<div class="step-group-label">Persona e numero</div><div class="cat-grid" id="personaGrid"></div>';
   steps.appendChild(s4);
@@ -1588,7 +1678,7 @@ function onModoSelected(modo){
 }
 
 function grammCheckReady(){
-  var needed=['conj','modo','tempo','persona'];
+  var needed=['diatesi','conj','modo','tempo','persona'];
   var ready=true;
   needed.forEach(function(k){if(!GS.answers[k])ready=false});
   document.getElementById('btnGrammCheck').disabled=!ready;
@@ -1605,6 +1695,7 @@ function grammResetCurrent(){
 function grammCheckAnswer(){
   var q=GS.questions[GS.qi];
   var checks=[
+    {key:'diatesi',label:'Diatesi',correct:q.d,given:GS.answers.diatesi},
     {key:'conj',label:'Coniugazione',correct:q.c,given:GS.answers.conj},
     {key:'modo',label:'Modo',correct:q.m,given:GS.answers.modo},
     {key:'tempo',label:'Tempo',correct:q.t,given:GS.answers.tempo},
