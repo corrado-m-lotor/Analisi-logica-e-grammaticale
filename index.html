@@ -161,6 +161,57 @@ h2{font-size:1.2rem;font-weight:600;margin:16px 0 8px}
   .cat-btn{padding:5px 8px;font-size:.68rem}
 }
 
+/* ========== MODALITÀ LAVAGNA (LIM) ========== */
+.lim-toggle{position:fixed;top:12px;left:12px;z-index:200;height:44px;border-radius:22px;border:2px solid var(--card2);background:var(--card);color:var(--text);font-size:.82rem;font-weight:600;font-family:var(--font);cursor:pointer;display:flex;align-items:center;gap:6px;padding:0 14px 0 12px;transition:all .2s;box-shadow:0 2px 12px rgba(0,0,0,.3);white-space:nowrap}
+.lim-toggle:hover,.lim-toggle.active{border-color:var(--accent);background:rgba(129,140,248,.15)}
+.lim-toggle:active{transform:scale(.95)}
+.lim-toggle .lim-icon{font-size:1.1rem}
+.lim-toggle.active{border-color:var(--green);background:rgba(52,211,153,.15);color:var(--green)}
+/* LIM mode — tutto più grande per la lavagna */
+body.lim-mode .container{max-width:1200px;padding:24px 32px}
+body.lim-mode h1{font-size:2.2rem}
+body.lim-mode h2{font-size:1.6rem}
+body.lim-mode .subtitle{font-size:1.1rem}
+body.lim-mode .sentence-text{font-size:1.7rem;line-height:2}
+body.lim-mode .part-chip{padding:14px 22px;font-size:1.3rem;border-radius:12px}
+body.lim-mode .part-chip .label{font-size:.82rem}
+body.lim-mode .cat-btn{padding:12px 18px;font-size:1.05rem;border-radius:10px}
+body.lim-mode .cat-section-header{font-size:.92rem}
+body.lim-mode .cat-tip,.lim-mode .review-tip{font-size:1rem}
+body.lim-mode .topic-btn{padding:12px 20px;font-size:1.05rem}
+body.lim-mode .btn{padding:18px 36px;font-size:1.2rem;border-radius:16px}
+body.lim-mode .progress-text{font-size:1rem}
+body.lim-mode .progress-bar{height:12px;border-radius:6px;margin:16px 0}
+body.lim-mode .step-group{padding:18px;margin:14px 0}
+body.lim-mode .step-group-label{font-size:.95rem}
+body.lim-mode .score-big{font-size:4rem}
+body.lim-mode .score-label{font-size:1.1rem}
+body.lim-mode .review-sentence{font-size:1.2rem}
+body.lim-mode .review-detail{font-size:1.05rem}
+body.lim-mode .feedback{padding:40px 52px;border-radius:24px}
+body.lim-mode .feedback .icon{font-size:4rem}
+body.lim-mode .feedback .msg{font-size:1.4rem}
+body.lim-mode .back-btn{font-size:1.1rem;padding:10px 16px}
+body.lim-mode .menu-card{padding:28px 24px}
+body.lim-mode .menu-card .mc-icon{font-size:2.8rem}
+body.lim-mode .menu-card .mc-title{font-size:1.4rem}
+body.lim-mode .menu-card .mc-desc{font-size:1rem}
+body.lim-mode .menu-card .mc-badge{font-size:.88rem}
+body.lim-mode .section-label{font-size:1rem}
+body.lim-mode .topic-section-label{font-size:.95rem}
+body.lim-mode .a11y-toggle{width:50px;height:50px;font-size:1.4rem}
+body.lim-mode .lim-toggle{height:50px;font-size:.95rem;padding:0 18px 0 14px}
+body.lim-mode .flag-btn{font-size:1.1rem;padding:10px 20px}
+body.lim-mode .verb-highlight{font-size:1.5rem}
+@media(max-width:600px){
+  body.lim-mode .container{padding:16px}
+  body.lim-mode h1{font-size:1.8rem}
+  body.lim-mode .sentence-text{font-size:1.4rem}
+  body.lim-mode .part-chip{padding:10px 16px;font-size:1.1rem}
+  body.lim-mode .cat-btn{padding:9px 14px;font-size:.92rem}
+  body.lim-mode .btn{padding:14px 28px;font-size:1.05rem}
+}
+
 /* ========== DSA / ACCESSIBILITÀ ========== */
 /* Pulsante accessibilità (fisso in alto a destra) */
 .a11y-toggle{position:fixed;top:12px;right:12px;z-index:200;width:44px;height:44px;border-radius:50%;border:2px solid var(--card2);background:var(--card);color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:0 2px 12px rgba(0,0,0,.3)}
@@ -225,6 +276,10 @@ body.dsa-contrast .cat-tip,body.dsa-contrast .review-tip{color:#a5b4fc}
 </style>
 </head>
 <body>
+<!-- Pulsante modalità lavagna -->
+<button class="lim-toggle" id="limToggle" onclick="toggleLIM()" title="Modalità Lavagna — testo più grande per la LIM">
+  <span class="lim-icon">🖥️</span> <span id="limLabel">Lavagna</span>
+</button>
 <!-- Pulsante e pannello accessibilità -->
 <button class="a11y-toggle" id="a11yToggle" onclick="toggleA11yPanel()" title="Accessibilità / DSA">⚙</button>
 <div class="a11y-panel" id="a11yPanel">
@@ -275,7 +330,7 @@ body.dsa-contrast .cat-tip,body.dsa-contrast .review-tip{color:#a5b4fc}
       <div class="mc-icon">📖</div>
       <div class="mc-title">Analisi Grammaticale</div>
       <div class="mc-desc">Analizza le singole parole — coniugazione, modo, tempo, persona del verbo</div>
-      <div class="mc-badge">Il verbo · 120 forme verificate</div>
+      <div class="mc-badge">Il verbo · 172 forme verificate</div>
     </div>
   </div>
 </div>
@@ -431,6 +486,25 @@ document.addEventListener('click',function(e){
 });
 // Applica impostazioni salvate al caricamento
 applyDSA();
+
+// ============================================================
+//  MODALITÀ LAVAGNA (LIM) — testo grande per proiezione
+// ============================================================
+var LIM_ON=false;
+try{LIM_ON=localStorage.getItem('limMode')==='true'}catch(e){}
+function toggleLIM(){
+  LIM_ON=!LIM_ON;
+  applyLIM();
+  try{localStorage.setItem('limMode',LIM_ON?'true':'false')}catch(e){}
+}
+function applyLIM(){
+  document.body.classList.toggle('lim-mode',LIM_ON);
+  var btn=document.getElementById('limToggle');
+  var lbl=document.getElementById('limLabel');
+  if(btn)btn.classList.toggle('active',LIM_ON);
+  if(lbl)lbl.textContent=LIM_ON?'Lavagna ✓':'Lavagna';
+}
+applyLIM();
 
 // ============================================================
 //  FLAG SYSTEM — Segnala errore
