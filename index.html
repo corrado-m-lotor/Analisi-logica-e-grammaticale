@@ -326,11 +326,11 @@ body.dsa-contrast .cat-tip,body.dsa-contrast .review-tip{color:#a5b4fc}
       <div class="mc-desc">Soggetto, predicato e complementi — identifica la funzione di ogni sintagma nella frase</div>
       <div class="mc-badge">386 frasi · 36 categorie</div>
     </div>
-    <div class="menu-card" onclick="openGramm()">
+    <div class="menu-card" onclick="openGrammMenu()">
       <div class="mc-icon">📖</div>
       <div class="mc-title">Analisi Grammaticale</div>
-      <div class="mc-desc">Analizza le singole parole — coniugazione, modo, tempo, persona del verbo</div>
-      <div class="mc-badge">Il verbo · 172 forme verificate</div>
+      <div class="mc-desc">Analizza le singole parole — articolo, nome, verbo</div>
+      <div class="mc-badge">3 categorie · 289 forme verificate</div>
     </div>
   </div>
 </div>
@@ -384,10 +384,121 @@ body.dsa-contrast .cat-tip,body.dsa-contrast .review-tip{color:#a5b4fc}
   </div>
 </div>
 
-<!-- ========== ANALISI GRAMMATICALE: Topic Selection ========== -->
-<div class="screen" id="scrGrammHome">
+<!-- ========== ANALISI GRAMMATICALE: Sub-menu ========== -->
+<div class="screen" id="scrGrammMenu">
   <button class="back-btn" onclick="goMainMenu()">← Menu principale</button>
   <h1>📖 Analisi Grammaticale</h1>
+  <p class="subtitle">Scegli la categoria</p>
+  <div class="menu-cards">
+    <div class="menu-card" onclick="openArt()">
+      <div class="mc-icon">📰</div>
+      <div class="mc-title">L'Articolo</div>
+      <div class="mc-desc">Determinativo, indeterminativo o partitivo — genere e numero</div>
+      <div class="mc-badge" id="badgeArt">56 forme verificate</div>
+    </div>
+    <div class="menu-card" onclick="openNome()">
+      <div class="mc-icon">🏷️</div>
+      <div class="mc-title">Il Nome</div>
+      <div class="mc-desc">Comune o proprio, concreto o astratto, struttura e significato</div>
+      <div class="mc-badge" id="badgeNome">61 forme verificate</div>
+    </div>
+    <div class="menu-card" onclick="openGramm()">
+      <div class="mc-icon">✏️</div>
+      <div class="mc-title">Il Verbo</div>
+      <div class="mc-desc">Diatesi, coniugazione, modo, tempo, persona</div>
+      <div class="mc-badge">172 forme verificate</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ARTICOLO: Topic Selection ========== -->
+<div class="screen" id="scrArtHome">
+  <button class="back-btn" onclick="openGrammMenu()">← Analisi Grammaticale</button>
+  <h1>📰 L'Articolo</h1>
+  <p class="subtitle">Seleziona i tipi di articolo da esercitare</p>
+  <div class="topic-grid" id="artTopics"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="toggleAllArt()">Seleziona tutti</button>
+    <button class="btn btn-primary" id="btnStartArt" onclick="startArt()">Inizia ▶</button>
+  </div>
+</div>
+
+<!-- ========== ARTICOLO: Game ========== -->
+<div class="screen" id="scrArtGame">
+  <button class="back-btn" onclick="if(confirm('Vuoi abbandonare la sessione?'))openGrammMenu()">← Menu</button>
+  <div class="progress-text" id="artProgText">1 / 20</div>
+  <div class="progress-bar"><div class="progress-fill" id="artProgFill"></div></div>
+  <div class="sentence-box">
+    <div class="sentence-text" id="artSentText"></div>
+  </div>
+  <div id="artSteps"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="artResetCurrent()">↺ Resetta</button>
+    <button class="btn btn-primary" id="btnArtCheck" onclick="artCheckAnswer()" disabled>Verifica ✓</button>
+  </div>
+</div>
+
+<!-- ========== ARTICOLO: Results ========== -->
+<div class="screen" id="scrArtResults">
+  <button class="back-btn" onclick="openGrammMenu()">← Menu</button>
+  <h1>Risultati — L'Articolo</h1>
+  <div class="score-card">
+    <div class="score-big" id="artScoreBig"></div>
+    <div class="score-label" id="artScoreLbl"></div>
+  </div>
+  <div id="artReviewList"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="artReplayErrors()">Ripassa errori</button>
+    <button class="btn btn-primary" onclick="openArt()">Nuova sessione ▶</button>
+  </div>
+</div>
+
+<!-- ========== NOME: Topic Selection ========== -->
+<div class="screen" id="scrNomeHome">
+  <button class="back-btn" onclick="openGrammMenu()">← Analisi Grammaticale</button>
+  <h1>🏷️ Il Nome</h1>
+  <p class="subtitle">Seleziona le categorie da esercitare</p>
+  <div class="topic-grid" id="nomeTopics"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="toggleAllNome()">Seleziona tutti</button>
+    <button class="btn btn-primary" id="btnStartNome" onclick="startNome()">Inizia ▶</button>
+  </div>
+</div>
+
+<!-- ========== NOME: Game ========== -->
+<div class="screen" id="scrNomeGame">
+  <button class="back-btn" onclick="if(confirm('Vuoi abbandonare la sessione?'))openGrammMenu()">← Menu</button>
+  <div class="progress-text" id="nomeProgText">1 / 20</div>
+  <div class="progress-bar"><div class="progress-fill" id="nomeProgFill"></div></div>
+  <div class="sentence-box">
+    <div class="sentence-text" id="nomeSentText"></div>
+  </div>
+  <div id="nomeSteps"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="nomeResetCurrent()">↺ Resetta</button>
+    <button class="btn btn-primary" id="btnNomeCheck" onclick="nomeCheckAnswer()" disabled>Verifica ✓</button>
+  </div>
+</div>
+
+<!-- ========== NOME: Results ========== -->
+<div class="screen" id="scrNomeResults">
+  <button class="back-btn" onclick="openGrammMenu()">← Menu</button>
+  <h1>Risultati — Il Nome</h1>
+  <div class="score-card">
+    <div class="score-big" id="nomeScoreBig"></div>
+    <div class="score-label" id="nomeScoreLbl"></div>
+  </div>
+  <div id="nomeReviewList"></div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="nomeReplayErrors()">Ripassa errori</button>
+    <button class="btn btn-primary" onclick="openNome()">Nuova sessione ▶</button>
+  </div>
+</div>
+
+<!-- ========== VERBO: Topic Selection ========== -->
+<div class="screen" id="scrGrammHome">
+  <button class="back-btn" onclick="openGrammMenu()">← Analisi Grammaticale</button>
+  <h1>✏️ Il Verbo</h1>
   <p class="subtitle">Seleziona i modi verbali da esercitare</p>
   <p class="section-label">Scegli i modi:</p>
   <div class="topic-grid" id="grammTopics"></div>
@@ -399,7 +510,7 @@ body.dsa-contrast .cat-tip,body.dsa-contrast .review-tip{color:#a5b4fc}
 
 <!-- ========== ANALISI GRAMMATICALE: Game ========== -->
 <div class="screen" id="scrGrammGame">
-  <button class="back-btn" onclick="if(confirm('Vuoi abbandonare la sessione?'))goMainMenu()">← Menu</button>
+  <button class="back-btn" onclick="if(confirm('Vuoi abbandonare la sessione?'))openGrammMenu()">← Menu</button>
   <div class="progress-text" id="grammProgText">1 / 10</div>
   <div class="progress-bar"><div class="progress-fill" id="grammProgFill"></div></div>
   <div class="sentence-box">
@@ -415,8 +526,8 @@ body.dsa-contrast .cat-tip,body.dsa-contrast .review-tip{color:#a5b4fc}
 
 <!-- ========== ANALISI GRAMMATICALE: Results ========== -->
 <div class="screen" id="scrGrammResults">
-  <button class="back-btn" onclick="goMainMenu()">← Menu</button>
-  <h1>Risultati — Analisi Grammaticale</h1>
+  <button class="back-btn" onclick="openGrammMenu()">← Menu</button>
+  <h1>Risultati — Il Verbo</h1>
   <div class="score-card">
     <div class="score-big" id="grammScoreBig"></div>
     <div class="score-label" id="grammScoreLbl"></div>
@@ -1162,6 +1273,149 @@ var LOG_SENT=[
 // ============================================================
 //  ANALISI GRAMMATICALE — IL VERBO (DATA)
 // ============================================================
+// ============================================================
+//  ARTICOLO — DATA (58 forme verificate)
+// ============================================================
+var ART_TYPES=[
+  {id:"det",name:"Determinativo"},
+  {id:"indet",name:"Indeterminativo"},
+  {id:"part",name:"Partitivo"}
+];
+var GRAMM_ARTICLES=[
+{a:"il",s:"Il gatto dorme sul divano.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"il",s:"Il sole splende nel cielo.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"il",s:"Il treno parte alle otto.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"il",s:"Il bambino gioca nel parco.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"il",s:"Il libro è sulla scrivania.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"lo",s:"Lo studente studia in biblioteca.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"lo",s:"Lo zaino è molto pesante.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"lo",s:"Lo specchio è rotto.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"l'",s:"L'albero perde le foglie in autunno.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"l'",s:"L'orologio segna le tre.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"l'",s:"L'amico di Marco è simpatico.",tipo:"det",genere:"m",numero:"sing",tags:["det"]},
+{a:"i",s:"I ragazzi giocano a pallone.",tipo:"det",genere:"m",numero:"plur",tags:["det"]},
+{a:"i",s:"I fiori sbocciano in primavera.",tipo:"det",genere:"m",numero:"plur",tags:["det"]},
+{a:"i",s:"I libri sono sullo scaffale.",tipo:"det",genere:"m",numero:"plur",tags:["det"]},
+{a:"gli",s:"Gli studenti ascoltano la lezione.",tipo:"det",genere:"m",numero:"plur",tags:["det"]},
+{a:"gli",s:"Gli alberi del giardino sono alti.",tipo:"det",genere:"m",numero:"plur",tags:["det"]},
+{a:"gli",s:"Gli zaini sono nell'armadio.",tipo:"det",genere:"m",numero:"plur",tags:["det"]},
+{a:"gli",s:"Gli amici di Luca arrivano domani.",tipo:"det",genere:"m",numero:"plur",tags:["det"]},
+{a:"la",s:"La maestra spiega la lezione.",tipo:"det",genere:"f",numero:"sing",tags:["det"]},
+{a:"la",s:"La luna illumina il cielo.",tipo:"det",genere:"f",numero:"sing",tags:["det"]},
+{a:"la",s:"La porta è aperta.",tipo:"det",genere:"f",numero:"sing",tags:["det"]},
+{a:"la",s:"La mamma prepara la cena.",tipo:"det",genere:"f",numero:"sing",tags:["det"]},
+{a:"l'",s:"L'amica di Sara è gentile.",tipo:"det",genere:"f",numero:"sing",tags:["det"]},
+{a:"l'",s:"L'acqua del fiume è limpida.",tipo:"det",genere:"f",numero:"sing",tags:["det"]},
+{a:"l'",s:"L'estate è la mia stagione preferita.",tipo:"det",genere:"f",numero:"sing",tags:["det"]},
+{a:"le",s:"Le ragazze studiano insieme.",tipo:"det",genere:"f",numero:"plur",tags:["det"]},
+{a:"le",s:"Le stelle brillano nel cielo notturno.",tipo:"det",genere:"f",numero:"plur",tags:["det"]},
+{a:"le",s:"Le finestre sono chiuse.",tipo:"det",genere:"f",numero:"plur",tags:["det"]},
+{a:"le",s:"Le amiche di Giulia arrivano stasera.",tipo:"det",genere:"f",numero:"plur",tags:["det"]},
+{a:"un",s:"Un ragazzo corre nel parco.",tipo:"indet",genere:"m",numero:"sing",tags:["indet"]},
+{a:"un",s:"Un cane abbaia forte.",tipo:"indet",genere:"m",numero:"sing",tags:["indet"]},
+{a:"un",s:"Un libro interessante è sul tavolo.",tipo:"indet",genere:"m",numero:"sing",tags:["indet"]},
+{a:"un",s:"Un treno è appena partito.",tipo:"indet",genere:"m",numero:"sing",tags:["indet"]},
+{a:"uno",s:"Uno studente ha fatto una domanda.",tipo:"indet",genere:"m",numero:"sing",tags:["indet"]},
+{a:"uno",s:"Uno zaino nuovo costa molto.",tipo:"indet",genere:"m",numero:"sing",tags:["indet"]},
+{a:"uno",s:"Uno specchio antico decora la parete.",tipo:"indet",genere:"m",numero:"sing",tags:["indet"]},
+{a:"una",s:"Una ragazza legge un romanzo.",tipo:"indet",genere:"f",numero:"sing",tags:["indet"]},
+{a:"una",s:"Una stella cadente attraversa il cielo.",tipo:"indet",genere:"f",numero:"sing",tags:["indet"]},
+{a:"una",s:"Una porta si è aperta all'improvviso.",tipo:"indet",genere:"f",numero:"sing",tags:["indet"]},
+{a:"una",s:"Una maestra molto brava insegna in quella scuola.",tipo:"indet",genere:"f",numero:"sing",tags:["indet"]},
+{a:"un'",s:"Un'amica mi ha telefonato stamattina.",tipo:"indet",genere:"f",numero:"sing",tags:["indet"]},
+{a:"un'",s:"Un'automobile rossa è parcheggiata davanti a casa.",tipo:"indet",genere:"f",numero:"sing",tags:["indet"]},
+{a:"un'",s:"Un'idea geniale mi è venuta in mente.",tipo:"indet",genere:"f",numero:"sing",tags:["indet"]},
+{a:"del",s:"Vorrei del pane fresco.",tipo:"part",genere:"m",numero:"sing",tags:["part"]},
+{a:"del",s:"C'è del latte nel frigorifero.",tipo:"part",genere:"m",numero:"sing",tags:["part"]},
+{a:"dello",s:"Ho comprato dello zucchero.",tipo:"part",genere:"m",numero:"sing",tags:["part"]},
+{a:"dell'",s:"Ho bevuto dell'acqua fresca.",tipo:"part",genere:"f",numero:"sing",tags:["part"]},
+{a:"della",s:"Aggiungi della farina all'impasto.",tipo:"part",genere:"f",numero:"sing",tags:["part"]},
+{a:"della",s:"Ho comprato della frutta al mercato.",tipo:"part",genere:"f",numero:"sing",tags:["part"]},
+{a:"dei",s:"Dei bambini giocano in cortile.",tipo:"part",genere:"m",numero:"plur",tags:["part"]},
+{a:"dei",s:"Ho visto dei fiori bellissimi.",tipo:"part",genere:"m",numero:"plur",tags:["part"]},
+{a:"degli",s:"Degli studenti hanno superato l'esame.",tipo:"part",genere:"m",numero:"plur",tags:["part"]},
+{a:"degli",s:"Degli amici ci hanno invitato a cena.",tipo:"part",genere:"m",numero:"plur",tags:["part"]},
+{a:"delle",s:"Delle ragazze cantano nel coro.",tipo:"part",genere:"f",numero:"plur",tags:["part"]},
+{a:"delle",s:"Ho raccolto delle conchiglie sulla spiaggia.",tipo:"part",genere:"f",numero:"plur",tags:["part"]},
+{a:"delle",s:"Delle nuvole scure coprono il cielo.",tipo:"part",genere:"f",numero:"plur",tags:["part"]}
+];
+
+// ============================================================
+//  NOME — DATA (61 forme verificate)
+// ============================================================
+var NOME_FILTER_GROUPS=[
+  {label:"📋 Tipo",items:[{id:"comune",name:"Comune"},{id:"proprio",name:"Proprio"}]},
+  {label:"🧱 Struttura",items:[{id:"derivato",name:"Derivato"},{id:"alterato",name:"Alterato"},{id:"composto",name:"Composto"}]},
+  {label:"💭 Significato",items:[{id:"astratto",name:"Astratto"}]},
+  {label:"👥 Quantità",items:[{id:"collettivo",name:"Collettivo"}]}
+];
+var GRAMM_NOMI=[
+{n:"libro",s:"Il libro è sulla scrivania.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"casa",s:"La casa è molto grande.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"gatto",s:"Il gatto dorme sul divano.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"fiore",s:"Il fiore profuma di primavera.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"albero",s:"L'albero ha perso le foglie.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"pane",s:"Il pane è appena sfornato.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"luna",s:"La luna illumina il sentiero.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"mare",s:"Il mare è calmo oggi.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"tavolo",s:"Il tavolo è apparecchiato per la cena.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"porta",s:"La porta è rimasta aperta.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"libri",s:"I libri sono sullo scaffale.",tipo:"comune",genere:"m",numero:"plur",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"stelle",s:"Le stelle brillano nel cielo.",tipo:"comune",genere:"f",numero:"plur",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"montagne",s:"Le montagne si vedono dalla finestra.",tipo:"comune",genere:"f",numero:"plur",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["comune","concreto","primitivo"]},
+{n:"felicità",s:"La felicità non si compra con il denaro.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"astratto",quantita:"individuale",tags:["comune","astratto","primitivo"]},
+{n:"coraggio",s:"Ci vuole molto coraggio per parlare in pubblico.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"astratto",quantita:"individuale",tags:["comune","astratto","primitivo"]},
+{n:"libertà",s:"La libertà è un diritto fondamentale.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"astratto",quantita:"individuale",tags:["comune","astratto","primitivo"]},
+{n:"paura",s:"La paura del buio è molto comune nei bambini.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"astratto",quantita:"individuale",tags:["comune","astratto","primitivo"]},
+{n:"amore",s:"L'amore per la musica lo accompagna da sempre.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"astratto",quantita:"individuale",tags:["comune","astratto","primitivo"]},
+{n:"giustizia",s:"La giustizia deve essere uguale per tutti.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"astratto",quantita:"individuale",tags:["comune","astratto","primitivo"]},
+{n:"speranza",s:"La speranza è l'ultima a morire.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"astratto",quantita:"individuale",tags:["comune","astratto","primitivo"]},
+{n:"intelligenza",s:"L'intelligenza si dimostra con i fatti.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"astratto",quantita:"individuale",tags:["comune","astratto","primitivo"]},
+{n:"libreria",s:"La libreria è piena di volumi antichi.",tipo:"comune",genere:"f",numero:"sing",struttura:"derivato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","derivato"]},
+{n:"fiorista",s:"Il fiorista ha preparato un bel mazzo.",tipo:"comune",genere:"m",numero:"sing",struttura:"derivato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","derivato"]},
+{n:"panettiere",s:"Il panettiere apre il negozio all'alba.",tipo:"comune",genere:"m",numero:"sing",struttura:"derivato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","derivato"]},
+{n:"giornalaio",s:"Il giornalaio vende anche le riviste.",tipo:"comune",genere:"m",numero:"sing",struttura:"derivato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","derivato"]},
+{n:"cartoleria",s:"La cartoleria vende quaderni e penne.",tipo:"comune",genere:"f",numero:"sing",struttura:"derivato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","derivato"]},
+{n:"portiere",s:"Il portiere ha parato il rigore.",tipo:"comune",genere:"m",numero:"sing",struttura:"derivato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","derivato"]},
+{n:"fioraio",s:"Il fioraio ha un negozio in centro.",tipo:"comune",genere:"m",numero:"sing",struttura:"derivato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","derivato"]},
+{n:"panificio",s:"Il panificio sforna pane ogni mattina.",tipo:"comune",genere:"m",numero:"sing",struttura:"derivato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","derivato"]},
+{n:"casetta",s:"La casetta nel bosco è accogliente.",tipo:"comune",genere:"f",numero:"sing",struttura:"alterato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","alterato"]},
+{n:"librone",s:"Quel librone pesa almeno tre chili.",tipo:"comune",genere:"m",numero:"sing",struttura:"alterato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","alterato"]},
+{n:"gattino",s:"Il gattino gioca con il gomitolo.",tipo:"comune",genere:"m",numero:"sing",struttura:"alterato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","alterato"]},
+{n:"fiorellino",s:"Un fiorellino spunta tra le rocce.",tipo:"comune",genere:"m",numero:"sing",struttura:"alterato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","alterato"]},
+{n:"stradina",s:"Una stradina stretta porta alla piazza.",tipo:"comune",genere:"f",numero:"sing",struttura:"alterato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","alterato"]},
+{n:"parolaccia",s:"Non si dicono le parolacce in classe.",tipo:"comune",genere:"f",numero:"sing",struttura:"alterato",significato:"astratto",quantita:"individuale",tags:["comune","astratto","alterato"]},
+{n:"ragazzaccio",s:"Quel ragazzaccio ha combinato un guaio.",tipo:"comune",genere:"m",numero:"sing",struttura:"alterato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","alterato"]},
+{n:"tavolino",s:"Il tavolino del salotto è di vetro.",tipo:"comune",genere:"m",numero:"sing",struttura:"alterato",significato:"concreto",quantita:"individuale",tags:["comune","concreto","alterato"]},
+{n:"arcobaleno",s:"L'arcobaleno appare dopo il temporale.",tipo:"comune",genere:"m",numero:"sing",struttura:"composto",significato:"concreto",quantita:"individuale",tags:["comune","concreto","composto"]},
+{n:"capostazione",s:"Il capostazione dà il segnale di partenza.",tipo:"comune",genere:"m",numero:"sing",struttura:"composto",significato:"concreto",quantita:"individuale",tags:["comune","concreto","composto"]},
+{n:"portafoglio",s:"Ho dimenticato il portafoglio a casa.",tipo:"comune",genere:"m",numero:"sing",struttura:"composto",significato:"concreto",quantita:"individuale",tags:["comune","concreto","composto"]},
+{n:"capoclasse",s:"Il capoclasse ha raccolto i compiti.",tipo:"comune",genere:"m",numero:"sing",struttura:"composto",significato:"concreto",quantita:"individuale",tags:["comune","concreto","composto"]},
+{n:"asciugamano",s:"L'asciugamano è appeso in bagno.",tipo:"comune",genere:"m",numero:"sing",struttura:"composto",significato:"concreto",quantita:"individuale",tags:["comune","concreto","composto"]},
+{n:"pescespada",s:"Il pescespada è un pesce molto grande.",tipo:"comune",genere:"m",numero:"sing",struttura:"composto",significato:"concreto",quantita:"individuale",tags:["comune","concreto","composto"]},
+{n:"terremoto",s:"Il terremoto ha fatto tremare la città.",tipo:"comune",genere:"m",numero:"sing",struttura:"composto",significato:"concreto",quantita:"individuale",tags:["comune","concreto","composto"]},
+{n:"guardaroba",s:"Il guardaroba è pieno di vestiti.",tipo:"comune",genere:"m",numero:"sing",struttura:"composto",significato:"concreto",quantita:"individuale",tags:["comune","concreto","composto"]},
+{n:"folla",s:"La folla applaude alla fine dello spettacolo.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"collettivo",tags:["comune","collettivo","primitivo"]},
+{n:"gregge",s:"Il gregge pascola sui prati di montagna.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"collettivo",tags:["comune","collettivo","primitivo"]},
+{n:"squadra",s:"La squadra ha vinto il campionato.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"collettivo",tags:["comune","collettivo","primitivo"]},
+{n:"esercito",s:"L'esercito marcia verso la capitale.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"collettivo",tags:["comune","collettivo","primitivo"]},
+{n:"sciame",s:"Uno sciame di api ronza nel giardino.",tipo:"comune",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"collettivo",tags:["comune","collettivo","primitivo"]},
+{n:"classe",s:"La classe è in silenzio durante il compito.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"collettivo",tags:["comune","collettivo","primitivo"]},
+{n:"flotta",s:"La flotta è salpata all'alba.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"collettivo",tags:["comune","collettivo","primitivo"]},
+{n:"mandria",s:"La mandria attraversa la pianura.",tipo:"comune",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"collettivo",tags:["comune","collettivo","primitivo"]},
+{n:"Roma",s:"Roma è la capitale d'Italia.",tipo:"proprio",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["proprio","concreto","primitivo"]},
+{n:"Marco",s:"Marco studia storia all'università.",tipo:"proprio",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["proprio","concreto","primitivo"]},
+{n:"Giulia",s:"Giulia è la più brava della classe.",tipo:"proprio",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["proprio","concreto","primitivo"]},
+{n:"Italia",s:"L'Italia è una penisola nel Mediterraneo.",tipo:"proprio",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["proprio","concreto","primitivo"]},
+{n:"Tevere",s:"Il Tevere attraversa la città di Roma.",tipo:"proprio",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["proprio","concreto","primitivo"]},
+{n:"Dante",s:"Dante scrisse la Divina Commedia.",tipo:"proprio",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["proprio","concreto","primitivo"]},
+{n:"Milano",s:"Milano è famosa per la moda e il design.",tipo:"proprio",genere:"f",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["proprio","concreto","primitivo"]},
+{n:"Everest",s:"L'Everest è la montagna più alta del mondo.",tipo:"proprio",genere:"m",numero:"sing",struttura:"primitivo",significato:"concreto",quantita:"individuale",tags:["proprio","concreto","primitivo"]}
+];
+
+// ============================================================
+//  VERBO — DATA
+// ============================================================
 var GRAMM_MODI=[
   {id:"ind",name:"Indicativo"},
   {id:"cong",name:"Congiuntivo"},
@@ -1595,7 +1849,273 @@ function logShowResults(){
 }
 
 // ============================================================
-//  ANALISI GRAMMATICALE — ENGINE
+//  ANALISI GRAMMATICALE — SUB-MENU
+// ============================================================
+function openGrammMenu(){show('scrGrammMenu')}
+
+// ============================================================
+//  ARTICOLO — ENGINE
+// ============================================================
+var AS={questions:[],qi:0,score:0,results:[],answers:{},replayMode:false};
+
+function openArt(){show('scrArtHome');buildArtTopics()}
+function buildArtTopics(){
+  var gt=document.getElementById('artTopics');gt.innerHTML='';
+  ART_TYPES.forEach(function(t){
+    var b=document.createElement('button');b.className='topic-btn';b.textContent=t.name;b.dataset.id=t.id;
+    b.onclick=function(){b.classList.toggle('selected');updateArtStart()};
+    gt.appendChild(b);
+  });
+  updateArtStart();
+}
+function updateArtStart(){
+  var sel=[];document.querySelectorAll('#artTopics .topic-btn.selected').forEach(function(b){sel.push(b.dataset.id)});
+  document.getElementById('btnStartArt').disabled=sel.length===0;
+}
+function toggleAllArt(){
+  var btns=document.querySelectorAll('#artTopics .topic-btn');
+  var allSel=true;btns.forEach(function(b){if(!b.classList.contains('selected'))allSel=false});
+  btns.forEach(function(b){if(allSel)b.classList.remove('selected');else b.classList.add('selected')});
+  updateArtStart();
+}
+function startArt(){
+  var topics=[];document.querySelectorAll('#artTopics .topic-btn.selected').forEach(function(b){topics.push(b.dataset.id)});
+  var pool=[];
+  GRAMM_ARTICLES.forEach(function(a){var ok=false;a.tags.forEach(function(t){if(topics.indexOf(t)!==-1)ok=true});if(ok)pool.push(a)});
+  var need=Math.min(QXL,pool.length);
+  if(need<5){alert('Non ci sono abbastanza articoli. Seleziona più tipi.');return}
+  AS.questions=shuffle(pool.slice()).slice(0,need);
+  AS.qi=0;AS.score=0;AS.results=[];AS.replayMode=false;
+  show('scrArtGame');artRenderQ();
+}
+function artReplayErrors(){
+  var errs=[];AS.results.forEach(function(r){if(!r.allCorrect)errs.push(r.item)});
+  if(!errs.length){showFeedback('✅','Nessun errore!');return}
+  AS.questions=shuffle(errs);AS.qi=0;AS.score=0;AS.results=[];AS.replayMode=true;
+  show('scrArtGame');artRenderQ();
+}
+function artRenderQ(){
+  var q=AS.questions[AS.qi],total=AS.questions.length;
+  document.getElementById('artProgText').textContent=(AS.qi+1)+' / '+total;
+  document.getElementById('artProgFill').style.width=((AS.qi+1)/total*100)+'%';
+  // Highlight the article in the sentence
+  var hl=q.a;var sent=q.s;
+  // Handle L'/l'/Un'/un'/Dell'/dell' (capitalized at start)
+  var upperHl=hl.charAt(0).toUpperCase()+hl.slice(1);
+  if(sent.indexOf(upperHl)===0){
+    sent='<span class="verb-highlight">'+upperHl+'</span>'+sent.slice(upperHl.length);
+  } else {
+    // Find first occurrence (case-sensitive, word boundary)
+    var idx=sent.indexOf(hl);
+    if(idx===-1)idx=sent.indexOf(upperHl);
+    if(idx!==-1){
+      sent=sent.slice(0,idx)+'<span class="verb-highlight">'+sent.slice(idx,idx+hl.length)+'</span>'+sent.slice(idx+hl.length);
+    }
+  }
+  document.getElementById('artSentText').innerHTML=sent;
+  AS.answers={};
+  var steps=document.getElementById('artSteps');steps.innerHTML='';
+  // Step 1: Tipo
+  steps.appendChild(makeStepGroup('Tipo',['determinativo','indeterminativo','partitivo'],'artTipo',AS,artCheckReady));
+  // Step 2: Genere
+  steps.appendChild(makeStepGroup('Genere',['maschile','femminile'],'artGenere',AS,artCheckReady));
+  // Step 3: Numero
+  steps.appendChild(makeStepGroup('Numero',['singolare','plurale'],'artNumero',AS,artCheckReady));
+  document.getElementById('btnArtCheck').disabled=true;
+}
+function artCheckReady(){
+  var needed=['artTipo','artGenere','artNumero'];
+  var ready=true;
+  needed.forEach(function(k){if(!AS.answers[k])ready=false});
+  document.getElementById('btnArtCheck').disabled=!ready;
+}
+function artResetCurrent(){
+  AS.answers={};
+  document.querySelectorAll('#artSteps .cat-btn').forEach(function(b){b.classList.remove('cat-selected','cat-wrong','cat-correct')});
+  document.getElementById('btnArtCheck').disabled=true;
+}
+function artCheckAnswer(){
+  var q=AS.questions[AS.qi];
+  var tipoMap={det:'determinativo',indet:'indeterminativo',part:'partitivo'};
+  var genMap={m:'maschile',f:'femminile'};
+  var numMap={sing:'singolare',plur:'plurale'};
+  var checks=[
+    {key:'artTipo',label:'Tipo',correct:tipoMap[q.tipo],given:AS.answers.artTipo},
+    {key:'artGenere',label:'Genere',correct:genMap[q.genere],given:AS.answers.artGenere},
+    {key:'artNumero',label:'Numero',correct:numMap[q.numero],given:AS.answers.artNumero}
+  ];
+  var allCorrect=true;
+  checks.forEach(function(ch){if(ch.given!==ch.correct)allCorrect=false});
+  if(allCorrect)AS.score++;
+  AS.results.push({item:q,allCorrect:allCorrect,checks:checks});
+  showFeedback(allCorrect?'✅':'❌',allCorrect?'Corretto!':'Ricontrolla');
+  document.querySelectorAll('#artSteps .cat-btn').forEach(function(b){b.onclick=null;b.style.cursor='default'});
+  document.getElementById('btnArtCheck').disabled=true;
+  var delay=allCorrect?1200:getGrammErrDelay();
+  if(delay===0&&!allCorrect){
+    var nb=document.createElement('button');nb.className='btn btn-primary';nb.textContent='Avanti →';nb.style.marginTop='12px';
+    nb.onclick=function(){nb.remove();AS.qi++;if(AS.qi<AS.questions.length)artRenderQ();else artShowResults()};
+    document.getElementById('artSteps').parentNode.appendChild(nb);
+  } else {
+    setTimeout(function(){AS.qi++;if(AS.qi<AS.questions.length)artRenderQ();else artShowResults()},delay);
+  }
+}
+function artShowResults(){
+  show('scrArtResults');
+  var total=AS.questions.length,pct=Math.round(AS.score/total*100);
+  var el=document.getElementById('artScoreBig');el.textContent=pct+'%';
+  el.className='score-big'+(pct>=70?'':pct>=50?' medium':' low');
+  document.getElementById('artScoreLbl').textContent=AS.score+' / '+total+' risposte corrette';
+  var rl=document.getElementById('artReviewList');rl.innerHTML='<h2>Riepilogo</h2>';
+  AS.results.forEach(function(r){
+    var div=document.createElement('div');div.className='review-item'+(r.allCorrect?' correct':'');
+    var h='<div class="review-sentence"><span class="verb-highlight">'+r.item.a+'</span> — '+r.item.s+'</div>';
+    if(!r.allCorrect){
+      h+='<div class="review-detail">';
+      r.checks.forEach(function(ch){
+        if(ch.given!==ch.correct)h+='<b>'+ch.label+'</b>: <span class="wrong-text">'+ch.given+'</span> → <span class="right">'+ch.correct+'</span><br>';
+      });
+      h+='</div>';
+    }
+    div.innerHTML=h;rl.appendChild(div);
+  });
+}
+
+// ============================================================
+//  NOME — ENGINE
+// ============================================================
+var NS={questions:[],qi:0,score:0,results:[],answers:{},replayMode:false};
+
+function openNome(){show('scrNomeHome');buildNomeTopics()}
+function buildNomeTopics(){
+  var gt=document.getElementById('nomeTopics');gt.innerHTML='';
+  NOME_FILTER_GROUPS.forEach(function(g){
+    var lbl=document.createElement('div');lbl.className='topic-section-label';lbl.textContent=g.label;
+    if(gt.children.length>0)lbl.style.marginTop='12px';
+    gt.appendChild(lbl);
+    g.items.forEach(function(item){
+      var b=document.createElement('button');b.className='topic-btn';b.textContent=item.name;b.dataset.id=item.id;
+      b.onclick=function(){b.classList.toggle('selected');updateNomeStart()};
+      gt.appendChild(b);
+    });
+  });
+  updateNomeStart();
+}
+function updateNomeStart(){
+  var sel=[];document.querySelectorAll('#nomeTopics .topic-btn.selected').forEach(function(b){sel.push(b.dataset.id)});
+  document.getElementById('btnStartNome').disabled=sel.length===0;
+}
+function toggleAllNome(){
+  var btns=document.querySelectorAll('#nomeTopics .topic-btn');
+  var allSel=true;btns.forEach(function(b){if(!b.classList.contains('selected'))allSel=false});
+  btns.forEach(function(b){if(allSel)b.classList.remove('selected');else b.classList.add('selected')});
+  updateNomeStart();
+}
+function startNome(){
+  var topics=[];document.querySelectorAll('#nomeTopics .topic-btn.selected').forEach(function(b){topics.push(b.dataset.id)});
+  var pool=[];
+  GRAMM_NOMI.forEach(function(n){var ok=false;n.tags.forEach(function(t){if(topics.indexOf(t)!==-1)ok=true});if(ok)pool.push(n)});
+  var need=Math.min(QXL,pool.length);
+  if(need<5){alert('Non ci sono abbastanza nomi. Seleziona più categorie.');return}
+  NS.questions=shuffle(pool.slice()).slice(0,need);
+  NS.qi=0;NS.score=0;NS.results=[];NS.replayMode=false;
+  show('scrNomeGame');nomeRenderQ();
+}
+function nomeReplayErrors(){
+  var errs=[];NS.results.forEach(function(r){if(!r.allCorrect)errs.push(r.item)});
+  if(!errs.length){showFeedback('✅','Nessun errore!');return}
+  NS.questions=shuffle(errs);NS.qi=0;NS.score=0;NS.results=[];NS.replayMode=true;
+  show('scrNomeGame');nomeRenderQ();
+}
+function nomeRenderQ(){
+  var q=NS.questions[NS.qi],total=NS.questions.length;
+  document.getElementById('nomeProgText').textContent=(NS.qi+1)+' / '+total;
+  document.getElementById('nomeProgFill').style.width=((NS.qi+1)/total*100)+'%';
+  // Highlight the noun in the sentence
+  var sent=q.s;
+  var idx=sent.indexOf(q.n);
+  if(idx!==-1){
+    sent=sent.slice(0,idx)+'<span class="verb-highlight">'+q.n+'</span>'+sent.slice(idx+q.n.length);
+  }
+  document.getElementById('nomeSentText').innerHTML=sent;
+  NS.answers={};
+  var steps=document.getElementById('nomeSteps');steps.innerHTML='';
+  // Step 1: Tipo (comune/proprio)
+  steps.appendChild(makeStepGroup('Tipo',['comune','proprio'],'nomeTipo',NS,nomeCheckReady));
+  // Step 2: Genere
+  steps.appendChild(makeStepGroup('Genere',['maschile','femminile'],'nomeGenere',NS,nomeCheckReady));
+  // Step 3: Numero
+  steps.appendChild(makeStepGroup('Numero',['singolare','plurale'],'nomeNumero',NS,nomeCheckReady));
+  // Step 4: Struttura
+  steps.appendChild(makeStepGroup('Struttura',['primitivo','derivato','alterato','composto'],'nomeStruttura',NS,nomeCheckReady));
+  // Step 5: Significato (concreto/astratto)
+  steps.appendChild(makeStepGroup('Significato',['concreto','astratto'],'nomeSignificato',NS,nomeCheckReady));
+  // Step 6: Quantità (individuale/collettivo)
+  steps.appendChild(makeStepGroup('Quantità',['individuale','collettivo'],'nomeQuantita',NS,nomeCheckReady));
+  document.getElementById('btnNomeCheck').disabled=true;
+}
+function nomeCheckReady(){
+  var needed=['nomeTipo','nomeGenere','nomeNumero','nomeStruttura','nomeSignificato','nomeQuantita'];
+  var ready=true;
+  needed.forEach(function(k){if(!NS.answers[k])ready=false});
+  document.getElementById('btnNomeCheck').disabled=!ready;
+}
+function nomeResetCurrent(){
+  NS.answers={};
+  document.querySelectorAll('#nomeSteps .cat-btn').forEach(function(b){b.classList.remove('cat-selected','cat-wrong','cat-correct')});
+  document.getElementById('btnNomeCheck').disabled=true;
+}
+function nomeCheckAnswer(){
+  var q=NS.questions[NS.qi];
+  var genMap={m:'maschile',f:'femminile'};
+  var numMap={sing:'singolare',plur:'plurale'};
+  var checks=[
+    {key:'nomeTipo',label:'Tipo',correct:q.tipo,given:NS.answers.nomeTipo},
+    {key:'nomeGenere',label:'Genere',correct:genMap[q.genere],given:NS.answers.nomeGenere},
+    {key:'nomeNumero',label:'Numero',correct:numMap[q.numero],given:NS.answers.nomeNumero},
+    {key:'nomeStruttura',label:'Struttura',correct:q.struttura,given:NS.answers.nomeStruttura},
+    {key:'nomeSignificato',label:'Significato',correct:q.significato,given:NS.answers.nomeSignificato},
+    {key:'nomeQuantita',label:'Quantità',correct:q.quantita,given:NS.answers.nomeQuantita}
+  ];
+  var allCorrect=true;
+  checks.forEach(function(ch){if(ch.given!==ch.correct)allCorrect=false});
+  if(allCorrect)NS.score++;
+  NS.results.push({item:q,allCorrect:allCorrect,checks:checks});
+  showFeedback(allCorrect?'✅':'❌',allCorrect?'Corretto!':'Ricontrolla');
+  document.querySelectorAll('#nomeSteps .cat-btn').forEach(function(b){b.onclick=null;b.style.cursor='default'});
+  document.getElementById('btnNomeCheck').disabled=true;
+  var delay=allCorrect?1200:getGrammErrDelay();
+  if(delay===0&&!allCorrect){
+    var nb=document.createElement('button');nb.className='btn btn-primary';nb.textContent='Avanti →';nb.style.marginTop='12px';
+    nb.onclick=function(){nb.remove();NS.qi++;if(NS.qi<NS.questions.length)nomeRenderQ();else nomeShowResults()};
+    document.getElementById('nomeSteps').parentNode.appendChild(nb);
+  } else {
+    setTimeout(function(){NS.qi++;if(NS.qi<NS.questions.length)nomeRenderQ();else nomeShowResults()},delay);
+  }
+}
+function nomeShowResults(){
+  show('scrNomeResults');
+  var total=NS.questions.length,pct=Math.round(NS.score/total*100);
+  var el=document.getElementById('nomeScoreBig');el.textContent=pct+'%';
+  el.className='score-big'+(pct>=70?'':pct>=50?' medium':' low');
+  document.getElementById('nomeScoreLbl').textContent=NS.score+' / '+total+' risposte corrette';
+  var rl=document.getElementById('nomeReviewList');rl.innerHTML='<h2>Riepilogo</h2>';
+  NS.results.forEach(function(r){
+    var div=document.createElement('div');div.className='review-item'+(r.allCorrect?' correct':'');
+    var h='<div class="review-sentence"><span class="verb-highlight">'+r.item.n+'</span> — '+r.item.s+'</div>';
+    if(!r.allCorrect){
+      h+='<div class="review-detail">';
+      r.checks.forEach(function(ch){
+        if(ch.given!==ch.correct)h+='<b>'+ch.label+'</b>: <span class="wrong-text">'+ch.given+'</span> → <span class="right">'+ch.correct+'</span><br>';
+      });
+      h+='</div>';
+    }
+    div.innerHTML=h;rl.appendChild(div);
+  });
+}
+
+// ============================================================
+//  VERBO — ENGINE
 // ============================================================
 var GS={questions:[],qi:0,score:0,results:[],answers:{},replayMode:false};
 
@@ -1697,7 +2217,10 @@ function grammRenderQ(){
   else{fb.classList.remove('flagged');fb.textContent='🚩'}
 }
 
-function makeStepGroup(label,options,key){
+function makeStepGroup(label,options,key,stateObj,readyFn){
+  // stateObj & readyFn are optional — defaults to GS/grammCheckReady for backward compat
+  var st=stateObj||GS;
+  var rfn=readyFn||grammCheckReady;
   var div=document.createElement('div');div.className='step-group';
   div.innerHTML='<div class="step-group-label">'+label+'</div>';
   var grid=document.createElement('div');grid.className='cat-grid';
@@ -1706,9 +2229,9 @@ function makeStepGroup(label,options,key){
     b.onclick=function(){
       grid.querySelectorAll('.cat-btn').forEach(function(x){x.classList.remove('cat-selected')});
       b.classList.add('cat-selected');
-      GS.answers[key]=o;
+      st.answers[key]=o;
       if(key==='modo')onModoSelected(o);
-      grammCheckReady();
+      rfn();
     };
     grid.appendChild(b);
   });
