@@ -324,7 +324,7 @@ body.dsa-contrast .cat-tip,body.dsa-contrast .review-tip{color:#a5b4fc}
       <div class="mc-icon">🔍</div>
       <div class="mc-title">Analisi Logica</div>
       <div class="mc-desc">Soggetto, predicato e complementi — identifica la funzione di ogni sintagma nella frase</div>
-      <div class="mc-badge">386 frasi · 36 categorie</div>
+      <div class="mc-badge">438 frasi · 36 categorie</div>
     </div>
     <div class="menu-card" onclick="openGrammMenu()">
       <div class="mc-icon">📖</div>
@@ -1267,7 +1267,74 @@ var LOG_SENT=[
 {text:"Dal fruttivendolo la mamma ha comprato le mele.",parts:[["Dal fruttivendolo","moto_da"],["la mamma","sogg"],["ha comprato","pv"],["le mele","ogg"]],tags:["moto_da","ogg"]},
 {text:"A tutti gli studenti è stato distribuito il materiale.",parts:[["A tutti gli studenti","ter"],["è stato distribuito","pv"],["il materiale","sogg"]],tags:["ter"]},
 {text:"Con grande fatica lo scalatore ha raggiunto la vetta.",parts:[["Con grande fatica","mod"],["lo scalatore","sogg"],["ha raggiunto","pv"],["la vetta","ogg"]],tags:["mod","ogg"]},
-{text:"Ne abbiamo parlato a lungo in riunione.",parts:[["(Noi)","sogg"],["Ne","arg"],["abbiamo parlato","pv"],["a lungo","tem_con"],["in riunione","sta"]],tags:["arg","tem_con","sta"]}
+{text:"Ne abbiamo parlato a lungo in riunione.",parts:[["(Noi)","sogg"],["Ne","arg"],["abbiamo parlato","pv"],["a lungo","tem_con"],["in riunione","sta"]],tags:["arg","tem_con","sta"]},
+// ============================================================
+//  NUOVE FRASI — CAUSA EFFICIENTE (completamento)
+// ============================================================
+{text:"Il ponte è stato travolto dalla piena del fiume.",parts:[["Il ponte","sogg"],["è stato travolto","pv"],["dalla piena del fiume","cau_eff"]],tags:["cau_eff"]},
+{text:"I campi sono stati allagati dall'alluvione.",parts:[["I campi","sogg"],["sono stati allagati","pv"],["dall'alluvione","cau_eff"]],tags:["cau_eff"]},
+{text:"La finestra è stata rotta dal pallone.",parts:[["La finestra","sogg"],["è stata rotta","pv"],["dal pallone","cau_eff"]],tags:["cau_eff"]},
+{text:"Le strade sono state bloccate dalla neve.",parts:[["Le strade","sogg"],["sono state bloccate","pv"],["dalla neve","cau_eff"]],tags:["cau_eff"]},
+{text:"Il muro è stato abbattuto dall'esplosione.",parts:[["Il muro","sogg"],["è stato abbattuto","pv"],["dall'esplosione","cau_eff"]],tags:["cau_eff"]},
+{text:"La nave è stata affondata dalla tempesta.",parts:[["La nave","sogg"],["è stata affondata","pv"],["dalla tempesta","cau_eff"]],tags:["cau_eff"]},
+// ============================================================
+//  NUOVE FRASI — MOTO DA LUOGO (completamento)
+// ============================================================
+{text:"L'acqua scende dalla montagna.",parts:[["L'acqua","sogg"],["scende","pv"],["dalla montagna","moto_da"]],tags:["moto_da"]},
+{text:"I passeggeri scendono dall'aereo.",parts:[["I passeggeri","sogg"],["scendono","pv"],["dall'aereo","moto_da"]],tags:["moto_da"]},
+{text:"Il gatto salta giù dal muro.",parts:[["Il gatto","sogg"],["salta giù","pv"],["dal muro","moto_da"]],tags:["moto_da"]},
+{text:"La famiglia torna dalle vacanze.",parts:[["La famiglia","sogg"],["torna","pv"],["dalle vacanze","moto_da"]],tags:["moto_da"]},
+// ============================================================
+//  NUOVE FRASI — MISTE COMPLESSE (3-4 complementi)
+// ============================================================
+{text:"Ieri sera Marco ha cenato al ristorante con gli amici.",parts:[["Ieri sera","tem_det"],["Marco","sogg"],["ha cenato","pv"],["al ristorante","sta"],["con gli amici","comp"]],tags:["tem_det","sta","comp"]},
+{text:"La nonna cucina il minestrone in cucina con grande cura.",parts:[["La nonna","sogg"],["cucina","pv"],["il minestrone","ogg"],["in cucina","sta"],["con grande cura","mod"]],tags:["ogg","sta","mod"]},
+{text:"Il postino ha consegnato il pacco al vicino di casa stamattina.",parts:[["Il postino","sogg"],["ha consegnato","pv"],["il pacco","ogg"],["al vicino di casa","ter"],["stamattina","tem_det"]],tags:["ogg","ter","tem_det"]},
+{text:"Per la pioggia i ragazzi sono tornati a casa da scuola in autobus.",parts:[["Per la pioggia","cau"],["i ragazzi","sogg"],["sono tornati","pv"],["a casa","moto_a"],["da scuola","moto_da"],["in autobus","mez"]],tags:["cau","moto_a","moto_da","mez"]},
+{text:"Il professore ha spiegato il teorema agli studenti con degli esempi.",parts:[["Il professore","sogg"],["ha spiegato","pv"],["il teorema","ogg"],["agli studenti","ter"],["con degli esempi","mez"]],tags:["ogg","ter","mez"]},
+{text:"I turisti arrivano a Roma dall'Inghilterra in aereo.",parts:[["I turisti","sogg"],["arrivano","pv"],["a Roma","moto_a"],["dall'Inghilterra","moto_da"],["in aereo","mez"]],tags:["moto_a","moto_da","mez"]},
+{text:"Il papà legge il giornale in poltrona ogni sera.",parts:[["Il papà","sogg"],["legge","pv"],["il giornale","ogg"],["in poltrona","sta"],["ogni sera","tem_det"]],tags:["ogg","sta","tem_det"]},
+{text:"La torta al cioccolato è stata mangiata dai bambini con entusiasmo.",parts:[["La torta al cioccolato","sogg"],["è stata mangiata","pv"],["dai bambini","age"],["con entusiasmo","mod"]],tags:["age","mod"]},
+{text:"Lucia ha comprato un regalo per la mamma al mercato.",parts:[["Lucia","sogg"],["ha comprato","pv"],["un regalo","ogg"],["per la mamma","fin"],["al mercato","sta"]],tags:["ogg","fin","sta"]},
+{text:"Il medico ha prescritto una cura al paziente per il mal di schiena.",parts:[["Il medico","sogg"],["ha prescritto","pv"],["una cura","ogg"],["al paziente","ter"],["per il mal di schiena","cau"]],tags:["ogg","ter","cau"]},
+{text:"In estate la famiglia va in vacanza al mare per due settimane.",parts:[["In estate","tem_det"],["la famiglia","sogg"],["va","pv"],["in vacanza","fin"],["al mare","moto_a"],["per due settimane","tem_con"]],tags:["tem_det","fin","moto_a","tem_con"]},
+{text:"Il contadino lavora nei campi dall'alba al tramonto.",parts:[["Il contadino","sogg"],["lavora","pv"],["nei campi","sta"],["dall'alba al tramonto","tem_con"]],tags:["sta","tem_con"]},
+{text:"La maestra racconta una storia ai bambini con voce dolce.",parts:[["La maestra","sogg"],["racconta","pv"],["una storia","ogg"],["ai bambini","ter"],["con voce dolce","mod"]],tags:["ogg","ter","mod"]},
+{text:"Nonostante il traffico Marco è arrivato in ufficio in orario.",parts:[["Nonostante il traffico","con"],["Marco","sogg"],["è arrivato","pv"],["in ufficio","moto_a"],["in orario","mod"]],tags:["con","moto_a","mod"]},
+{text:"Il pacco è stato spedito dalla ditta per corriere al cliente.",parts:[["Il pacco","sogg"],["è stato spedito","pv"],["dalla ditta","age"],["per corriere","mez"],["al cliente","ter"]],tags:["age","mez","ter"]},
+{text:"Il ragazzo studia il francese a scuola per due ore alla settimana.",parts:[["Il ragazzo","sogg"],["studia","pv"],["il francese","ogg"],["a scuola","sta"],["per due ore alla settimana","tem_con"]],tags:["ogg","sta","tem_con"]},
+// ============================================================
+//  NUOVE FRASI — NON LINEARI E TRAPPOLE
+// ============================================================
+{text:"Ai bambini piace molto il gelato.",parts:[["Ai bambini","ter"],["piace","pv"],["molto","mod"],["il gelato","sogg"]],tags:["ter","mod"]},
+{text:"Di questo argomento parleremo domani in classe.",parts:[["Di questo argomento","arg"],["(noi)","sogg"],["parleremo","pv"],["domani","tem_det"],["in classe","sta"]],tags:["arg","tem_det","sta"]},
+{text:"Alla festa sono stati invitati tutti i compagni.",parts:[["Alla festa","moto_a"],["sono stati invitati","pv"],["tutti i compagni","sogg"]],tags:["moto_a"]},
+{text:"In fondo al corridoio si trova l'ufficio del preside.",parts:[["In fondo al corridoio","sta"],["si trova","pv"],["l'ufficio","sogg"],["del preside","spec"]],tags:["sta","spec"]},
+{text:"Ci ha avvisato il vigile del pericolo.",parts:[["Ci","ogg"],["ha avvisato","pv"],["il vigile","sogg"],["del pericolo","arg"]],tags:["ogg","arg"]},
+{text:"Dalla terrazza si ammira un panorama splendido.",parts:[["Dalla terrazza","sta"],["si ammira","pv"],["un panorama splendido","sogg"]],tags:["sta"]},
+{text:"Gli è stato assegnato un compito difficile dal professore.",parts:[["Gli","ter"],["è stato assegnato","pv"],["un compito difficile","sogg"],["dal professore","age"]],tags:["ter","age"]},
+{text:"Di notte nel bosco si sentono rumori misteriosi.",parts:[["Di notte","tem_det"],["nel bosco","sta"],["si sentono","pv"],["rumori misteriosi","sogg"]],tags:["tem_det","sta"]},
+{text:"Tra i cespugli si nasconde un riccio.",parts:[["Tra i cespugli","sta"],["si nasconde","pv"],["un riccio","sogg"]],tags:["sta"]},
+{text:"Mi hanno portato un mazzo di fiori per il mio compleanno.",parts:[["(Essi)","sogg"],["Mi","ter"],["hanno portato","pv"],["un mazzo di fiori","ogg"],["per il mio compleanno","cau"]],tags:["ter","ogg","cau"]},
+{text:"Sulla collina sorge un antico castello.",parts:[["Sulla collina","sta"],["sorge","pv"],["un antico castello","sogg"]],tags:["sta"]},
+{text:"Ce ne hanno parlato gli insegnanti durante l'assemblea.",parts:[["gli insegnanti","sogg"],["Ce","ter"],["ne","arg"],["hanno parlato","pv"],["durante l'assemblea","tem_det"]],tags:["ter","arg","tem_det"]},
+{text:"Al parco i cani corrono liberi ogni mattina.",parts:[["Al parco","sta"],["i cani","sogg"],["corrono","pv"],["liberi","pred_sogg"],["ogni mattina","tem_det"]],tags:["sta","pred_sogg","tem_det"]},
+{text:"Per il terremoto sono crollati molti edifici in città.",parts:[["Per il terremoto","cau"],["sono crollati","pv"],["molti edifici","sogg"],["in città","sta"]],tags:["cau","sta"]},
+// ============================================================
+//  NUOVE FRASI — COMPLEMENTI AVANZATI MISTI
+// ============================================================
+{text:"Un uomo di mezza età esce dal palazzo con una borsa di pelle.",parts:[["Un uomo","sogg"],["di mezza età","eta"],["esce","pv"],["dal palazzo","moto_da"],["con una borsa","uni"],["di pelle","mat"]],tags:["eta","moto_da","uni","mat"]},
+{text:"La maggior parte degli abitanti è favorevole al progetto.",parts:[["La maggior parte","sogg"],["degli abitanti","par"],["è favorevole","pn"],["al progetto","van"]],tags:["par","van"]},
+{text:"Secondo la tradizione la festa di San Giovanni si celebra il 24 giugno.",parts:[["Secondo la tradizione","lim"],["la festa","sogg"],["di San Giovanni","den"],["si celebra","pv"],["il 24 giugno","tem_det"]],tags:["lim","den","tem_det"]},
+{text:"Il vaso di cristallo è caduto dal tavolo per la scossa.",parts:[["Il vaso","sogg"],["di cristallo","mat"],["è caduto","pv"],["dal tavolo","moto_da"],["per la scossa","cau"]],tags:["mat","moto_da","cau"]},
+{text:"Il ragazzo dai capelli biondi è stato nominato rappresentante.",parts:[["Il ragazzo","sogg"],["dai capelli biondi","qual"],["è stato nominato","pv"],["rappresentante","pred_sogg"]],tags:["qual","pred_sogg"]},
+{text:"Molti dei presenti sono partiti da Milano in treno.",parts:[["Molti","sogg"],["dei presenti","par"],["sono partiti","pv"],["da Milano","moto_da"],["in treno","mez"]],tags:["par","moto_da","mez"]},
+{text:"La discussione sull'ambiente è durata per due ore.",parts:[["La discussione","sogg"],["sull'ambiente","arg"],["è durata","pv"],["per due ore","tem_con"]],tags:["arg","tem_con"]},
+{text:"Il ponte di ferro collega le due rive del fiume.",parts:[["Il ponte","sogg"],["di ferro","mat"],["collega","pv"],["le due rive","ogg"],["del fiume","spec"]],tags:["mat","ogg","spec"]},
+{text:"Nonostante l'età avanzata il nonno cammina per un'ora ogni giorno.",parts:[["Nonostante l'età avanzata","con"],["il nonno","sogg"],["cammina","pv"],["per un'ora","tem_con"],["ogni giorno","tem_det"]],tags:["con","tem_con","tem_det"]},
+{text:"Il museo della città è privo di opere moderne.",parts:[["Il museo","sogg"],["della città","spec"],["è privo","pn"],["di opere moderne","pri"]],tags:["spec","pri"]},
+{text:"La piazza del duomo è piena di turisti in estate.",parts:[["La piazza","sogg"],["del duomo","spec"],["è piena","pn"],["di turisti","abb"],["in estate","tem_det"]],tags:["spec","abb","tem_det"]},
+{text:"I vestiti di lana sono più caldi di quelli di cotone.",parts:[["I vestiti","sogg"],["di lana","mat"],["sono più caldi","pn"],["di quelli di cotone","par2"]],tags:["mat","par2"]}
 ];
 
 // ============================================================
